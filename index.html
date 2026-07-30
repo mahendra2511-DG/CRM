@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axon CRM Analytics — Project & Interview Prep</title>
+<meta name="description" content="Capstone reference and interview preparation hub for the Axon CRM Analytics project — Salesforce CRM to Snowflake to Power BI/Tableau, tools, rules, KPIs, data model, sample dashboards, SQL QA, and interview questions.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<button class="mobile-toggle" id="mobile-toggle" aria-label="Open menu">☰ <span>Lessons</span></button>
+<div class="scrim" id="scrim"></div>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/excelr-logo.png" alt="ExcelR" class="sidebar-excelr-logo">
+      <img src="assets/axon-logo.png" alt="AXon CRM — Connect. Engage. Convert." class="sidebar-project-logo">
+      <div class="sidebar-by">by Mahendra Singh</div>
+    </div>
+
+    <div class="sidebar-progress">
+      <div class="progress-track"><div class="progress-fill" id="sidebar-progress-fill"></div></div>
+      <div class="progress-caption" id="sidebar-progress-caption">0% complete · 0/41 questions reviewed</div>
+    </div>
+
+    <nav class="sidebar-nav" id="nav">
+      <button data-view="overview" class="active"><span class="ic">🏠</span><span class="lbl">Home</span></button>
+      <button data-view="rules"><span class="ic">📋</span><span class="lbl">Rules &amp; Regulations</span></button>
+      <button data-view="kpis"><span class="ic">📊</span><span class="lbl">KPI List</span></button>
+      <button data-view="model"><span class="ic">🗂️</span><span class="lbl">Data Model</span></button>
+      <button data-view="datadict"><span class="ic">📖</span><span class="lbl">Data Dictionary</span></button>
+      <button data-view="dashboards"><span class="ic">📈</span><span class="lbl">Sample Dashboards</span></button>
+      <button data-view="sql"><span class="ic">🗄️</span><span class="lbl">SQL &amp; QA Lab</span></button>
+      <button data-view="interview"><span class="ic">🎤</span><span class="lbl">Interview Prep</span></button>
+      <button data-view="glossary"><span class="ic">📚</span><span class="lbl">Glossary</span></button>
+      <button data-view="tips"><span class="ic">💡</span><span class="lbl">Student Tips</span></button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" id="side-youtube" target="_blank" rel="noopener">▶ YouTube</a>
+      <a href="#" id="side-medium" target="_blank" rel="noopener">✍ Medium</a>
+      <a href="#" id="side-linkedin" target="_blank" rel="noopener">in LinkedIn</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+<!-- ===================== OVERVIEW ===================== -->
+<section class="view active" id="view-overview">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-pattern" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow">Capstone Project · Data Analytics Training Programme</div>
+          <h1>Axon<span class="accent-axon">CRM</span> Analytics — <span class="hl-mark">Salesforce to Snowflake to a defensible BI story</span>.</h1>
+          <p class="lead">A hands-on capstone built around a real Salesforce CRM export for Axon — 10,000 leads, 4,646 opportunities, 3,052 accounts and 98 users, spanning January 2019 to September 2020. You'll take that data through Excel, a layered Snowflake ELT pipeline (Raw → Staging → Mart), then build a Lead Analytics Dashboard and an Opportunity Performance Dashboard in both Power BI and Tableau — 16 KPIs total, reconciled to SQL within ±0.1%.</p>
+          <div class="hero-meta">
+            <span class="chip">10,000 Leads</span>
+            <span class="chip">4,646 Opportunities</span>
+            <span class="chip">5 Tables → Snowflake ELT</span>
+            <span class="chip">Excel → Snowflake → Power BI + Tableau → QA</span>
+          </div>
+          <div class="hero-cta">
+            <button class="btn-dark" data-goto="kpis">Start with the KPI List</button>
+            <a class="btn-yellow" href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">Interview Preparation ↗</a>
+          </div>
+          <div class="callout-yellow">
+            <strong>How to use this site:</strong> Follow the tabs in the sidebar. Know your KPI List and Data Model cold first (that's where most students fumble in QA — especially the Win Rate denominator trap), then work through Interview Prep by category. For a much deeper interview-question bank across SQL, Power BI, Tableau, Excel and more, <a href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">CrackAnalytics</a> is Mahendra's dedicated free prep course.
+          </div>
+          <div class="stat-strip" id="stat-strip"></div>
+        </div>
+
+        <div class="hero-side">
+          <div class="card illustration-card">
+            <img class="doctor-illustration" src="assets/hero-mockup.png" alt="AXon CRM dashboard mockup — leads to contacts to opportunities to customers funnel, total customers KPI, sales overview trend chart, and lead source donut chart">
+          </div>
+
+          <div class="card counter-card">
+            <div class="cc-label">Students visited</div>
+            <div class="cc-number" id="visitor-count">…</div>
+            <div class="cc-sub">and counting — share it with your study group!</div>
+          </div>
+
+          <div class="card social-card">
+            <img src="assets/mahendra-photo.jpg" alt="Mahendra Singh" class="social-avatar">
+            <div class="social-title">Learn with Mahendra Singh</div>
+            <div class="social-links">
+              <a href="#" id="social-youtube" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/youtube-icon.png" alt="">YouTube channel</a>
+              <a href="#" id="social-medium" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/medium-icon.png" alt="">Medium blog</a>
+              <a href="#" id="social-linkedin" target="_blank" rel="noopener"><i class="sl-badge sl-li">in</i>LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pulse-rule mt-40">
+      <svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0,14 L380,14 L410,4 L430,24 L450,14 L1200,14"/></svg>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Why this project exists</div>
+      <h2>Problem Statement</h2>
+      <p>Axon, a growing retail and consumer product company, relies on CRM data to drive marketing campaigns, loyalty programs and post-sale service decisions — but the current setup is fragmented, has no real-time insight, and gives limited visibility into customer behaviour and sales performance.</p>
+    </div>
+    <div class="rule-grid" id="problem-grid"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Tools used in this capstone</div>
+      <h2>One CRM export, four tools, one story</h2>
+      <p>Each tool plays a distinct role in the pipeline — interviewers frequently probe why a given phase used the tool it did.</p>
+    </div>
+    <div class="tool-grid" id="tool-grid"></div>
+    <div class="callout mt-16">
+      <h4>How the data moves through Snowflake to both BI tools</h4>
+      <p><strong>Excel:</strong> profile the 5 raw Salesforce exports, document data-quality issues, and build a first-pass pivot dashboard directly from the spreadsheet.<br>
+      <strong>Snowflake:</strong> load Raw tables via COPY INTO, clean and type into Staging (dim_account, dim_user, fact_lead, fact_opportunity), then build the two Mart views — vw_lead_funnel and vw_opp_summary.<br>
+      <strong>Tableau &amp; Power BI:</strong> both connect live to the Mart views via JDBC/ODBC — never to the raw CSV/XLSX files, and never to each other.<br>
+      <strong>QA:</strong> run SQL directly against the Mart views and reconcile every KPI against both dashboards within ±0.1%.</p>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Data Pipeline</div>
+      <h2>Salesforce CRM → ETL/ELT → Snowflake → Power BI / Tableau</h2>
+      <p>The full path data actually travels: exported from Salesforce as flat files, cleaned and loaded into a layered Snowflake warehouse, and consumed live by both BI tools — nothing connects directly to the raw export.</p>
+    </div>
+    <div class="pipeline-card-dark">
+      <svg class="pipeline-svg" viewBox="0 0 1080 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated data pipeline: Salesforce CRM writes to flat-file exports, ETL loads them into Snowflake, and Tableau and Power BI connect live to the mart views">
+        <defs>
+          <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#4A535E"/>
+          </marker>
+          <filter id="dotglow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="2.4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <path id="p1" d="M170,145 H225" />
+          <path id="p2" d="M365,145 H420" />
+          <path id="p3" d="M580,145 H635" />
+          <path id="p4" d="M815,145 C845,145 845,55 870,55" />
+          <path id="p5" d="M815,145 C845,145 845,245 870,245" />
+        </defs>
+
+        <use href="#p1" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+        <use href="#p2" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+        <use href="#p3" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+        <use href="#p4" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+        <use href="#p5" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+
+        <circle r="4" fill="#7FD9BE" filter="url(#dotglow)"><animateMotion dur="1.8s" repeatCount="indefinite" begin="0s"><mpath href="#p1"/></animateMotion></circle>
+        <circle r="4" fill="#7FD9BE" filter="url(#dotglow)"><animateMotion dur="1.8s" repeatCount="indefinite" begin="0.9s"><mpath href="#p1"/></animateMotion></circle>
+
+        <circle r="4" fill="#7FD9BE" filter="url(#dotglow)"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0.35s"><mpath href="#p2"/></animateMotion></circle>
+        <circle r="4" fill="#7FD9BE" filter="url(#dotglow)"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1.15s"><mpath href="#p2"/></animateMotion></circle>
+
+        <circle r="4" fill="#29B5E8" filter="url(#dotglow)"><animateMotion dur="1.6s" repeatCount="indefinite" begin="0.7s"><mpath href="#p3"/></animateMotion></circle>
+        <circle r="4" fill="#29B5E8" filter="url(#dotglow)"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1.5s"><mpath href="#p3"/></animateMotion></circle>
+
+        <circle r="4" fill="#38BDF8" filter="url(#dotglow)"><animateMotion dur="2s" repeatCount="indefinite" begin="1.05s"><mpath href="#p4"/></animateMotion></circle>
+        <circle r="4" fill="#F6C445" filter="url(#dotglow)"><animateMotion dur="2s" repeatCount="indefinite" begin="1.05s"><mpath href="#p5"/></animateMotion></circle>
+
+        <g>
+          <rect x="20" y="110" width="150" height="70" rx="10" fill="#1B2027" stroke="#333B44" stroke-width="1.5"/>
+          <text x="95" y="138" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="700" fill="#FFFFFF">Salesforce</text>
+          <text x="95" y="153" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="700" fill="#FFFFFF">CRM</text>
+          <text x="95" y="169" text-anchor="middle" font-family="var(--mono)" font-size="8" fill="#6D7680">leads · accounts · deals</text>
+        </g>
+
+        <g>
+          <rect x="225" y="110" width="140" height="70" rx="10" fill="#1B2027" stroke="#333B44" stroke-width="1.5"/>
+          <path d="M275 122 h40 M275 132 h40 M275 142 h30" stroke="#B7C0C6" stroke-width="2.4" stroke-linecap="round"/>
+          <text x="295" y="167" text-anchor="middle" font-family="var(--mono)" font-size="10.5" font-weight="700" fill="#FFFFFF">CSV / XLSX</text>
+        </g>
+
+        <g>
+          <rect x="420" y="90" width="160" height="110" rx="10" fill="#1E2A28" stroke="var(--teal)" stroke-width="1.75"/>
+          <text x="500" y="118" text-anchor="middle" font-family="var(--mono)" font-size="12.5" font-weight="700" fill="#7FD9BE">ETL / ELT</text>
+          <text x="500" y="141" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#DDE4E2">Clean $, dates</text>
+          <text x="500" y="158" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#DDE4E2">Filter Deleted</text>
+          <text x="500" y="175" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="#DDE4E2">COPY INTO</text>
+        </g>
+
+        <g>
+          <rect x="635" y="75" width="180" height="140" rx="10" fill="#1B222E" stroke="#29B5E8" stroke-width="1.75"/>
+          <g transform="translate(725,113)" stroke="#9CC3EA" stroke-width="3.4" stroke-linecap="round">
+            <line x1="0" y1="-18" x2="0" y2="18"/>
+            <line x1="-16" y1="-9" x2="16" y2="9"/>
+            <line x1="-16" y1="9" x2="16" y2="-9"/>
+          </g>
+          <text x="725" y="175" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Snowflake DWH</text>
+          <text x="725" y="192" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#8FA6C4">Raw · Staging · Mart</text>
+        </g>
+
+        <g>
+          <rect x="870" y="15" width="170" height="80" rx="10" fill="#132430" stroke="#38BDF8" stroke-width="1.75"/>
+          <image href="assets/tableau-icon.png" x="939" y="24" width="32" height="32"/>
+          <text x="955" y="73" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Tableau</text>
+        </g>
+
+        <g>
+          <rect x="870" y="205" width="170" height="80" rx="10" fill="#241F14" stroke="var(--yellow)" stroke-width="1.75"/>
+          <rect x="939" y="228" width="9" height="24" fill="#F6C445"/>
+          <rect x="951" y="219" width="9" height="33" fill="#F6C445"/>
+          <rect x="963" y="235" width="9" height="17" fill="#F6C445"/>
+          <text x="955" y="273" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Power BI</text>
+        </g>
+      </svg>
+      <p class="pipeline-caption-dark">Live-flowing reference, not a literal animation of your data — but this is the real path: nothing reaches Tableau or Power BI except through the Mart views, and nothing reaches Snowflake except through the cleaned flat-file export.</p>
+      <div class="pipeline-legend">
+        <span><i style="background:#7FD9BE"></i>Extract → ELT</span>
+        <span><i style="background:#29B5E8"></i>Load → Snowflake</span>
+        <span><i style="background:#38BDF8"></i>Connect → Tableau</span>
+        <span><i style="background:#F6C445"></i>Connect → Power BI</span>
+      </div>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Domain primer</div>
+      <h2>What is CRM analytics, and why build BI on top of it?</h2>
+    </div>
+    <div class="two-col">
+      <div class="card" style="padding:24px;">
+        <h4 style="font-size:15px;margin-bottom:10px;">What it means</h4>
+        <p id="domain-what" style="font-size:13.8px;color:var(--ink-muted);"></p>
+      </div>
+      <div class="card" style="padding:24px;">
+        <h4 style="font-size:15px;margin-bottom:10px;">Where it's used</h4>
+        <div id="domain-where" style="font-size:13.8px;color:var(--ink-muted);"></div>
+      </div>
+    </div>
+    <div class="card mt-16" style="padding:24px;">
+      <h4 style="font-size:15px;margin-bottom:10px;">What kind of data a CRM system actually generates</h4>
+      <div class="tag-cloud" id="domain-data"></div>
+      <p style="font-size:13.8px;color:var(--ink-muted);margin-top:14px;">This capstone's 5 tables are a real Salesforce export — Account, Lead, Opportunity, Opportunity Product and User — each carrying 23 to 143 raw columns, most of which are CRM admin noise rather than analytics-relevant data.</p>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Project Documents</div>
+      <h2>Download the source documents</h2>
+      <p>The original BRD and all 5 source workbooks this site is built from — read the BRD once end to end before you start building, and keep it open as a reference during QA.</p>
+    </div>
+    <div class="doc-grid" id="doc-grid"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Get Set Up</div>
+      <h2>Install the tools, then load the data</h2>
+      <p>Before you touch a dashboard: get a Snowflake trial account provisioned (Week 1, Day 1 — it blocks everything downstream), plus Tableau and Power BI installed.</p>
+    </div>
+    <div class="setup-grid">
+      <div class="card analyst-illustration-card">
+        <img class="analyst-illustration" src="assets/setup-infographic.jpg" alt="Install the Tools, then Load the Data — step-by-step infographic for Tableau, Power BI, MySQL and Excel">
+      </div>
+      <div class="doc-grid" id="software-grid"></div>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Workflow</div>
+      <h2>Seven phases, five weeks</h2>
+      <p>Each phase has a gate review before the team proceeds — the build order matters.</p>
+    </div>
+    <div class="flow card" id="flow-grid" style="padding:8px;"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Timeline</div>
+      <h2>Project schedule</h2>
+    </div>
+    <div class="card timeline" id="timeline" style="padding:6px 20px;"></div>
+  </div>
+</section>
+
+<!-- ===================== RULES & REGULATIONS ===================== -->
+<section class="view" id="view-rules">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Project Rules &amp; Regulations</div>
+      <h2>Participation guidelines for this capstone</h2>
+      <p>Same rules that apply to your project group — read them once so nothing here surprises you mid-course.</p>
+    </div>
+    <div class="rule-grid" id="rule-grid"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Team Focus Areas</div>
+      <h2>What "good participation" looks like week to week</h2>
+    </div>
+    <div class="tip-grid" id="focus-grid"></div>
+
+    <div class="callout mt-40">
+      <h4>Why this tab exists in an interview-prep hub</h4>
+      <p>"How do you handle a teammate who isn't contributing?" and "tell me about a conflict on a project team" are standard behavioral questions — this policy is the real situation you can draw the honest answer from.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KPI LIST ===================== -->
+<section class="view" id="view-kpis">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">KPI List</div>
+      <h2>All 16 KPIs — what each one means, and the logic behind it</h2>
+      <p>Filter by dashboard. Each card gives the plain-English description first, then the calculation logic — know both, because interviewers ask for the "why" as often as the formula.</p>
+    </div>
+    <div class="filter-bar">
+      <input class="search-input" id="kpi-search" type="text" placeholder="Search KPIs — e.g. &quot;win rate&quot;, &quot;conversion&quot;, &quot;pipeline&quot;…">
+    </div>
+    <div class="filter-bar" id="kpi-pills"></div>
+    <div class="kpi-grid" id="kpi-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== DATA MODEL ===================== -->
+<section class="view" id="view-model">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Data Model</div>
+      <h2>A layered Snowflake schema: Raw → Staging → Mart</h2>
+      <p>dim_account and dim_user are the two dimensions; fact_lead, fact_opportunity and fact_opp_product are the facts. fact_lead's two conversion foreign keys are correctly NULL for leads that haven't converted — worth naming precisely in an interview.</p>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <img src="assets/architecture-diagram.png" alt="CRM Analytics end-to-end architecture — Salesforce CRM, ETL/ELT, Snowflake Raw/Staging/Mart schema, semantic data model, and Power BI/Tableau/Excel consumption layer" style="width:100%;height:auto;display:block;">
+    </div>
+    <div class="card mt-16" style="padding:0;overflow:hidden;">
+      <img src="assets/schema-diagram.png" alt="Snowflake schema ERD — dim_account, dim_user, fact_opportunity, fact_opp_product, fact_lead and mart views" style="width:100%;height:auto;display:block;">
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Reference schema</div>
+      <h2>The interactive version</h2>
+      <p>The same model rendered as live cards below — filterable and searchable, unlike the static ERD above.</p>
+    </div>
+    <div class="model-grid">
+      <div class="card">
+        <div class="schema" id="schema-grid"></div>
+      </div>
+      <div class="card rel-list" id="rel-list"></div>
+    </div>
+
+    <div class="card mt-40" style="padding:22px;">
+      <h4 style="font-size:15px;margin-bottom:10px;">Global filters (apply across each dashboard's visuals)</h4>
+      <div id="global-filters" style="font-size:13.5px;color:var(--ink-muted);"></div>
+    </div>
+
+    <div class="two-col mt-40">
+      <div class="card" style="padding:22px;">
+        <h4 style="font-size:15px;margin-bottom:10px;">Load order (Power BI / Tableau)</h4>
+        <div id="load-order" style="font-size:13.5px;color:var(--ink-muted);"></div>
+      </div>
+      <div class="card" style="padding:22px;">
+        <h4 style="font-size:15px;margin-bottom:10px;">Expected nulls &amp; quirks — not errors</h4>
+        <div id="null-notes" style="font-size:13.5px;color:var(--ink-muted);"></div>
+      </div>
+    </div>
+
+    <div class="card mt-40" style="padding:22px;">
+      <h4 style="font-size:15px;margin-bottom:10px;">Calculated fields to add in Snowflake / the BI tool</h4>
+      <div id="calc-fields" style="font-size:13.5px;color:var(--ink-muted);"></div>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Join Guide</div>
+      <h2>Every join you need for Power BI / Tableau, in one place</h2>
+      <p>The exact table-to-table joins to build in the model view — copy this straight into your relationship setup.</p>
+    </div>
+    <div class="card table-scroll join-table-wrap">
+      <table class="dtable" id="join-guide-table"></table>
+    </div>
+    <div class="card table-scroll join-table-wrap">
+      <table class="dtable" id="join-paths-table"></table>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Dashboard Specs</div>
+      <h2>Two dashboards, two audiences</h2>
+      <p>Each dashboard has a distinct audience and KPI set — "who reads this, and what decision does it drive?" is a favorite interview probe.</p>
+    </div>
+    <div class="card table-scroll">
+      <table class="dtable" id="dash-table"></table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DATA DICTIONARY ===================== -->
+<section class="view" id="view-datadict">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Data Dictionary</div>
+      <h2>The curated columns — not all 23 to 143 raw ones</h2>
+      <p>Raw Salesforce exports carry 58-143 columns per table, most of it CRM admin/automation noise (notification preferences, UI settings). Only the columns actually feeding a KPI, join, or mart view are documented here — know every one of them before you write a single query.</p>
+    </div>
+    <div class="filter-bar">
+      <input class="search-input" id="dd-search" type="text" placeholder="Search columns — e.g. &quot;stage&quot;, &quot;amount&quot;, &quot;converted&quot;…">
+    </div>
+    <div id="datadict-tables"></div>
+  </div>
+</section>
+
+<!-- ===================== SAMPLE DASHBOARDS ===================== -->
+<section class="view" id="view-dashboards">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Sample Dashboards</div>
+      <h2>What the KPI numbers look like on screen</h2>
+      <p>Computed directly from the real ~28,000-row export — these are the actual numbers your SQL and BI builds should reproduce. Win Rate lands at 42.8% against a Loss Rate of 57.2% — they sum to exactly 100% here because both are correctly scoped to closed deals only, which is precisely what the BRD's own acceptance criteria checks for.</p>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <img src="assets/lead-dashboard-sample.png" alt="Lead Analytics Dashboard wireframe sample — Total Leads, Converted Leads, Lead Conversion Rate KPI cards, lead volume trend, leads by source donut, conversion rate by source" style="width:100%;height:auto;display:block;">
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <img src="assets/opp-dashboard-sample.png" alt="Opportunity Performance Dashboard wireframe sample — Total Opportunities, Won Revenue, Win Rate KPI cards, pipeline stage funnel, monthly trend, loss reason analysis" style="width:100%;height:auto;display:block;">
+    </div>
+    <div id="dashboard-mocks"></div>
+  </div>
+</section>
+
+<!-- ===================== SQL & QA LAB ===================== -->
+<section class="view" id="view-sql">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">SQL &amp; QA Lab</div>
+      <h2>The validation queries you'll be asked to reproduce</h2>
+      <p>Run these (Snowflake SQL) against your own build and reconcile the output with your Tableau/Power BI numbers before the review meeting — QA rounds start right here.</p>
+    </div>
+    <div id="sql-list"></div>
+  </div>
+</section>
+
+<!-- ===================== INTERVIEW PREP ===================== -->
+<section class="view" id="view-interview">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Interview Prep</div>
+      <h2>Questions this project actually gets asked</h2>
+      <p>Grouped by round, including the "explain this project / what did you actually do" style questions that open almost every interview. Tap a question to expand the answer approach. Mark ones you've nailed to track progress (saved on this device).</p>
+    </div>
+
+    <div class="callout-yellow crackanalytics-cta">
+      <div class="ca-text">
+        <strong>Want the full interview-prep library?</strong> This tab covers the project-specific questions. For 450+ real SQL, Power BI, Tableau, Excel and Data Science questions with full answers — organized by difficulty — head to <strong>CrackAnalytics</strong>, Mahendra's dedicated free prep course.
+      </div>
+      <a class="btn-dark" href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">Open CrackAnalytics ↗</a>
+    </div>
+    <div class="progress-label"><span>Your progress</span><span id="progress-text">0 / 0 reviewed</span></div>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:0%;"></div></div>
+
+    <div class="filter-bar">
+      <input class="search-input" id="qa-search" type="text" placeholder="Search interview questions…">
+    </div>
+    <div class="tabbar" id="qa-tabs"></div>
+    <div id="qa-list"></div>
+  </div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<section class="view" id="view-glossary">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Extra · Glossary</div>
+      <h2>CRM &amp; BI terms worth knowing cold</h2>
+      <p>Straight from the BRD's own glossary section, plus a few standard BI terms. If you can define every term on this page in one sentence, you're ahead of most candidates at your level.</p>
+    </div>
+    <div class="filter-bar">
+      <input class="search-input" id="gl-search" type="text" placeholder="Search terms — e.g. &quot;ELT&quot;, &quot;grain&quot;, &quot;win rate&quot;…">
+    </div>
+    <div class="gloss-grid" id="gloss-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== TIPS ===================== -->
+<section class="view" id="view-tips">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Student Tips</div>
+      <h2>What actually matters for a data analytics interview</h2>
+      <p>Distilled from recruiter-side patterns across Data Analyst / BA / BI interviews — the difference between reciting definitions and sounding like someone who has shipped a dashboard.</p>
+    </div>
+    <div class="tip-grid" id="tip-grid"></div>
+
+    <div class="callout mt-40">
+      <h4>The one habit that separates candidates</h4>
+      <p id="tip-callout"></p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand"><img src="assets/excelr-logo.png" alt="ExcelR" class="footer-logo"> Axon CRM Analytics</div>
+      <div style="margin-top:4px;">Capstone reference hub — built from the project BRD, KPI register and QA query set.</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/mahendra-singh-83699485/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://medium.com/@mahendraa1188" target="_blank" rel="noopener">Medium</a>
+      <a href="#" id="youtube-link" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+<!-- ===================== ASK SIA — CHAT WIDGET ===================== -->
+<div class="chat-fab-wrap">
+  <div class="chat-fab-label" id="chat-fab-label">Talk to SIA for more info</div>
+  <button class="chat-fab" id="chat-fab" aria-label="Talk to SIA">
+    <img src="assets/sia-avatar.png" alt="SIA" class="chat-fab-avatar">
+  </button>
+</div>
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-panel-head">
+    <img src="assets/sia-avatar.png" alt="SIA" class="chat-panel-avatar">
+    <div>
+      <div class="chat-panel-title">SIA</div>
+      <div class="chat-panel-sub">Searches the KPI list, interview prep &amp; glossary on this site</div>
+    </div>
+    <button class="chat-panel-close" id="chat-panel-close" aria-label="Close chat">✕</button>
+  </div>
+  <div class="chat-panel-body" id="chat-panel-body">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">Hi, I'm SIA 👋 Ask me anything about this project — a KPI, a table, a formula, or an interview question. e.g. <em>"what is win rate"</em> or <em>"why use Snowflake"</em>.</div>
+    </div>
+  </div>
+  <form class="chat-panel-input" id="chat-panel-form">
+    <input type="text" id="chat-input" placeholder="Ask SIA a question…" autocomplete="off">
+    <button type="submit" aria-label="Send">➤</button>
+  </form>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
