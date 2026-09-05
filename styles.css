@@ -387,17 +387,24 @@ section.view.active { display: block; animation: fadeIn 0.25s ease; }
 .timeline { margin-top: 8px; }
 .timeline-row {
   display: grid;
-  grid-template-columns: 130px 130px 1fr;
+  grid-template-columns: 90px 110px 1fr;
   gap: 16px;
   padding: 14px 0;
   border-top: 1px solid var(--line-soft);
   font-size: 13.5px;
-  align-items: baseline;
+  align-items: center;
 }
 .timeline-row:first-child { border-top: none; }
 .timeline-row .d { font-family: var(--mono); color: var(--teal-deep); font-weight: 600; }
-.timeline-row .t { color: var(--ink-muted); font-family: var(--mono); font-size: 12.5px; }
-@media (max-width: 620px) { .timeline-row { grid-template-columns: 1fr; gap: 3px; padding: 12px 0;} }
+.timeline-row .t {
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 620px) { .timeline-row { grid-template-columns: 1fr; gap: 3px; padding: 12px 0;} .timeline-row .t { white-space: normal; } }
 
 /* ---------- KPI library ---------- */
 .filter-bar {

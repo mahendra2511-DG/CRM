@@ -998,7 +998,7 @@ const TIMELINE = [
   { d: "Week 1-2", t: "Excel", task: "Data cleaning & preparation — Excel pivot dashboard produced" },
   { d: "Week 2", t: "Snowflake", task: "Snowflake Raw + Staging schema setup" },
   { d: "Week 2-3", t: "Snowflake", task: "Mart views (vw_lead_funnel, vw_opp_summary) & validation" },
-  { d: "Week 3-4", t: "Power BI / Tableau", task: "Dashboard development — Power BI + Tableau, both dashboards" },
+  { d: "Week 3-4", t: "BI Tools", task: "Dashboard development — Power BI + Tableau, both dashboards" },
   { d: "Week 4", t: "QA / SQL", task: "QA & reconciliation — SQL vs dashboard values ±0.1%" },
   { d: "Week 4-5", t: "Wrap-up", task: "Final presentation prep — all 10 required PPT sections" },
 ];
