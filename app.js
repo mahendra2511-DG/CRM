@@ -1035,6 +1035,7 @@ const CRACKANALYTICS_URL = "https://crackanalytics-mahendra-2026.vercel.app/";
 /* ---------------- PROJECT DOCUMENTS ---------------- */
 const DOCUMENTS = [
   { name: "CRM Analytics — BRD.docx", desc: "Full Business Requirements Document — architecture, KPIs, data quality rules, acceptance criteria, glossary", icon: "📄", type: "download", href: "assets/docs/CRM_BRD.docx", filename: "CRM_BRD.docx" },
+  { name: "Excel Starter Template.xlsx", desc: "A ready-to-use workbook with live SUMIFS/COUNTIFS formulas for Lead Conversion Rate, Win Rate, Loss Rate, Opportunity Conversion Rate and Expected Pipeline Value — paste your export into Raw_Leads / Raw_Opportunities and the Dashboard tab updates itself", icon: "🧮", type: "download", href: "assets/docs/AXon_CRM_Excel_Starter.xlsx", filename: "AXon_CRM_Excel_Starter.xlsx" },
 ];
 
 /* ---------------- SETUP & SOFTWARE DOWNLOADS ---------------- */
@@ -1163,6 +1164,36 @@ const LEARNING_LINKS = [
   { title: "Win Rate vs. Conversion Rate, Explained", desc: "A plain-English breakdown of the exact KPI mix-up this project's QA round tests for — good outside reading alongside the comparison table in the KPI List tab.", url: "https://www.scratchpad.com/blog/win-rate", source: "Scratchpad" },
 ];
 
+/* ---------------- KEY INSIGHTS & RECOMMENDATIONS ---------------- */
+const KEY_INSIGHTS = [
+  { insight: "Win Rate lands at 42.8% against a Loss Rate of 57.2%, with 'Non Responsive' and 'Duplicate opportunity' as the two dominant loss reasons — neither is a pricing or competitor problem.", recommendation: "Route this to sales operations as a follow-up-cadence and lead-deduplication fix, not to product or pricing — coaching and process changes will move this number more than a discount strategy." },
+  { insight: "Lead Conversion Rate is only 10.3% (1,033 of 10,000 leads) — a materially different number from, and often confused with, Win Rate.", recommendation: "Report the two side by side with their own denominators explicitly labeled, so leadership doesn't conflate a marketing-funnel problem with a sales-execution one." },
+  { insight: "Lead.Status (Simplified) reads 'Open' for all 10,000 rows in this dataset — the field is effectively broken, not just imbalanced.", recommendation: "Never build a filter or KPI on Status (Simplified) as-is; use the raw Status column (Nurturing / Prospect / Converted / Disqualified / MQL / SQL) until the simplified field is fixed upstream, and flag it to the data owner rather than silently working around it forever." },
+  { insight: "Lead Score is populated for only 603 of 10,000 leads (about 6%) — the vast majority of leads have never been scored.", recommendation: "Report Lead Score coverage (6%) alongside Avg Lead Score itself — a healthy-looking average computed over such a tiny scored subset can hide a much weaker real funnel." },
+  { insight: "Soft-deleted rows (Deleted=TRUE) exist in every raw table but remain physically present in the export.", recommendation: "Bake the WHERE Deleted='False' filter into the mart view itself, not into each individual dashboard query — a filter that has to be repeated in five places will eventually be missed in one of them." },
+  { insight: "Won Revenue totals roughly $136.26M against an Expected Pipeline of $47.88M still in play.", recommendation: "Track the ratio of Expected Pipeline to trailing Won Revenue over time as a leading indicator — a shrinking ratio quarter over quarter often signals a slowing pipeline before bookings actually drop." }
+];
+
+/* ---------------- RESUME BULLET POINTS ---------------- */
+const RESUME_BULLETS = [
+  "Built a Lead Analytics Dashboard and an Opportunity Performance Dashboard in Power BI and Tableau, analyzing 10,000 leads and 4,646 opportunities, reconciling 23 KPIs to SQL within ±0.1%.",
+  "Diagnosed that a 'Status (Simplified)' field was broken (reading 'Open' for all 10,000 leads) and re-routed every KPI to the raw Status column instead, preventing a silently wrong funnel dashboard.",
+  "Identified 'Non Responsive' and 'Duplicate opportunity' as the top two loss reasons behind a 57.2% Loss Rate, reframing a perceived pricing problem as a sales-process and data-hygiene fix."
+];
+
+/* ---------------- 2-MINUTE ELEVATOR PITCH ---------------- */
+const ELEVATOR_PITCH = "I built an end-to-end CRM analytics project using a real Salesforce export — about 10,000 leads and 4,646 opportunities. I took that data through Excel, a layered Snowflake pipeline (Raw, Staging, Mart), and built a Lead Analytics Dashboard and an Opportunity Performance Dashboard in both Power BI and Tableau. The trickiest part was a genuine data-quality bug: the Lead.Status (Simplified) field read 'Open' for literally every one of the 10,000 leads, so I had to fall back to the raw Status column for anything funnel-related instead of trusting the field the BRD pointed me to. On the insights side, I found Win Rate sitting at 42.8% with 'Non Responsive' and 'Duplicate opportunity' as the top two loss reasons — that's a sales-process and data-hygiene story, not a pricing or competitor story, which changes what leadership should actually do about it. I reconciled all 23 KPIs between SQL and both BI tools to within a tenth of a percent before calling it done.";
+
+/* ---------------- PROJECT-SPECIFIC FAQ ---------------- */
+const PROJECT_FAQ = [
+  { q: "What if the interviewer isn't technical — how much detail should I give?", a: "Lead with the business framing (marketing and sales each reporting their own version of funnel numbers) and the outcome (two dashboards, a real broken-field catch), and only go into SQL/DAX/Tableau specifics if they ask a follow-up." },
+  { q: "What if I only worked on one part of this project (e.g. just Power BI, not the Snowflake pipeline)?", a: "Say so plainly and describe your part in depth — a specific, detailed answer about the piece you actually own is far stronger than a vague answer implying you did all of it." },
+  { q: "What if they ask why you chose a CRM dataset specifically?", a: "A good honest answer: it forces you to deal with a genuinely broken field (Status Simplified) and a real denominator trap (Win Rate vs. Conversion Rate) — better tests of real judgment than a clean, pre-cleaned dataset would be." },
+  { q: "What if they ask what you'd do differently with more time?", a: "Have one real answer ready — e.g. Lead Score is populated for only 6% of leads; a real next step would be pushing back to the source system about why scoring coverage is so low before trusting any lead-quality conclusion built on it." },
+  { q: "What if they push on why you used two BI tools instead of just one?", a: "This capstone specifically requires KPI parity across both Power BI and Tableau as a reconciliation exercise — say that directly, and note that in a real job you'd typically pick one tool per organization." },
+  { q: "What if you freeze or forget a specific number mid-answer?", a: "Say what you do remember directionally (\"win rate is a bit under half of closed deals\") rather than guessing a fake precise number — a confident approximate answer reads better than a wrong exact one." }
+];
+
 function renderLearningLinks() {
   const wrap = document.getElementById("learn-grid");
   if (!wrap) return;
@@ -1174,6 +1205,64 @@ function renderLearningLinks() {
       <span class="learn-cta">Open resource ↗</span>
     </a>
   `).join("");
+}
+
+function renderInsights() {
+  const insightsWrap = document.getElementById("insights-grid");
+  if (insightsWrap) {
+    insightsWrap.innerHTML = KEY_INSIGHTS.map((k, i) => `
+      <div class="card insight-card tint-${i % 6}">
+        <div class="insight-label">Insight</div>
+        <p class="insight-text">${k.insight}</p>
+        <div class="insight-label rec">Recommendation</div>
+        <p class="insight-text">${k.recommendation}</p>
+      </div>
+    `).join("");
+  }
+
+  const bulletsWrap = document.getElementById("resume-bullets");
+  if (bulletsWrap) {
+    bulletsWrap.innerHTML = RESUME_BULLETS.map((b, i) => `
+      <div class="resume-bullet">
+        <p>${b}</p>
+        <button type="button" class="copy-btn" data-copy-idx="${i}">📋 Copy</button>
+      </div>
+    `).join("");
+    bulletsWrap.querySelectorAll(".copy-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = +btn.dataset.copyIdx;
+        navigator.clipboard.writeText(RESUME_BULLETS[idx]).then(() => {
+          const original = btn.textContent;
+          btn.textContent = "✓ Copied";
+          btn.classList.add("copied");
+          setTimeout(() => { btn.textContent = original; btn.classList.remove("copied"); }, 1600);
+        }).catch(() => {});
+      });
+    });
+  }
+
+  const pitchWrap = document.getElementById("elevator-pitch");
+  if (pitchWrap) pitchWrap.textContent = ELEVATOR_PITCH;
+  const pitchBtn = document.getElementById("copy-pitch-btn");
+  if (pitchBtn) {
+    pitchBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(ELEVATOR_PITCH).then(() => {
+        pitchBtn.textContent = "✓ Copied";
+        pitchBtn.classList.add("copied");
+        setTimeout(() => { pitchBtn.textContent = "📋 Copy pitch"; pitchBtn.classList.remove("copied"); }, 1600);
+      }).catch(() => {});
+    });
+  }
+
+  const faqWrap = document.getElementById("project-faq");
+  if (faqWrap) {
+    faqWrap.innerHTML = PROJECT_FAQ.map(f => `
+      <div class="faq-item">
+        <h4>${f.q}</h4>
+        <p>${f.a}</p>
+      </div>
+    `).join("");
+  }
 }
 
 /* ============================================================
@@ -1410,6 +1499,82 @@ function printKpiCheatSheet() {
 function initPrintCheatSheet() {
   const btn = document.getElementById("print-cheatsheet-btn");
   if (btn) btn.addEventListener("click", printKpiCheatSheet);
+}
+
+/* ============================================================
+   Flashcard practice mode — reused for both KPI List and Glossary.
+   ============================================================ */
+let __fcDeck = [];
+let __fcIndex = 0;
+let __fcFlipped = false;
+
+function fcOpen(deck, title) {
+  __fcDeck = deck;
+  __fcIndex = 0;
+  __fcFlipped = false;
+  document.getElementById("flashcard-title").textContent = title;
+  document.getElementById("flashcard-overlay").classList.add("open");
+  fcRender();
+}
+function fcClose() {
+  document.getElementById("flashcard-overlay").classList.remove("open");
+}
+function fcRender() {
+  const card = __fcDeck[__fcIndex];
+  document.getElementById("flashcard-progress").textContent = `${__fcIndex + 1} / ${__fcDeck.length}`;
+  document.getElementById("flashcard-front").innerHTML = card.front;
+  document.getElementById("flashcard-back").innerHTML = card.back;
+  document.getElementById("flashcard-front").style.display = __fcFlipped ? "none" : "flex";
+  document.getElementById("flashcard-back").style.display = __fcFlipped ? "flex" : "none";
+}
+function fcShuffle() {
+  for (let i = __fcDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [__fcDeck[i], __fcDeck[j]] = [__fcDeck[j], __fcDeck[i]];
+  }
+  __fcIndex = 0;
+  __fcFlipped = false;
+  fcRender();
+}
+function initFlashcards() {
+  const overlay = document.getElementById("flashcard-overlay");
+  if (!overlay) return;
+
+  document.getElementById("flashcard-close").addEventListener("click", fcClose);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) fcClose(); });
+  document.getElementById("flashcard-card").addEventListener("click", () => {
+    __fcFlipped = !__fcFlipped;
+    fcRender();
+  });
+  document.getElementById("flashcard-next").addEventListener("click", () => {
+    __fcIndex = (__fcIndex + 1) % __fcDeck.length;
+    __fcFlipped = false;
+    fcRender();
+  });
+  document.getElementById("flashcard-prev").addEventListener("click", () => {
+    __fcIndex = (__fcIndex - 1 + __fcDeck.length) % __fcDeck.length;
+    __fcFlipped = false;
+    fcRender();
+  });
+  document.getElementById("flashcard-shuffle").addEventListener("click", fcShuffle);
+
+  const kpiBtn = document.getElementById("kpi-flashcards-btn");
+  if (kpiBtn) {
+    kpiBtn.addEventListener("click", () => {
+      const deck = KPIS.map(k => ({
+        front: k.name,
+        back: `${k.definition || k.desc}<span class="fc-formula">${k.formula}</span>`,
+      }));
+      fcOpen(deck, "KPI Practice");
+    });
+  }
+  const glBtn = document.getElementById("gl-flashcards-btn");
+  if (glBtn) {
+    glBtn.addEventListener("click", () => {
+      const deck = GLOSSARY.map(g => ({ front: g.t, back: g.d }));
+      fcOpen(deck, "Glossary Practice");
+    });
+  }
 }
 
 function renderKpiGrid() {
@@ -1910,8 +2075,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDocuments, renderFlow, renderTimeline, renderRules, renderKpiPills,
     renderKpiGrid, renderModel, renderDataDictionary, renderDashboardMocks,
     renderSql, renderQaTabs, renderQaList, renderGlossary, renderTips,
-    renderLearningLinks, initNav, initMobileToggle, initSearch, initSocial,
-    initVisitorCounter, initChatWidget, initPrintCheatSheet,
+    renderLearningLinks, renderInsights, initNav, initMobileToggle, initSearch, initSocial,
+    initVisitorCounter, initChatWidget, initPrintCheatSheet, initFlashcards,
   ];
   steps.forEach(fn => {
     try { fn(); } catch (e) { console.error(`Boot step failed: ${fn.name}`, e); }

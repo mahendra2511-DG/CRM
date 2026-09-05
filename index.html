@@ -36,6 +36,7 @@
       <button data-view="interview"><span class="ic">🎤</span><span class="lbl">Interview Prep</span></button>
       <button data-view="glossary"><span class="ic">📚</span><span class="lbl">Glossary</span></button>
       <button data-view="tips"><span class="ic">💡</span><span class="lbl">Student Tips</span></button>
+      <button data-view="insights"><span class="ic">💼</span><span class="lbl">Insights &amp; Resume</span></button>
       <button data-view="learnmore"><span class="ic">🔗</span><span class="lbl">Learn More</span></button>
     </nav>
 
@@ -322,6 +323,7 @@
       <input class="search-input" id="kpi-search" type="text" placeholder="Search KPIs — e.g. &quot;win rate&quot;, &quot;conversion&quot;, &quot;pipeline&quot;…">
     </div>
     <button type="button" class="print-cheatsheet-btn" id="print-cheatsheet-btn">🖨️ Print one-page KPI cheat sheet</button>
+    <button type="button" class="print-cheatsheet-btn" id="kpi-flashcards-btn" style="margin-left:8px;">🃏 Practice with flashcards</button>
     <div class="filter-bar" id="kpi-pills"></div>
     <div class="kpi-grid" id="kpi-grid"></div>
 
@@ -525,6 +527,7 @@
     <div class="filter-bar">
       <input class="search-input" id="gl-search" type="text" placeholder="Search terms — e.g. &quot;ELT&quot;, &quot;grain&quot;, &quot;win rate&quot;…">
     </div>
+    <button type="button" class="print-cheatsheet-btn" id="gl-flashcards-btn">🃏 Practice with flashcards</button>
     <div class="gloss-grid" id="gloss-grid"></div>
   </div>
 </section>
@@ -543,6 +546,42 @@
       <h4>The one habit that separates candidates</h4>
       <p id="tip-callout"></p>
     </div>
+  </div>
+</section>
+
+<!-- ===================== INSIGHTS & RESUME ===================== -->
+<section class="view" id="view-insights">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Extra · Beyond the Mechanics</div>
+      <h2>Key insights &amp; recommendations</h2>
+      <p>Every other tab teaches you the KPIs, the schema, the SQL. This is the part that's usually missing from a student capstone — the "so what?" a real stakeholder actually wants: not just what the numbers are, but what to do about them.</p>
+    </div>
+    <div class="insights-grid" id="insights-grid"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">For your resume</div>
+      <h2>Ready-to-use resume bullet points</h2>
+      <p>Copy one or more of these directly, or use them as a template for your own wording — the pattern is always outcome first, then method.</p>
+    </div>
+    <div id="resume-bullets"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Interview Prep</div>
+      <h2>The 2-minute elevator pitch</h2>
+      <p>Read this out loud a few times until it sounds like you, not a script. This is almost always the very first thing you'll be asked to give in an interview about this project.</p>
+    </div>
+    <div class="card elevator-pitch-card">
+      <p id="elevator-pitch"></p>
+      <button type="button" class="copy-btn" id="copy-pitch-btn">📋 Copy pitch</button>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">FAQ</div>
+      <h2>What if the interview doesn't go as scripted?</h2>
+      <p>The honest answers to the awkward follow-up questions students actually get asked about this project.</p>
+    </div>
+    <div id="project-faq"></div>
   </div>
 </section>
 
@@ -573,6 +612,27 @@
 </footer>
 
   </main>
+</div>
+
+<!-- ===================== FLASHCARD PRACTICE MODE ===================== -->
+<div class="flashcard-overlay" id="flashcard-overlay">
+  <div class="flashcard-modal">
+    <div class="flashcard-head">
+      <span id="flashcard-title">Practice</span>
+      <span id="flashcard-progress"></span>
+      <button type="button" id="flashcard-close" aria-label="Close practice mode">✕</button>
+    </div>
+    <div class="flashcard-card" id="flashcard-card">
+      <div class="flashcard-face flashcard-front" id="flashcard-front"></div>
+      <div class="flashcard-face flashcard-back" id="flashcard-back" style="display:none;"></div>
+    </div>
+    <p class="flashcard-hint">Tap the card to flip</p>
+    <div class="flashcard-controls">
+      <button type="button" id="flashcard-prev">← Prev</button>
+      <button type="button" id="flashcard-shuffle">🔀 Shuffle</button>
+      <button type="button" id="flashcard-next">Next →</button>
+    </div>
+  </div>
 </div>
 
 <!-- ===================== ASK SIA — CHAT WIDGET ===================== -->
