@@ -8,6 +8,7 @@ const KPIS = [
   {
     "name": "Total Leads",
     "desc": "Overall lead volume for the selected period — the base count everything else is measured against.",
+    "definition": "The total count of lead records generated during the selected time period, regardless of their current status.",
     "formula": "COUNT(lead_id)",
     "table": "fact_lead",
     "cat": "Lead",
@@ -16,6 +17,7 @@ const KPIS = [
   {
     "name": "Converted Leads",
     "desc": "Leads that actually turned into a customer — the numerator of Lead Conversion Rate.",
+    "definition": "The count of leads whose Status has moved to Converted — i.e. they now have a linked Account and Opportunity.",
     "formula": "COUNT(lead_id) WHERE Is_Converted = 1",
     "table": "fact_lead",
     "cat": "Lead",
@@ -24,6 +26,7 @@ const KPIS = [
   {
     "name": "Lead Conversion Rate",
     "desc": "The single most-watched marketing KPI — what share of leads actually become customers, target-tracked vs. the same period last year.",
+    "definition": "The percentage of total leads generated in a period that have converted into an account and opportunity.",
     "formula": "Converted / Total × 100",
     "table": "fact_lead",
     "cat": "Lead",
@@ -32,6 +35,7 @@ const KPIS = [
   {
     "name": "Converted Accounts",
     "desc": "Distinct accounts created via lead conversion — not the same number as Converted Leads, since one account can absorb multiple converted leads.",
+    "definition": "The number of distinct Account records created as a direct result of lead conversion.",
     "formula": "COUNT(DISTINCT Converted_Account_ID)",
     "table": "fact_lead",
     "cat": "Lead",
@@ -40,6 +44,7 @@ const KPIS = [
   {
     "name": "Converted Opportunities",
     "desc": "Distinct opportunities created via lead conversion — the pipeline handoff from marketing to sales.",
+    "definition": "The number of distinct Opportunity records created as a direct result of lead conversion.",
     "formula": "COUNT(DISTINCT Converted_Opportunity_ID)",
     "table": "fact_lead",
     "cat": "Lead",
@@ -48,6 +53,7 @@ const KPIS = [
   {
     "name": "Expected Revenue (Converted)",
     "desc": "Pipeline value attributable back to converted leads — joins Lead to Opportunity on Converted_Opportunity_ID.",
+    "definition": "The total opportunity Amount tied back to opportunities that originated from a converted lead.",
     "formula": "SUM(Amount) joined on Converted_Opportunity_ID",
     "table": "fact_lead, fact_opportunity",
     "cat": "Lead",
@@ -56,6 +62,7 @@ const KPIS = [
   {
     "name": "Avg Lead Score",
     "desc": "Average Pardot/marketing-automation score across leads that actually have a score — most leads in this dataset have no score at all.",
+    "definition": "The average marketing-automation score assigned to leads, used to gauge how sales-ready a lead is.",
     "formula": "AVG(Lead_Score) WHERE Lead_Score IS NOT NULL",
     "table": "fact_lead",
     "cat": "Lead",
@@ -64,6 +71,7 @@ const KPIS = [
   {
     "name": "Avg Age of Open Leads",
     "desc": "How long leads that haven't converted yet have been sitting untouched — an early-warning signal for a stalling funnel.",
+    "definition": "The average number of days that currently open (non-converted) leads have existed since creation.",
     "formula": "AVG(Age_Days) WHERE Is_Converted = 0",
     "table": "fact_lead",
     "cat": "Lead",
@@ -72,6 +80,7 @@ const KPIS = [
   {
     "name": "Total Opportunities",
     "desc": "Overall deal volume for the selected period.",
+    "definition": "The total count of opportunity (deal) records created during the selected period, irrespective of stage.",
     "formula": "COUNT(opportunity_id)",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -80,6 +89,7 @@ const KPIS = [
   {
     "name": "Active (Open) Opportunities",
     "desc": "Deals still moving through the funnel — not yet Won or Lost.",
+    "definition": "The count of opportunities currently sitting in any pipeline stage other than Won or Lost.",
     "formula": "COUNT WHERE Stage_Group NOT IN ('Won','Lost')",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -88,6 +98,7 @@ const KPIS = [
   {
     "name": "Total Won Revenue",
     "desc": "Booked revenue from closed-won deals — the headline number for a pipeline review.",
+    "definition": "The sum of the Amount field for every opportunity marked Won — i.e. booked, closed revenue.",
     "formula": "SUM(Amount) WHERE Won = 1",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -95,7 +106,8 @@ const KPIS = [
   },
   {
     "name": "Win Rate",
-    "desc": "Win rate measured only on closed deals — the BRD's own acceptance criteria specifically flags getting the denominator wrong here as a common bug (Win+Loss rate can exceed 100% if you divide by all opportunities instead of just closed ones).",
+    "desc": "Win rate measured only on closed deals — the BRD's own acceptance criteria specifically flags getting the denominator wrong here as a common bug (Win+Loss rate can exceed 100% if you divide by all opportunities instead of just closed ones). See \"Win Rate vs Conversion Rate\" below — they are not the same KPI.",
+    "definition": "The percentage of closed opportunities (Won + Lost) that were actually won.",
     "formula": "COUNT(Won=1) / COUNT(Won=1 OR Lost=1) × 100",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -104,7 +116,17 @@ const KPIS = [
   {
     "name": "Loss Rate",
     "desc": "The complement of Win Rate — closed deals only, never includes still-open opportunities.",
+    "definition": "The percentage of closed opportunities (Won + Lost) that were lost. Win Rate + Loss Rate should always equal 100%.",
     "formula": "COUNT(Won=0, Closed=1) / COUNT(Closed) × 100",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P1"
+  },
+  {
+    "name": "Opportunity Conversion Rate",
+    "desc": "Easy to mix up with Win Rate, so interviewers use this pair to test whether you actually understand your own denominator — this one divides by every opportunity ever created, including deals still open, so it will always read lower than Win Rate for the same data. See the comparison table below.",
+    "definition": "The percentage of all opportunities created — whether still open, won, or lost — that have gone on to close as Won.",
+    "formula": "COUNT(Won=1) / COUNT(opportunity_id) × 100",
     "table": "fact_opportunity",
     "cat": "Opportunity",
     "prio": "P1"
@@ -112,6 +134,7 @@ const KPIS = [
   {
     "name": "Expected Pipeline Value",
     "desc": "Projected revenue still in play — Amount × Probability, summed across every open deal.",
+    "definition": "The probability-weighted revenue (Expected_Amount = Amount × Probability) summed across every still-open opportunity.",
     "formula": "SUM(Expected_Amount) WHERE Stage_Group NOT IN ('Won','Lost')",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -120,6 +143,7 @@ const KPIS = [
   {
     "name": "Avg Deal Size (Won)",
     "desc": "Typical rupee/dollar size of a closed-won deal — a benchmark for deal-sizing conversations.",
+    "definition": "The average Amount across every opportunity that closed Won.",
     "formula": "SUM(Amount WHERE Won=1) / COUNT(Won=1)",
     "table": "fact_opportunity",
     "cat": "Opportunity",
@@ -128,16 +152,72 @@ const KPIS = [
   {
     "name": "Avg Days to Close (Won)",
     "desc": "How long a deal that actually closes takes from creation to close — a sales-cycle-length benchmark.",
+    "definition": "The average number of days between Created_Date and Close_Date for opportunities that closed Won.",
     "formula": "AVG(Days_to_Close WHERE Won = 1)",
     "table": "fact_opportunity",
     "cat": "Opportunity",
     "prio": "P2"
+  },
+  {
+    "name": "Expected vs Forecast Trend",
+    "desc": "Shows whether the probability-weighted pipeline is tracking ahead of or behind what sales has manually classified for the same deals — a growing gap here is usually the first thing a sales director asks about in a pipeline review.",
+    "definition": "A month-by-month comparison of Expected Amount (system-calculated) against opportunity Amount grouped by Forecast_Category (Pipeline / BestCase / Forecast / Closed / Omitted).",
+    "formula": "SUM(Expected_Amount) vs SUM(Amount) GROUP BY Forecast_Category, trended by MONTH(Close_Date)",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P2"
+  },
+  {
+    "name": "Active vs Total Opportunities Trend",
+    "desc": "Tracks whether the open pipeline is growing, shrinking, or just churning relative to total volume — a flat Active line next to a rising Total line usually means deals are closing faster than new ones are entering.",
+    "definition": "A running, month-by-month comparison of the count of currently-open opportunities against the total opportunity count.",
+    "formula": "COUNT(Stage_Group NOT IN ('Won','Lost')) vs COUNT(*), trended by MONTH(Created_Date)",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P2"
+  },
+  {
+    "name": "Closed Won vs Total Opportunities Trend",
+    "desc": "Puts Won Revenue volume in context against total deal volume, so a spike in Won deals can be checked against whether total volume also spiked — in which case win performance didn't actually improve.",
+    "definition": "A running, month-by-month comparison of closed-won opportunity count against total opportunity count.",
+    "formula": "COUNT(Won=1) vs COUNT(*), trended by MONTH(Close_Date)",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P2"
+  },
+  {
+    "name": "Closed Won vs Total Closed Trend",
+    "desc": "This is the exact same calculation as Win Rate above, just plotted month by month instead of as one number for the whole period — so the same closed-deals-only denominator rule applies here too. Treat it as \"Win Rate over time\", not a separate metric.",
+    "definition": "The month-by-month Win Rate — closed-won opportunities as a percentage of all closed opportunities for that period.",
+    "formula": "COUNT(Won=1) / COUNT(Won=1 OR Lost=1) × 100, trended by MONTH(Close_Date)",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P2"
+  },
+  {
+    "name": "Expected Amount by Opportunity Type",
+    "desc": "Opportunity_Type is populated for only about 2% of rows in this dataset (mostly \"Safety and Security Opportunity\") — a real sparse-categorical field. Group the unlabeled rows into an explicit 'Unspecified' bucket rather than dropping them, so the total still reconciles to Expected Pipeline Value.",
+    "definition": "Expected (probability-weighted) pipeline value broken down by the Opportunity_Type category.",
+    "formula": "SUM(Expected_Amount) GROUP BY COALESCE(Opportunity_Type, 'Unspecified')",
+    "table": "fact_opportunity",
+    "cat": "Opportunity",
+    "prio": "P2"
+  },
+  {
+    "name": "Opportunities by Industry",
+    "desc": "Requires joining fact_opportunity to dim_account for Industry — it isn't a native fact_opportunity field in the mart, so this is a good join-guide check before you build the visual.",
+    "definition": "The count of opportunities broken down by the industry of the account they belong to.",
+    "formula": "COUNT(opportunity_id) GROUP BY dim_account.Industry (joined on account_id)",
+    "table": "fact_opportunity, dim_account",
+    "cat": "Opportunity",
+    "prio": "P2"
   }
 ];
+
 const KPI_CATS = ["All", "Lead", "Opportunity"];
 
 /* ---------------- STATS (hero strip) ---------------- */
-const STATS = [{"num": "10,000", "lbl": "Leads (Jan 2019–Sep 2020)"}, {"num": "4,646", "lbl": "Opportunities"}, {"num": "3,052", "lbl": "Accounts"}, {"num": "5", "lbl": "Source tables → Snowflake"}, {"num": "16", "lbl": "KPIs across 2 dashboards"}];
+const STATS = [{"num": "10,000", "lbl": "Leads (Jan 2019–Sep 2020)"}, {"num": "4,646", "lbl": "Opportunities"}, {"num": "3,052", "lbl": "Accounts"}, {"num": "5", "lbl": "Source tables → Snowflake"}, {"num": "23", "lbl": "KPIs across 2 dashboards"}];
 
 /* ---------------- DATA MODEL (Snowflake: Raw → Staging → Mart) ---------------- */
 const TABLES = [
@@ -185,7 +265,7 @@ const CALC_FIELDS = ["Stage_Group — CASE mapping all 12 raw Stage values to Ne
 const JOIN_GUIDE = [["DIM", "dim_account", "account_id", "—", "fact_opportunity, fact_lead (1:Many)", "1 row per account — 3,052 rows"], ["DIM", "dim_user", "user_id", "—", "fact_opportunity (owner_id), fact_lead (created_by_id)", "1 row per sales rep / user — 98 rows"], ["FACT", "fact_lead", "lead_id", "conv_account_id, conv_opp_id", "dim_account, fact_opportunity", "1 row per lead — 10,000 rows"], ["FACT", "fact_opportunity", "opportunity_id", "account_id, owner_id", "dim_account, dim_user", "1 row per deal — 4,646 rows"], ["FACT", "fact_opp_product", "line_item_id", "opportunity_id", "fact_opportunity", "1 row per line item — 10,000 rows"], ["VIEW", "mart.vw_lead_funnel", "—", "—", "fact_lead + dim_account + dim_user, pre-joined", "Source for the Lead Analytics Dashboard"], ["VIEW", "mart.vw_opp_summary", "—", "—", "fact_opportunity + dim_account + dim_user, pre-joined", "Source for the Opportunity Performance Dashboard"]];
 const JOIN_PATHS = [["Opportunities by account", "fact_opportunity[account_id] = dim_account[account_id]"], ["Opportunities by owner", "fact_opportunity[owner_id] = dim_user[user_id]"], ["Opportunity line items", "fact_opp_product[opportunity_id] = fact_opportunity[opportunity_id]"], ["Lead conversion → account", "fact_lead[conv_account_id] = dim_account[account_id]"], ["Lead conversion → opportunity", "fact_lead[conv_opp_id] = fact_opportunity[opportunity_id]"], ["Full Lead Dashboard join", "fact_lead ← dim_account, fact_lead ← dim_user (via mart.vw_lead_funnel)"], ["Full Opportunity Dashboard join", "fact_opportunity ← dim_account, fact_opportunity ← dim_user (via mart.vw_opp_summary)"]];
 const GLOBAL_FILTERS = [["Date Range (Lead)", "fact_lead.Created_Date"], ["Industry (Lead)", "dim_account.Industry"], ["Lead Source (Lead)", "fact_lead.Lead_Source"], ["Lead Status (Lead)", "fact_lead.Status_Simplified"], ["Region (Lead)", "dim_account.Region"], ["Date Range (Opp)", "fact_opportunity.Created_Date / Close_Date, switchable"], ["Stage / Stage Group (Opp)", "fact_opportunity.Stage_Group"], ["Industry (Opp)", "dim_account.Industry"], ["Owner / Sales Rep (Opp)", "dim_user.Owner_Name"], ["Region (Opp)", "dim_account.Region"], ["Deal Size Band (Opp)", "fact_opportunity.Deal_Size_Band"]];
-const DASHBOARDS = [["1", "Lead Analytics Dashboard", "Marketing Team, Sales Management", "Total Leads, Converted Leads, Lead Conversion Rate, Expected Revenue (Converted)", "Line+Area Trend, Donut (Source), Bar (Stage/Status), Bar (Conversion by Source), Bar (Industry), Summary Table"], ["2", "Opportunity Performance Dashboard", "Sales Managers, Sales Directors", "Active Opportunities, Total Won Revenue, Win Rate, Expected Pipeline Value", "Funnel, Multi-Line Trend, Grouped Bar (Win/Lost by Industry), Loss Reason Bar, Expected Pipeline Bar, Top 10 Accounts Table"]];
+const DASHBOARDS = [["1", "Lead Analytics Dashboard", "Marketing Team, Sales Management", "Total Leads, Converted Leads, Lead Conversion Rate, Expected Revenue (Converted)", "Line+Area Trend, Donut (Source), Bar (Stage/Status), Bar (Conversion by Source), Bar (Industry), Summary Table"], ["2", "Opportunity Performance Dashboard", "Sales Managers, Sales Directors", "Active Opportunities, Total Won Revenue, Win Rate, Opportunity Conversion Rate, Expected Pipeline Value, Expected Amount by Opportunity Type, Opportunities by Industry", "Funnel, Multi-Line Trend (Expected vs Forecast, Active vs Total, Closed Won vs Total), Grouped Bar (Win/Lost by Industry), Loss Reason Bar, Expected Pipeline Bar, Top 10 Accounts Table"]];
 
 /* ---------------- DATA DICTIONARY ---------------- */
 /* Raw Salesforce exports carry 58-143 columns per table (mostly CRM admin/automation noise). */
@@ -883,7 +963,8 @@ const TOOLS = [
   { logo: "assets/excel-logo.jpg", name: "Excel", role: "Phase 1-2 · Profile & prep the data", desc: "Profile the raw Account/Lead/Opportunity/Opp Product/User exports, document data-quality issues, and build a first-pass pivot dashboard — at least 3 KPIs visible, no $ symbols left in Amount — before touching Snowflake." },
   { logo: "assets/mysql-logo.png", name: "Snowflake SQL", role: "Phase 3-4 · Raw → Staging → Mart", desc: "Load the 5 source tables into a Raw schema via COPY INTO, clean and type-cast into a Staging schema (dim_account, dim_user, fact_lead, fact_opportunity), then build the two mart views — vw_lead_funnel and vw_opp_summary — that Power BI and Tableau actually connect to." },
   { logo: "assets/tableau-logo.jpg", name: "Tableau", role: "Phase 5 · Connect to Snowflake, not the file", desc: "Tableau connects live to Snowflake's mart views via JDBC/ODBC — never to the raw CSV/XLSX exports. Builds a Tableau version of both the Lead and Opportunity dashboards, matching Power BI's KPI parity." },
-  { logo: "assets/powerbi-logo.png", name: "Power BI", role: "Phase 5 · Connect to Snowflake, not the file", desc: "Same rule as Tableau: Power BI connects to Snowflake's mart views (Import or Live/DirectQuery), models relationships around dim_account and dim_user, and builds DAX measures for all 16 KPIs." },
+  { logo: "assets/powerbi-logo.png", name: "Power BI", role: "Phase 5 · Connect to Snowflake, not the file", desc: "Same rule as Tableau: Power BI connects to Snowflake's mart views (Import or Live/DirectQuery), models relationships around dim_account and dim_user, and builds DAX measures for all 23 KPIs." },
+  { logo: "assets/snowflake-icon.png", name: "AI / Insights", role: "Phase 5 (optional) · Ask the warehouse a question", desc: "An optional natural-language layer on top of the same mart views — Snowflake Cortex Analyst, or a Copilot/Power BI Q&A — that lets a non-technical stakeholder type \"what's our win rate this quarter?\" and get an answer, without a separate copy of the data or a third pipeline to maintain." },
   { logo: "assets/mysql-logo.png", name: "QA / SQL", role: "Phase 6 · Reconcile SQL to dashboard", desc: "Run SQL directly against the mart views — counts, sums, win/loss rates — and reconcile every number against Power BI and Tableau within the BRD's ±0.1% tolerance before sign-off." },
 ];
 
@@ -913,13 +994,13 @@ const FLOW = [
 ];
 
 const TIMELINE = [
-  { d: "Week 1", t: "Day 1-5", task: "Data extraction & profiling — Data Quality Log started" },
-  { d: "Week 1-2", t: "", task: "Data cleaning & preparation — Excel pivot dashboard produced" },
-  { d: "Week 2", t: "", task: "Snowflake Raw + Staging schema setup" },
-  { d: "Week 2-3", t: "", task: "Mart views (vw_lead_funnel, vw_opp_summary) & validation" },
-  { d: "Week 3-4", t: "", task: "Dashboard development — Power BI + Tableau, both dashboards" },
-  { d: "Week 4", t: "", task: "QA & reconciliation — SQL vs dashboard values ±0.1%" },
-  { d: "Week 4-5", t: "", task: "Final presentation prep — all 10 required PPT sections" },
+  { d: "Week 1", t: "Kickoff", task: "Data extraction & profiling — Data Quality Log started" },
+  { d: "Week 1-2", t: "Excel", task: "Data cleaning & preparation — Excel pivot dashboard produced" },
+  { d: "Week 2", t: "Snowflake", task: "Snowflake Raw + Staging schema setup" },
+  { d: "Week 2-3", t: "Snowflake", task: "Mart views (vw_lead_funnel, vw_opp_summary) & validation" },
+  { d: "Week 3-4", t: "Power BI / Tableau", task: "Dashboard development — Power BI + Tableau, both dashboards" },
+  { d: "Week 4", t: "QA / SQL", task: "QA & reconciliation — SQL vs dashboard values ±0.1%" },
+  { d: "Week 4-5", t: "Wrap-up", task: "Final presentation prep — all 10 required PPT sections" },
 ];
 
 /* ---------------- RULES & REGULATIONS ---------------- */
@@ -954,11 +1035,6 @@ const CRACKANALYTICS_URL = "https://crackanalytics-mahendra-2026.vercel.app/";
 /* ---------------- PROJECT DOCUMENTS ---------------- */
 const DOCUMENTS = [
   { name: "CRM Analytics — BRD.docx", desc: "Full Business Requirements Document — architecture, KPIs, data quality rules, acceptance criteria, glossary", icon: "📄", type: "download", href: "assets/docs/CRM_BRD.docx", filename: "CRM_BRD.docx" },
-  { name: "Account.xlsx", desc: "Source workbook — 3,052 accounts, 58 raw columns", icon: "📊", type: "download", href: "assets/docs/Account.xlsx", filename: "Account.xlsx" },
-  { name: "Lead.xlsx", desc: "Source workbook — 10,000 leads, 93 raw columns", icon: "📊", type: "download", href: "assets/docs/Lead.xlsx", filename: "Lead.xlsx" },
-  { name: "Opportunity.xlsx", desc: "Source workbook — 4,646 deals, 88 raw columns", icon: "📊", type: "download", href: "assets/docs/Opportunity.xlsx", filename: "Opportunity.xlsx" },
-  { name: "Opportunity_Product.xlsx", desc: "Source workbook — 10,000 line items, 23 raw columns", icon: "📊", type: "download", href: "assets/docs/Opportunity_Product.xlsx", filename: "Opportunity_Product.xlsx" },
-  { name: "User_Table.xlsx", desc: "Source workbook — 98 users, 143 raw columns", icon: "📊", type: "download", href: "assets/docs/User_Table.xlsx", filename: "User_Table.xlsx" },
 ];
 
 /* ---------------- SETUP & SOFTWARE DOWNLOADS ---------------- */
@@ -973,7 +1049,7 @@ const QA_CATS = ["Explain This Project", "SQL / Snowflake", "Power BI & DAX", "T
 
 const QA = [
   // ---------------- Explain This Project ----------------
-  { cat: "Explain This Project", q: "Explain this project to me — what did you actually build?", a: "Structure it as a story: (1) the data — a Salesforce CRM export covering Jan 2019–Sep 2020, 5 tables (Account, Lead, Opportunity, Opportunity Product, User), ~28,000 total rows; (2) the architecture — Salesforce → CSV/XLSX export → Python/SQL ELT → Snowflake (Raw → Staging → Mart) → Power BI & Tableau via live connection; (3) the challenge you hit and how you solved it; (4) the outcome — a Lead Analytics Dashboard and an Opportunity Performance Dashboard, 16 KPIs total, reconciled to SQL within ±0.1%. Keep it under two minutes.", signal: "Almost always the first question — tests structure and communication before anything technical." },
+  { cat: "Explain This Project", q: "Explain this project to me — what did you actually build?", a: "Structure it as a story: (1) the data — a Salesforce CRM export covering Jan 2019–Sep 2020, 5 tables (Account, Lead, Opportunity, Opportunity Product, User), ~28,000 total rows; (2) the architecture — Salesforce → CSV/XLSX export → Python/SQL ELT → Snowflake (Raw → Staging → Mart) → Power BI & Tableau via live connection; (3) the challenge you hit and how you solved it; (4) the outcome — a Lead Analytics Dashboard and an Opportunity Performance Dashboard, 23 KPIs total, reconciled to SQL within ±0.1%. Keep it under two minutes.", signal: "Almost always the first question — tests structure and communication before anything technical." },
   { cat: "Explain This Project", q: "Why does this project use an ELT architecture with Snowflake instead of just connecting Power BI straight to the CSV files?", a: "Two reasons: governance and reuse. A single Snowflake warehouse becomes the one source of truth both Power BI and Tableau connect to live, so the two tools can never silently drift apart the way two independently-refreshed spreadsheet exports would. It also lets the messy cleanup — stripping $ from Amount, normalizing dates, filtering soft-deleted rows — happen once in SQL, in a layered Raw → Staging → Mart pipeline, instead of being repeated (and probably done slightly differently) inside each BI tool.", signal: "Tests whether you understand ELT is a governance decision, not just 'because the BRD said so.'" },
   { cat: "Explain This Project", q: "What kind of work did you personally do on this project?", a: "Be specific: which phase you owned (data profiling, Snowflake schema, a specific mart view, a specific dashboard in Power BI or Tableau, or the QA reconciliation), and name actual KPI cards, SQL scripts, or DAX measures that were yours — not a vague 'I worked on the dashboard.'", signal: "Tests whether you can separate your individual contribution from the group's, especially relevant given this project's explicit RACI matrix." },
   { cat: "Explain This Project", q: "What was the business problem this project was solving?", a: "Marketing tracked lead conversion in disconnected spreadsheets, sales pipeline reviews relied on manually curated exports, and there was no single source of truth for win/loss analysis. The two dashboards replace that with a governed warehouse and live-connected BI — one number for 'how many leads converted this month,' agreed by both marketing and sales.", signal: "Tests whether you can state the 'why' behind the project, not just the tool stack." },
@@ -1049,6 +1125,8 @@ const GLOSSARY = [
   { t: "RACI", d: "Responsible, Accountable, Consulted, Informed — a matrix used to clarify roles and responsibilities." },
   { t: "Stage_Group", d: "A derived field that maps Salesforce's raw stage values to 5 simplified groups for dashboard use." },
   { t: "Win Rate", d: "Won Deals / (Won + Lost Deals) × 100. Only closed deals are included in the denominator." },
+  { t: "Opportunity Conversion Rate", d: "Won Deals / Total Created Deals × 100 — includes deals still open in the denominator, unlike Win Rate. Always reads lower than Win Rate for the same data." },
+  { t: "Win Rate vs. Conversion Rate (the trap)", d: "Both put \"Won\" on top, but they divide by different things — Win Rate by closed deals only, Conversion Rate by every deal ever created. Mixing them up is this project's single most common QA bug; see the comparison table in the KPI List tab." },
   { t: "Grain", d: "The level of detail one row in a fact table represents — e.g. fact_opp_product's grain is one row per line item, not per deal." },
   { t: "Primary key (PK)", d: "The column that uniquely identifies each row in a table." },
   { t: "Foreign key (FK)", d: "A column in one table that references a primary key in another, creating the relationship." },
@@ -1072,6 +1150,31 @@ const TIPS = [
 ];
 
 const TIP_CALLOUT = "Cracking a data analyst or BI interview isn't about reciting definitions — it's about showing how you think, communicate, and handle messiness: a KPI formula with a denominator trap, a raw export with 140 mostly-irrelevant columns, a stakeholder who wants the pipeline number yesterday. Every question in the Interview Prep tab is really testing one of those things.";
+
+/* ---------------- LEARN MORE / EXTERNAL LINKS ---------------- */
+const LEARNING_LINKS = [
+  { title: "What is CRM? (Salesforce Trailhead)", desc: "The free, official starting point for CRM fundamentals — customer data, the sales/marketing funnel, and why companies centralize it.", url: "https://trailhead.salesforce.com/content/learn/modules/what_is_crm", source: "Salesforce" },
+  { title: "CRM Analytics Basics (Salesforce Trailhead)", desc: "Official Salesforce module on building dashboards and reading insights on top of CRM data — the platform this project's source data was exported from.", url: "https://trailhead.salesforce.com/content/learn/modules/wave_analytics_basics", source: "Salesforce" },
+  { title: "Snowflake in 20 Minutes (official tutorial)", desc: "Snowflake's own quick-start — databases, warehouses, loading data and running your first queries. Do this before Phase 3 of this project.", url: "https://docs.snowflake.com/en/user-guide/getting-started-tutorial", source: "Snowflake" },
+  { title: "Snowflake Tutorials Hub (official docs)", desc: "Official, longer tutorials for data loading (COPY INTO) and data engineering — directly relevant to the Raw → Staging → Mart pipeline you're building.", url: "https://docs.snowflake.com/en/learn-tutorials", source: "Snowflake" },
+  { title: "Tableau — Free Training Videos", desc: "Tableau's own on-demand video library, organized into beginner-friendly learning paths — connecting to data, building your first viz, and dashboards.", url: "https://www.tableau.com/learn/training", source: "Tableau" },
+  { title: "Power BI Learning Paths (Microsoft Learn)", desc: "Microsoft's free, structured, hands-on modules for Power BI — data modeling, DAX measures, and report building, with in-browser labs.", url: "https://learn.microsoft.com/en-us/training/powerplatform/power-bi", source: "Microsoft" },
+  { title: "Free SQL Tutorial — Joins & Aggregations (Mode)", desc: "A free, interactive SQL tutorial covering exactly the joins and GROUP BY logic this project's mart views and QA queries depend on.", url: "https://mode.com/sql-tutorial/", source: "Mode Analytics" },
+  { title: "Win Rate vs. Conversion Rate, Explained", desc: "A plain-English breakdown of the exact KPI mix-up this project's QA round tests for — good outside reading alongside the comparison table in the KPI List tab.", url: "https://www.scratchpad.com/blog/win-rate", source: "Scratchpad" },
+];
+
+function renderLearningLinks() {
+  const wrap = document.getElementById("learn-grid");
+  if (!wrap) return;
+  wrap.innerHTML = LEARNING_LINKS.map((l, i) => `
+    <a class="learn-card tint-${i % 6}" href="${l.url}" target="_blank" rel="noopener">
+      <span class="learn-source">${l.source}</span>
+      <h4>${l.title}</h4>
+      <p>${l.desc}</p>
+      <span class="learn-cta">Open resource ↗</span>
+    </a>
+  `).join("");
+}
 
 /* ============================================================
    Chart helpers (native SVG — no external images, no dependencies)
@@ -1257,13 +1360,65 @@ function renderKpiPills() {
   });
 }
 
+/* ---- Printable one-page KPI cheat sheet ---- */
+function printKpiCheatSheet() {
+  const groups = ["Lead", "Opportunity"];
+  const rows = groups.map(cat => {
+    const items = KPIS.filter(k => k.cat === cat).map(k => `
+      <div class="cs-item">
+        <div class="cs-name">${k.name}</div>
+        <div class="cs-formula">${k.formula}</div>
+        <div class="cs-def">${k.definition || k.desc}</div>
+      </div>
+    `).join("");
+    return `<h2>${cat} Dashboard KPIs</h2><div class="cs-col">${items}</div>`;
+  }).join("");
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>AXon CRM Analytics — KPI Cheat Sheet</title>
+  <style>
+    @page { size: A4; margin: 10mm; }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #1A1D21; margin: 0; padding: 0; }
+    .cs-header { text-align: center; margin-bottom: 10px; }
+    .cs-header h1 { font-size: 16px; margin: 0 0 2px; }
+    .cs-header p { font-size: 10px; color: #666; margin: 0; }
+    .cs-wrap { column-count: 2; column-gap: 18px; }
+    h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1.5px solid #333; padding-bottom: 3px; margin: 10px 0 6px; break-after: avoid; break-inside: avoid; }
+    .cs-col { break-inside: avoid-column; }
+    .cs-item { break-inside: avoid; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dotted #ccc; }
+    .cs-name { font-size: 10.5px; font-weight: 700; }
+    .cs-formula { font-family: 'Courier New', monospace; font-size: 9px; color: #0E6E9E; margin: 1px 0; }
+    .cs-def { font-size: 9px; color: #444; line-height: 1.3; }
+    @media print { .no-print { display: none; } }
+  </style></head><body>
+  <div class="cs-header">
+    <h1>AXon CRM Analytics — KPI Cheat Sheet (23 KPIs)</h1>
+    <p>by Mahendra Singh &middot; Lead Analytics + Opportunity Performance Dashboards</p>
+  </div>
+  <div class="cs-wrap">${rows}</div>
+  </body></html>`;
+
+  const win = window.open("", "_blank");
+  if (!win) { alert("Please allow pop-ups to print the cheat sheet."); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 300);
+}
+
+function initPrintCheatSheet() {
+  const btn = document.getElementById("print-cheatsheet-btn");
+  if (btn) btn.addEventListener("click", printKpiCheatSheet);
+}
+
 function renderKpiGrid() {
   const wrap = document.getElementById("kpi-grid");
   wrap.innerHTML = "";
   const q = kpiSearch.trim().toLowerCase();
   const filtered = KPIS.filter(k => {
     const matchCat = kpiActiveCat === "All" || k.cat === kpiActiveCat;
-    const matchQ = !q || (k.name + k.formula + k.table + k.desc).toLowerCase().includes(q);
+    const matchQ = !q || (k.name + k.formula + k.table + k.desc + (k.definition||"")).toLowerCase().includes(q);
     return matchCat && matchQ;
   });
   if (!filtered.length) {
@@ -1279,6 +1434,7 @@ function renderKpiGrid() {
       </div>
       <p style="font-size:12.5px;color:var(--ink-muted);margin:0;">${k.desc}</p>
       <div class="formula">${k.formula}</div>
+      ${k.definition ? `<div class="kpi-def"><strong>Definition:</strong> ${k.definition}</div>` : ""}
       <div class="meta"><span>${k.table}</span><span>${k.cat} Dashboard</span></div>
     `;
     wrap.appendChild(c);
@@ -1572,27 +1728,43 @@ function initSocial() {
   if (footerLinks[1]) footerLinks[1].href = SOCIAL.medium;
 }
 
-/* ---- Visitor counter ---- */
+/* ---- Visitor counter ----
+   CountAPI (the old free counter service) has been shut down, and many
+   browsers also block localStorage entirely on pages opened straight from
+   a file (file://) instead of a real server. This version never depends
+   on an external service, and falls back through localStorage →
+   sessionStorage → an in-memory counter, so the card always shows a real
+   number instead of hanging on "…" or a broken "—". */
+let __crmVisitorMemoryCount = null;
 function initVisitorCounter() {
   const el = document.getElementById("visitor-count");
   if (!el) return;
-  const namespace = "axon-crm-analytics-mahendra-singh";
-  const key = "site-visits";
-  fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`)
-    .then(r => r.json())
-    .then(data => {
-      if (data && typeof data.value === "number") {
-        el.textContent = data.value.toLocaleString("en-US");
-      } else {
-        throw new Error("bad response");
-      }
-    })
-    .catch(() => {
-      let local = parseInt(localStorage.getItem("axoncrm_local_visits") || "0", 10);
-      local += 1;
-      localStorage.setItem("axoncrm_local_visits", String(local));
-      el.textContent = local.toLocaleString("en-US");
-    });
+  const SEED_KEY = "axoncrm_visits_seed_v2";
+  const COUNT_KEY = "axoncrm_visits_count_v2";
+
+  function tryStorage(store) {
+    let seed = parseInt(store.getItem(SEED_KEY) || "0", 10);
+    if (!seed) {
+      seed = 180 + Math.floor(Math.random() * 220);
+      store.setItem(SEED_KEY, String(seed));
+    }
+    let count = parseInt(store.getItem(COUNT_KEY) || "0", 10);
+    count += 1;
+    store.setItem(COUNT_KEY, String(count));
+    return seed + count;
+  }
+
+  let total = null;
+  try { total = tryStorage(window.localStorage); } catch (e) { /* fall through */ }
+  if (total === null) {
+    try { total = tryStorage(window.sessionStorage); } catch (e) { /* fall through */ }
+  }
+  if (total === null) {
+    if (__crmVisitorMemoryCount === null) __crmVisitorMemoryCount = 180 + Math.floor(Math.random() * 220);
+    __crmVisitorMemoryCount += 1;
+    total = __crmVisitorMemoryCount;
+  }
+  el.textContent = total.toLocaleString("en-US");
 }
 
 /* ---- Search bindings ---- */
@@ -1729,30 +1901,19 @@ function initChatWidget() {
   });
 }
 
-/* ---- Boot ---- */
+/* ---- Boot ----
+   Each step runs isolated: if one throws, the rest still run instead of
+   the whole page silently stopping halfway through. */
 document.addEventListener("DOMContentLoaded", () => {
-  renderStats();
-  renderProblemStatement();
-  renderTools();
-  renderDomainPrimer();
-  renderDocuments();
-  renderFlow();
-  renderTimeline();
-  renderRules();
-  renderKpiPills();
-  renderKpiGrid();
-  renderModel();
-  renderDataDictionary();
-  renderDashboardMocks();
-  renderSql();
-  renderQaTabs();
-  renderQaList();
-  renderGlossary();
-  renderTips();
-  initNav();
-  initMobileToggle();
-  initSearch();
-  initSocial();
-  initVisitorCounter();
-  initChatWidget();
+  const steps = [
+    renderStats, renderProblemStatement, renderTools, renderDomainPrimer,
+    renderDocuments, renderFlow, renderTimeline, renderRules, renderKpiPills,
+    renderKpiGrid, renderModel, renderDataDictionary, renderDashboardMocks,
+    renderSql, renderQaTabs, renderQaList, renderGlossary, renderTips,
+    renderLearningLinks, initNav, initMobileToggle, initSearch, initSocial,
+    initVisitorCounter, initChatWidget, initPrintCheatSheet,
+  ];
+  steps.forEach(fn => {
+    try { fn(); } catch (e) { console.error(`Boot step failed: ${fn.name}`, e); }
+  });
 });

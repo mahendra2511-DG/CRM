@@ -469,6 +469,16 @@ section.view.active { display: block; animation: fadeIn 0.25s ease; }
   overflow-x: auto;
   white-space: pre;
 }
+.kpi-card .kpi-def {
+  font-size: 12px;
+  line-height: 1.5;
+  background: var(--blue-tint);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 8px 10px;
+  color: var(--ink);
+}
+.kpi-card .kpi-def strong { color: var(--blue); }
 .kpi-card .meta {
   font-size: 11.5px;
   color: var(--ink-muted);
@@ -1064,3 +1074,73 @@ footer {
   .chat-fab-wrap { right: 16px; bottom: 16px; }
   .chat-fab-label { display: none; }
 }
+
+/* ---------- Learn More / external links ---------- */
+.learn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+}
+.learn-card {
+  display: block;
+  border-radius: var(--radius, 10px);
+  border: 1.5px solid var(--line);
+  padding: 16px 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.learn-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+.learn-card .learn-source {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.65);
+  margin-bottom: 8px;
+}
+.learn-card h4 { font-size: 14.5px; margin: 0 0 6px; line-height: 1.35; }
+.learn-card p { font-size: 12.5px; color: var(--ink-muted); margin: 0 0 12px; line-height: 1.5; }
+.learn-card .learn-cta { font-size: 12px; font-weight: 700; color: var(--teal-deep); }
+
+/* Light pastel tints, cycled so cards read distinctly at a glance */
+.tint-0 { background: #EAF6F1; border-color: #BFE3D3; }
+.tint-1 { background: #EAF1FB; border-color: #C4D8F5; }
+.tint-2 { background: #FDF3E4; border-color: #F0D9AE; }
+.tint-3 { background: #FBEAEA; border-color: #F0C4C4; }
+.tint-4 { background: #F1EEFB; border-color: #D6CDF2; }
+.tint-5 { background: #EAF7F7; border-color: #BFE6E6; }
+
+/* ---------- QA mistakes callout (trend KPIs) ---------- */
+.qa-mistakes {
+  border-radius: var(--radius, 10px);
+  border: 1.5px solid var(--amber, #C08A1E);
+  background: var(--amber-tint, #FBF1DD);
+  padding: 16px 18px;
+}
+.qa-mistakes h4 { margin: 0 0 10px; font-size: 14.5px; }
+.qa-mistakes ul { margin: 0; padding-left: 18px; }
+.qa-mistakes li { font-size: 13px; line-height: 1.6; margin-bottom: 6px; color: var(--ink); }
+.qa-mistakes li:last-child { margin-bottom: 0; }
+
+/* ---------- Print KPI cheat sheet button ---------- */
+.print-cheatsheet-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 18px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--teal);
+  background: var(--teal-tint);
+  color: var(--teal-deep);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--body);
+  cursor: pointer;
+}
+.print-cheatsheet-btn:hover { background: var(--teal); color: #fff; }

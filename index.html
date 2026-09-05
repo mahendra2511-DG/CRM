@@ -36,6 +36,7 @@
       <button data-view="interview"><span class="ic">🎤</span><span class="lbl">Interview Prep</span></button>
       <button data-view="glossary"><span class="ic">📚</span><span class="lbl">Glossary</span></button>
       <button data-view="tips"><span class="ic">💡</span><span class="lbl">Student Tips</span></button>
+      <button data-view="learnmore"><span class="ic">🔗</span><span class="lbl">Learn More</span></button>
     </nav>
 
     <div class="sidebar-footer">
@@ -56,7 +57,7 @@
         <div class="hero-content">
           <div class="eyebrow">Capstone Project · Data Analytics Training Programme</div>
           <h1>Axon<span class="accent-axon">CRM</span> Analytics — <span class="hl-mark">Salesforce to Snowflake to a defensible BI story</span>.</h1>
-          <p class="lead">A hands-on capstone built around a real Salesforce CRM export for Axon — 10,000 leads, 4,646 opportunities, 3,052 accounts and 98 users, spanning January 2019 to September 2020. You'll take that data through Excel, a layered Snowflake ELT pipeline (Raw → Staging → Mart), then build a Lead Analytics Dashboard and an Opportunity Performance Dashboard in both Power BI and Tableau — 16 KPIs total, reconciled to SQL within ±0.1%.</p>
+          <p class="lead">A hands-on capstone built around a real Salesforce CRM export for Axon — 10,000 leads, 4,646 opportunities, 3,052 accounts and 98 users, spanning January 2019 to September 2020. You'll take that data through Excel, a layered Snowflake ELT pipeline (Raw → Staging → Mart), then build a Lead Analytics Dashboard and an Opportunity Performance Dashboard in both Power BI and Tableau — 23 KPIs total, reconciled to SQL within ±0.1%.</p>
           <div class="hero-meta">
             <span class="chip">10,000 Leads</span>
             <span class="chip">4,646 Opportunities</span>
@@ -119,6 +120,7 @@
       <p><strong>Excel:</strong> profile the 5 raw Salesforce exports, document data-quality issues, and build a first-pass pivot dashboard directly from the spreadsheet.<br>
       <strong>Snowflake:</strong> load Raw tables via COPY INTO, clean and type into Staging (dim_account, dim_user, fact_lead, fact_opportunity), then build the two Mart views — vw_lead_funnel and vw_opp_summary.<br>
       <strong>Tableau &amp; Power BI:</strong> both connect live to the Mart views via JDBC/ODBC — never to the raw CSV/XLSX files, and never to each other.<br>
+      <strong>AI / Insights (optional extension):</strong> a natural-language layer (e.g. Snowflake Cortex Analyst, or a Copilot/Power BI Q&amp;A on top of the same Mart views) that lets a non-technical stakeholder ask "what's our win rate this quarter?" directly — same governed views, no separate copy of the data.<br>
       <strong>QA:</strong> run SQL directly against the Mart views and reconcile every KPI against both dashboards within ±0.1%.</p>
     </div>
 
@@ -128,7 +130,7 @@
       <p>The full path data actually travels: exported from Salesforce as flat files, cleaned and loaded into a layered Snowflake warehouse, and consumed live by both BI tools — nothing connects directly to the raw export.</p>
     </div>
     <div class="pipeline-card-dark">
-      <svg class="pipeline-svg" viewBox="0 0 1080 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated data pipeline: Salesforce CRM writes to flat-file exports, ETL loads them into Snowflake, and Tableau and Power BI connect live to the mart views">
+      <svg class="pipeline-svg" viewBox="0 0 1080 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated data pipeline: Salesforce CRM writes to flat-file exports, ETL loads them into Snowflake, and Tableau, Power BI, and an AI/insights layer all connect live to the mart views">
         <defs>
           <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
             <path d="M0,0 L6,3 L0,6 Z" fill="#4A535E"/>
@@ -141,6 +143,7 @@
           <path id="p2" d="M365,145 H420" />
           <path id="p3" d="M580,145 H635" />
           <path id="p4" d="M815,145 C845,145 845,55 870,55" />
+          <path id="pAI" d="M815,145 C845,145 845,150 870,150" />
           <path id="p5" d="M815,145 C845,145 845,245 870,245" />
         </defs>
 
@@ -148,6 +151,7 @@
         <use href="#p2" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
         <use href="#p3" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
         <use href="#p4" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
+        <use href="#pAI" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
         <use href="#p5" stroke="#3A424B" stroke-width="2" fill="none" marker-end="url(#arrow2)"/>
 
         <circle r="4" fill="#7FD9BE" filter="url(#dotglow)"><animateMotion dur="1.8s" repeatCount="indefinite" begin="0s"><mpath href="#p1"/></animateMotion></circle>
@@ -160,6 +164,7 @@
         <circle r="4" fill="#29B5E8" filter="url(#dotglow)"><animateMotion dur="1.6s" repeatCount="indefinite" begin="1.5s"><mpath href="#p3"/></animateMotion></circle>
 
         <circle r="4" fill="#38BDF8" filter="url(#dotglow)"><animateMotion dur="2s" repeatCount="indefinite" begin="1.05s"><mpath href="#p4"/></animateMotion></circle>
+        <circle r="4" fill="#A78BFA" filter="url(#dotglow)"><animateMotion dur="2s" repeatCount="indefinite" begin="1.2s"><mpath href="#pAI"/></animateMotion></circle>
         <circle r="4" fill="#F6C445" filter="url(#dotglow)"><animateMotion dur="2s" repeatCount="indefinite" begin="1.05s"><mpath href="#p5"/></animateMotion></circle>
 
         <g>
@@ -185,11 +190,7 @@
 
         <g>
           <rect x="635" y="75" width="180" height="140" rx="10" fill="#1B222E" stroke="#29B5E8" stroke-width="1.75"/>
-          <g transform="translate(725,113)" stroke="#9CC3EA" stroke-width="3.4" stroke-linecap="round">
-            <line x1="0" y1="-18" x2="0" y2="18"/>
-            <line x1="-16" y1="-9" x2="16" y2="9"/>
-            <line x1="-16" y1="9" x2="16" y2="-9"/>
-          </g>
+          <image href="assets/snowflake-icon.png" x="695" y="88" width="60" height="60"/>
           <text x="725" y="175" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Snowflake DWH</text>
           <text x="725" y="192" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#8FA6C4">Raw · Staging · Mart</text>
         </g>
@@ -200,6 +201,20 @@
           <text x="955" y="73" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Tableau</text>
         </g>
 
+        <!-- AI / Insights layer -->
+        <g>
+          <rect x="870" y="110" width="170" height="80" rx="10" fill="#221A2E" stroke="#A78BFA" stroke-width="1.75"/>
+          <line x1="955" y1="123" x2="955" y2="129" stroke="#A78BFA" stroke-width="2"/>
+          <circle cx="955" cy="120" r="3" fill="#A78BFA"/>
+          <rect x="936" y="129" width="38" height="30" rx="8" fill="none" stroke="#A78BFA" stroke-width="2"/>
+          <circle cx="946" cy="144" r="3.2" fill="#A78BFA"/>
+          <circle cx="964" cy="144" r="3.2" fill="#A78BFA"/>
+          <rect x="945" y="151" width="20" height="3" rx="1.5" fill="#A78BFA"/>
+          <line x1="931" y1="137" x2="936" y2="137" stroke="#A78BFA" stroke-width="2"/>
+          <line x1="974" y1="137" x2="979" y2="137" stroke="#A78BFA" stroke-width="2"/>
+          <text x="955" y="178" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">AI / Insights</text>
+        </g>
+
         <g>
           <rect x="870" y="205" width="170" height="80" rx="10" fill="#241F14" stroke="var(--yellow)" stroke-width="1.75"/>
           <rect x="939" y="228" width="9" height="24" fill="#F6C445"/>
@@ -208,12 +223,13 @@
           <text x="955" y="273" text-anchor="middle" font-family="var(--mono)" font-size="11.5" font-weight="700" fill="#FFFFFF">Power BI</text>
         </g>
       </svg>
-      <p class="pipeline-caption-dark">Live-flowing reference, not a literal animation of your data — but this is the real path: nothing reaches Tableau or Power BI except through the Mart views, and nothing reaches Snowflake except through the cleaned flat-file export.</p>
+      <p class="pipeline-caption-dark">Live-flowing reference, not a literal animation of your data — but this is the real path: nothing reaches Tableau, Power BI, or the AI/insights layer except through the Mart views, and nothing reaches Snowflake except through the cleaned flat-file export.</p>
       <div class="pipeline-legend">
         <span><i style="background:#7FD9BE"></i>Extract → ELT</span>
         <span><i style="background:#29B5E8"></i>Load → Snowflake</span>
         <span><i style="background:#38BDF8"></i>Connect → Tableau</span>
         <span><i style="background:#F6C445"></i>Connect → Power BI</span>
+        <span><i style="background:#A78BFA"></i>Connect → AI / Insights</span>
       </div>
     </div>
 
@@ -239,8 +255,8 @@
 
     <div class="section-head mt-40">
       <div class="eyebrow">Project Documents</div>
-      <h2>Download the source documents</h2>
-      <p>The original BRD and all 5 source workbooks this site is built from — read the BRD once end to end before you start building, and keep it open as a reference during QA.</p>
+      <h2>Download the source document</h2>
+      <p>The original BRD this entire site is built from — architecture, KPI definitions, data-quality rules and acceptance criteria. Read it once end to end before you start building, and keep it open as a reference during QA. (The 5 raw Salesforce workbooks aren't published here — you'll receive those separately from your project lead.)</p>
     </div>
     <div class="doc-grid" id="doc-grid"></div>
 
@@ -299,14 +315,42 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">KPI List</div>
-      <h2>All 16 KPIs — what each one means, and the logic behind it</h2>
+      <h2>All 23 KPIs — what each one means, and the logic behind it</h2>
       <p>Filter by dashboard. Each card gives the plain-English description first, then the calculation logic — know both, because interviewers ask for the "why" as often as the formula.</p>
     </div>
     <div class="filter-bar">
       <input class="search-input" id="kpi-search" type="text" placeholder="Search KPIs — e.g. &quot;win rate&quot;, &quot;conversion&quot;, &quot;pipeline&quot;…">
     </div>
+    <button type="button" class="print-cheatsheet-btn" id="print-cheatsheet-btn">🖨️ Print one-page KPI cheat sheet</button>
     <div class="filter-bar" id="kpi-pills"></div>
     <div class="kpi-grid" id="kpi-grid"></div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Interview Trap</div>
+      <h2>Key difference: Win Rate vs. Opportunity Conversion Rate</h2>
+      <p>Both use "Won Opportunities" in the numerator, so it's easy to assume they're interchangeable — they aren't. The denominator is the whole story, and it's the single most common KPI mix-up in this project's QA round.</p>
+    </div>
+    <div class="card table-scroll">
+      <table class="dtable">
+        <thead>
+          <tr><th>Metric</th><th>Formula</th><th>What it measures</th><th>When to use</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Opportunity Conversion Rate</strong></td>
+            <td>(Won Opportunities / Total Created Opportunities) × 100</td>
+            <td>How many total opportunities resulted in a win, including ones that are still open.</td>
+            <td>Measuring how well the overall lead-to-deal pipeline is performing.</td>
+          </tr>
+          <tr>
+            <td><strong>Win Rate</strong></td>
+            <td>(Won Opportunities / (Won + Lost Opportunities)) × 100</td>
+            <td>How successful sales reps are at closing deals among only the finalized (closed) opportunities.</td>
+            <td>Evaluating sales effectiveness by considering only closed deals (Won vs. Lost).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
@@ -357,6 +401,23 @@
     <div class="card mt-40" style="padding:22px;">
       <h4 style="font-size:15px;margin-bottom:10px;">Calculated fields to add in Snowflake / the BI tool</h4>
       <div id="calc-fields" style="font-size:13.5px;color:var(--ink-muted);"></div>
+    </div>
+
+    <div class="section-head mt-40">
+      <div class="eyebrow">Watch out for this</div>
+      <h2>Common QA mistakes on the new trend KPIs</h2>
+      <p>The four trend KPIs (Expected vs Forecast, Active vs Total, Closed Won vs Total Opportunities, Closed Won vs Total Closed) look like simple line charts, but each one has the exact same denominator traps as its scalar counterpart above — just easier to miss when you're building a visual instead of writing SQL.</p>
+    </div>
+    <div class="qa-mistakes">
+      <h4>Before you sign off on any trend chart, check for these</h4>
+      <ul>
+        <li><strong>Closed Won vs Total Closed Trend</strong> is Win Rate over time — if your denominator silently includes open opportunities for any month, every point on the line is wrong, not just the total.</li>
+        <li><strong>Expected vs Forecast Trend</strong> — Expected_Amount is NULL for a meaningful share of rows in this dataset; a plain AVG() or SUM() that doesn't account for NULLs will understate the trend, especially in early months.</li>
+        <li><strong>Active vs Total Opportunities Trend</strong> — trend by Created_Date, not Close_Date, or "Active" opportunities will appear to vanish the month they're created instead of the month they resolve.</li>
+        <li><strong>Closed Won vs Total Opportunities Trend</strong> — trend by Close_Date, not Created_Date, or you'll be comparing deals that closed this month against deals that were merely opened this month.</li>
+        <li>All four must respect <code>Deleted = 'False'</code> like every other KPI in this project — a soft-deleted row left in a monthly trend inflates that one month specifically, which is harder to spot than an inflated single-number KPI.</li>
+        <li>Reconcile at least 3 points on each trend line against the equivalent SQL query before presenting — a trend that's right in total but wrong month-by-month still fails QA.</li>
+      </ul>
     </div>
 
     <div class="section-head mt-40">
@@ -482,6 +543,18 @@
       <h4>The one habit that separates candidates</h4>
       <p id="tip-callout"></p>
     </div>
+  </div>
+</section>
+
+<!-- ===================== LEARN MORE / EXTERNAL LINKS ===================== -->
+<section class="view" id="view-learnmore">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Extra · Learn More</div>
+      <h2>Free official resources for every tool in this project</h2>
+      <p>Straight from the source — Salesforce, Snowflake, Tableau and Microsoft's own free training, plus one article on the exact Win Rate vs. Conversion Rate trap this project's QA round tests for.</p>
+    </div>
+    <div class="learn-grid" id="learn-grid"></div>
   </div>
 </section>
 
