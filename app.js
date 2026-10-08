@@ -984,23 +984,20 @@ const M_DOMAIN_DATA_TYPES = [
 ];
 
 const M_FLOW = [
-  { t: "Data Extraction & Profiling", d: "Profile the 5 raw Salesforce exports (Account, Lead, Opportunity, Opportunity Product, User), document every data-quality issue found in a Data Quality Log." },
-  { t: "Data Cleaning & Preparation", d: "Produce clean CSVs and an initial Excel pivot dashboard — strip $ and commas from Amount, normalize dates, filter Deleted=TRUE records." },
-  { t: "Snowflake Schema Setup", d: "Load Raw and Staging tables into Snowflake with correct row counts and derived columns (Stage_Group, Deal_Size_Band, Is_Converted, Age_Days)." },
-  { t: "Mart Views & Validation", d: "Build vw_lead_funnel and vw_opp_summary, then verify at least 5 KPI values against the Excel baseline within ±1%." },
-  { t: "Dashboard Development", d: "Build both dashboards — all 8 KPIs and 6 visuals per dashboard — in Power BI and Tableau, connected live to the Snowflake mart views." },
-  { t: "QA & Reconciliation", d: "Complete the QA reconciliation table comparing every SQL KPI value against its dashboard equivalent within ±0.1% tolerance." },
-  { t: "Presentation Prep", d: "Assemble the final PPT covering architecture, data model, KPI definitions, wireframes and insights — all 10 required sections." },
+  { t: "Data Preparation", d: "Open the 5 Salesforce exports (Account, Lead, Opportunity, Opportunity Product, User), understand each table's grain, clean Amount and dates, and build the core KPIs in Excel." },
+  { t: "SQL Integration", d: "Load the 5 tables into Snowflake (Raw → Staging), check row counts and keys, and build the vw_lead_funnel and vw_opp_summary mart views." },
+  { t: "BI Tool Connection", d: "Connect Tableau and Power BI to the Snowflake mart views, relate the tables to a Date table and set up the KPI measures." },
+  { t: "Dashboard Development", d: "Build the Lead dashboard and the Opportunity dashboard: KPI cards, funnel, breakdowns, trends and top accounts." },
+  { t: "QA & Validation", d: "Reconcile every KPI between SQL, Tableau and Power BI, and document any differences and their root cause." },
 ];
 
+/* Timeline: same schedule as every other capstone; only project wording changed */
 const M_TIMELINE = [
-  { d: "Week 1", t: "Kickoff", task: "Data extraction & profiling — Data Quality Log started" },
-  { d: "Week 1-2", t: "Excel", task: "Data cleaning & preparation — Excel pivot dashboard produced" },
-  { d: "Week 2", t: "Snowflake", task: "Snowflake Raw + Staging schema setup" },
-  { d: "Week 2-3", t: "Snowflake", task: "Mart views (vw_lead_funnel, vw_opp_summary) & validation" },
-  { d: "Week 3-4", t: "BI Tools", task: "Dashboard development — Power BI + Tableau, both dashboards" },
-  { d: "Week 4", t: "QA / SQL", task: "QA & reconciliation — SQL vs dashboard values ±0.1%" },
-  { d: "Week 4-5", t: "Wrap-up", task: "Final presentation prep — all 10 required PPT sections" },
+  { d: "Week 1", t: "", task: "Project kick-off: BRD & KPI walkthrough" },
+  { d: "Week 1-2", t: "", task: "Implement core KPIs in Excel: Leads, Conversion %, Win Rate, Pipeline" },
+  { d: "Week 2-3", t: "", task: "SQL schema setup + vw_lead_funnel & vw_opp_summary mart views" },
+  { d: "Week 3-4", t: "", task: "Dashboard development in Tableau & Power BI, all KPIs" },
+  { d: "Week 4-5", t: "", task: "QA & reconciliation, final presentation prep" },
 ];
 
 /* ---------------- RULES & REGULATIONS ---------------- */
