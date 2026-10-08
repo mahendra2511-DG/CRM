@@ -6,7 +6,9 @@
 <title>AXon CRM Analytics — Capstone, Practice & Interview Prep</title>
 <meta name="description" content="CRM analytics capstone hub for the AXon CRM project — Salesforce to Snowflake to Power BI/Tableau: learning roadmap, 5 Salesforce exports, Raw→Staging→Mart model, 23 KPIs with DAX, SQL & QA lab, assignments, 70+ Salesforce + Power BI interview questions, resume and more.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="stylesheet" href="styles.css">
+<meta http-equiv="Cache-Control" content="no-cache">
+<link rel="stylesheet" href="styles.css?v=20261007-crm">
+<link rel="stylesheet" href="sim-kit.css?v=20261008-sim">
 </head>
 <body>
 
@@ -21,7 +23,7 @@
       </a>
       <div class="sidebar-project">
         <div class="p1">CRM Analytics Capstone</div>
-        <div class="p2">by Mahendra Singh · <a href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">CrackAnalytics</a></div>
+        <div class="p2">by Mahendra Singh · Trainer, <a href="https://excelr.in/data_analyst_course_delhi/" target="_blank" rel="noopener">ExcelR</a></div>
       </div>
     </div>
 
@@ -34,6 +36,7 @@
     <nav class="sidebar-nav" id="nav">
       <div class="nav-group-label">Home</div>
       <button data-view="overview" class="active"><span class="ic">🏠</span><span class="lbl">Home &amp; Roadmap</span></button>
+      <button data-view="schedule"><span class="ic">📅</span><span class="lbl">Project Schedule &amp; Status</span></button>
       <button data-view="progress"><span class="ic">📈</span><span class="lbl">My Progress</span></button>
 
       <div class="nav-group-label">Business Problem</div>
@@ -49,6 +52,7 @@
       <div class="nav-group-label">Analytics</div>
       <button data-view="kpis"><span class="ic">📊</span><span class="lbl">KPI Library</span></button>
       <button data-view="sql"><span class="ic">🗄️</span><span class="lbl">SQL Lab</span></button>
+      <button data-view="editor"><span class="ic">⌨️</span><span class="lbl">SQL Practice Editor</span><span class="nav-live">LIVE</span></button>
       <button data-view="excel"><span class="ic">🧮</span><span class="lbl">Excel Analysis</span></button>
       <button data-view="analysis"><span class="ic">💡</span><span class="lbl">Business Analysis</span></button>
 
@@ -61,6 +65,10 @@
       <div class="nav-group-label">Practice</div>
       <button data-view="assignments"><span class="ic">📝</span><span class="lbl">Assignments</span></button>
       <button data-view="lab"><span class="ic">🧠</span><span class="lbl">Analyst Thinking Lab</span></button>
+      <div class="nav-group-label">Job Simulator</div>
+      <button data-view="incident"><span class="ic">🚨</span><span class="lbl">Incident Room</span><span class="nav-live">NEW</span></button>
+      <button data-view="broken"><span class="ic">🧩</span><span class="lbl">Broken Dashboard</span></button>
+      <button data-view="stakeholder"><span class="ic">💬</span><span class="lbl">Stakeholder Simulator</span></button>
 
       <div class="nav-group-label">Interview</div>
       <button data-view="interview"><span class="ic">🎤</span><span class="lbl">Interview Questions</span></button>
@@ -89,6 +97,7 @@
   </aside>
 
   <main class="main-content">
+<div class="ds-announce"><span class="ds-new">NEW</span> Your batch's presentation schedule and group status are live. <button data-goto="schedule">View project schedule →</button></div>
 
 <!-- ===================== HOME ===================== -->
 <section class="view active" id="view-overview">
@@ -96,43 +105,38 @@
     <div id="continue-banner" class="continue-banner" style="display:none;"></div>
     <div class="hero">
       <div class="hero-pattern" aria-hidden="true"></div>
-      <div class="hero-grid">
-        <div class="hero-content">
-          <div class="eyebrow">Capstone Project · Data Analytics Training Programme</div>
-          <h1>AXon <span class="accent-axon">CRM</span> Analytics — <span class="hl-mark">Salesforce to Snowflake to a defensible BI story</span>.</h1>
-          <p class="lead">A hands-on capstone built around a real Salesforce CRM export for AXon: 10,000 leads, 4,646 opportunities, 10,000 opportunity product lines, 3,052 accounts and 98 users, with most activity in 2020–2021. You'll take the data through Excel, a layered Snowflake ELT pipeline (Raw → Staging → Mart), then build a Lead Analytics Dashboard and an Opportunity Performance Dashboard in both Power BI and Tableau: 23 KPIs in total, reconciled to SQL within ±0.1%, then defended in a QA review and an interview.</p>
-          <div class="hero-meta">
-            <span class="chip">10,000 Leads</span>
-            <span class="chip">4,646 Opportunities</span>
-            <span class="chip">5 Tables → Snowflake ELT</span>
-            <span class="chip">8 must-know KPIs · 23 in total</span>
-            <span class="chip">70+ Salesforce + Power BI Qs</span>
+      <div class="ds-hero">
+        <div class="ds-float ds-f1" id="hero-problem-card"></div>
+        <div class="ds-float ds-f2" id="hero-streak-card"></div>
+        <div class="ds-float ds-f3" id="hero-top-card"></div>
+        <div class="ds-float ds-f4" id="hero-today-card"></div>
+        <div class="ds-center">
+          <div class="ds-pill"><i></i> Live capstone · Excel → Tableau → Power BI → Final presentation</div>
+          <h1 class="ds-h1">Everything a <span>Data Analyst</span> needs. In one project.</h1>
+          <p class="ds-lead">A real Salesforce CRM export for AXon: 10,000 leads, 4,646 opportunities, 10,000 product lines, 3,052 accounts and 98 users. 5 tables and 23 KPIs, loaded into Snowflake, built in Excel, Tableau and Power BI, checked in QA and presented to your trainer every week, ending with the final presentation.</p>
+          <div class="ds-cta">
+            <button class="btn-dark ds-start" data-goto="journey-anchor">Start Learning Journey <span aria-hidden="true">→</span></button>
+            <button class="ds-link" data-scroll="how-anchor"><span class="ds-play">▶</span> See how it works</button>
           </div>
-          <div class="hero-cta">
-            <button class="btn-dark" data-goto="journey-anchor">Start Learning Journey</button>
+          <div class="ds-cta2">
             <a class="btn-yellow" href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">Interview Preparation ↗</a>
             <a class="btn-sky" href="https://www.certiva.co.in/" target="_blank" rel="noopener">Certification Dumps ↗</a>
             <a class="btn-ai" href="https://90daysailearning.vercel.app/" target="_blank" rel="noopener">🤖 AI Learning ↗</a>
           </div>
+          <div class="ds-stats"><span><b>10,000</b> leads</span><span><b>4,646</b> opportunities</span><span><b>5</b> tables</span><span><b>23</b> KPIs</span><span class="ds-live"><i></i> Weekly group reviews</span></div>
         </div>
-        <div class="hero-side">
-        <div class="hero-visual">
-          <img src="assets/hero-mockup.png" alt="AXon CRM dashboard mockup — leads to contacts to opportunities to customers funnel, total customers KPI, sales overview trend and lead source donut">
-          <div class="cap">Layout reference for inspiration — illustrative values. Your dashboard must use the numbers from the dataset (see the KPI Library answer key).</div>
-        </div>
-        <div class="card social-card">
-          <img src="assets/mahendra-photo.jpg" alt="Mahendra Singh" class="social-avatar">
-          <div class="social-title">Learn with Mahendra Singh</div>
-          <div class="social-links">
-            <a href="https://www.youtube.com/channel/UC2q-vZWSlQpiGiMcSLUqnIg" id="social-youtube" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/youtube-icon.png" alt="">YouTube channel</a>
-            <a href="https://medium.com/@mahendraa1188" id="social-medium" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/medium-icon.png" alt="">Medium blog</a>
-            <a href="https://www.linkedin.com/in/mahendra-singh-%F0%9F%87%AE%F0%9F%87%B3%F0%9F%9A%80%E2%9D%84%EF%B8%8F-%F0%9F%90%8D-%F0%9F%A6%84-83699485/" id="social-linkedin" target="_blank" rel="noopener"><i class="sl-badge sl-li">in</i>LinkedIn</a>
-          </div>
-        </div>
+      </div>
+      <div class="ds-mentor card">
+        <img src="assets/mahendra-photo.jpg" alt="Mahendra Singh" class="social-avatar">
+        <div class="ds-mentor-t"><strong>Learn with Mahendra Singh</strong><span>Data Analyst Trainer · <a href="https://excelr.in/data_analyst_course_delhi/" target="_blank" rel="noopener">ExcelR</a></span></div>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UC2q-vZWSlQpiGiMcSLUqnIg" id="social-youtube" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/youtube-icon.png" alt="">YouTube</a>
+          <a href="https://medium.com/@mahendraa1188" id="social-medium" target="_blank" rel="noopener"><img class="sl-badge-img" src="assets/medium-icon.png" alt="">Medium</a>
+          <a href="https://www.linkedin.com/in/mahendra-singh-%F0%9F%87%AE%F0%9F%87%B3%F0%9F%9A%80%E2%9D%84%EF%B8%8F-%F0%9F%90%8D-%F0%9F%A6%84-83699485/" id="social-linkedin" target="_blank" rel="noopener"><i class="sl-badge sl-li">in</i>LinkedIn</a>
         </div>
       </div>
       <div class="callout-yellow">
-        <strong>How to use this site:</strong> Follow the <strong>Learning Journey</strong> below, one step at a time. Each step has a <em>Start →</em> button that opens the right page, and you can tick it off when you're done. Your progress is saved on this device. Know the KPI List and Data Model cold first (that's where most students fumble in QA, especially the Win Rate denominator trap and the Opportunity vs line-item grain trap), then practise with the Assignments and the Analyst Thinking Lab. For a much deeper question bank across SQL, Power BI, Tableau and Excel, <a href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">CrackAnalytics</a> is Mahendra's dedicated prep course.
+        <strong>How to use this site:</strong> Follow the <strong>Learning Journey</strong> below, one step at a time. Each step has a <em>Start →</em> button that opens the right page, and you can tick it off when you're done. Your progress is saved on this device. Know the KPI List and Data Model cold first (that's where most students fumble in QA, especially the Win Rate denominator trap and the Opportunity vs line-item grain trap), then practise with the Assignments and the Analyst Thinking Lab. For a much deeper question bank across SQL, Power BI, Tableau and Excel, <a href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">CrackAnalytics</a> has a dedicated question bank for interview prep.
       </div>
       <div class="disclaimer-box">
         <strong>🎓 Educational project.</strong> This Salesforce export is provided for training and the AXon brand is used for this capstone only. <strong>Never upload real customer or employee data (names, emails, phone numbers) from your own employer into this project or any public portfolio.</strong>
@@ -147,6 +151,13 @@
         <div class="start-card lvl-3"><div class="lvl">🔵 Interview Ready</div><h4>Project done, interview coming</h4><p>Drill the project questions, avoid the common traps, practise the 90-second pitch and copy your resume block.</p><button class="btn-blue" data-goto="interview">Start Interview Prep →</button></div>
       </div>
       <div class="stat-strip" id="stat-strip"></div>
+      <div class="section-head mt-40" id="how-anchor" style="margin-bottom:14px;"><div class="eyebrow">How it works</div><h2>Practise like it's a daily habit</h2></div>
+      <div class="how-grid">
+        <div class="how-step"><span>1</span><h4>Pick today's 3 problems</h4><p>Easy, Medium and Advanced, picked fresh every day from the Salesforce CRM export.</p></div>
+        <div class="how-step"><span>2</span><h4>Write real SQL</h4><p>The editor runs SQLite in your browser on summary tables of the real data. No install.</p></div>
+        <div class="how-step"><span>3</span><h4>Check your answer</h4><p>Your result is compared with the expected one: rows, columns and values.</p></div>
+        <div class="how-step"><span>4</span><h4>Keep the streak 🔥</h4><p>Solve a little every day; your streak and progress are saved on this device.</p></div>
+      </div>
       <div class="card progress-mini mt-16" id="home-progress"></div>
     </div>
 
@@ -330,6 +341,19 @@
   </div>
 </section>
 
+<!-- ===================== PROJECT SCHEDULE ===================== -->
+<section class="view" id="view-schedule">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">📅 Project schedule &amp; status</div>
+      <h2>Weekly presentations, group by group</h2>
+      <p>Kick-off, then one presentation every week: Excel dashboard → Tableau dashboard → Power BI dashboard → Final presentation. SQL QA is presented in the Tableau week or the Power BI week. Only the trainer can change this page.</p>
+      <div class="sch-mode" id="sch-mode"></div>
+    </div>
+    <div id="sch-root"></div>
+  </div>
+</section>
+
 <!-- ===================== MY PROGRESS ===================== -->
 <section class="view" id="view-progress">
   <div class="wrap">
@@ -441,6 +465,8 @@
     <div class="card model-image-card" style="padding:0;overflow:hidden;"><img src="assets/architecture-diagram.png" alt="CRM Analytics end-to-end architecture — Salesforce CRM, ELT, Snowflake Raw/Staging/Mart, semantic model, Power BI/Tableau/Excel" id="model-img" style="width:100%;height:auto;display:block;cursor:zoom-in;"></div>
     <div class="card mt-16" style="padding:0;overflow:hidden;"><img src="assets/schema-diagram.png" alt="Snowflake schema ERD — dim_account, dim_user, fact_opportunity, fact_opp_product, fact_lead and mart views" class="zoomable" style="width:100%;height:auto;display:block;cursor:zoom-in;"></div>
     <p style="font-size:12px;color:var(--ink-muted);margin-top:8px;">Click a diagram to enlarge it.</p>
+    <div class="section-head mt-40"><div class="eyebrow">Animated</div><h2>How each table joins to the next</h2><p>The animation walks through every relationship in the Snowflake mart, one key at a time: account_id, owner_id, opportunity_id (the fan-out trap), the conversion keys on fact_lead and the two mart views. Click to enlarge.</p></div>
+    <div class="card" style="padding:0;overflow:hidden;"><img src="assets/data-model-joins.gif" alt="Animated data model: each relationship lights up in turn with its join key" class="zoomable" style="width:100%;height:auto;display:block;cursor:zoom-in;"></div>
     <div class="section-head mt-40"><div class="eyebrow">Reference schema</div><h2>The interactive version</h2></div>
     <div class="model-grid">
       <div class="card"><div class="schema" id="schema-grid"></div></div>
@@ -595,6 +621,59 @@
   </div>
 </section>
 
+<!-- ===================== SQL PRACTICE EDITOR ===================== -->
+<section class="view" id="view-editor">
+  <div class="wrap wide">
+    <div class="section-head">
+      <div class="eyebrow">⌨️ SQL Practice Editor · runs in your browser</div>
+      <h2>Problemset: SQL on the AXon CRM data</h2>
+      <p>24 problems (8 Easy · 8 Medium · 8 Advanced) on 5 practice tables from the Salesforce export: leads, opportunities, accounts, users and opportunity_products. Every answer ties to the KPI Library answer key (conversion 10.33% · win rate 42.77% · won revenue $136.26M). The editor uses SQLite syntax; the full MySQL scripts are in the SQL Lab.</p>
+    </div>
+    <div id="ed-browse">
+      <div class="ps-cards">
+        <div class="ps-card ps-teal"><span class="ps-tag">DAILY 3 SET</span><h4>Today's Challenge</h4><p id="ps-today-sub">1 Easy · 1 Medium · 1 Advanced</p><button class="ps-go" id="ps-today-go">Solve today's set →</button></div>
+        <div class="ps-card ps-violet"><span class="ps-tag">PROGRESS</span><h4 id="ps-progress">0 / 24 Solved</h4><p id="ps-streak">0 day streak</p></div>
+        <div class="ps-card ps-amber"><span class="ps-tag">INTERVIEW PREP</span><h4>450+ SQL & BI questions</h4><p><a href="https://crackanalytics-mahendra-2026.vercel.app/" target="_blank" rel="noopener">CrackAnalytics ↗</a></p></div>
+      </div>
+      <div class="ps-grid">
+        <div class="ps-main">
+          <div class="ps-topics" id="ps-topics"></div>
+          <div class="ps-filters card">
+            <div class="ps-tables" id="ps-tables"></div>
+            <div class="ps-seg" id="ps-levels"></div>
+          </div>
+          <div class="ps-tools">
+            <input class="search-input" id="ps-search" type="text" placeholder="Search problems by name or number…">
+            <select id="ps-status"><option value="all">Status: All</option><option value="todo">Unsolved</option><option value="done">Solved</option></select>
+            <button class="btn-outline" id="ps-random">⤮ Pick Random</button>
+          </div>
+          <div class="card ps-table-wrap"><table class="ps-table"><thead><tr><th>Status</th><th>Title</th><th>Time</th><th>Difficulty</th><th>Solve</th></tr></thead><tbody id="ps-rows"></tbody></table></div>
+        </div>
+        <aside class="ps-side">
+          <div class="card ps-cal" id="ps-cal"></div>
+          <div class="card ps-tablesinfo"><strong>Practice tables</strong><p>5 tables from the Salesforce export (they load the first time you open the editor). Open a problem to see columns.</p><div id="ps-tablelist"></div></div>
+        </aside>
+      </div>
+    </div>
+    <div id="ed-solve" style="display:none;">
+      <div class="ed-solve-bar"><button class="btn-outline" id="ed-back">← Problemset</button><span id="ed-pos"></span><button class="btn-outline" id="ed-prev">‹ Prev</button><button class="btn-outline" id="ed-next">Next ›</button></div>
+      <div class="ed-shell two">
+        <div class="ed-main">
+          <div class="card ed-problem"><h3 id="ed-title"></h3><p id="ed-task"></p><div id="ed-tables" class="ed-tables"></div></div>
+          <div class="ed-editor card">
+            <div class="ed-bar"><span class="ed-dots"><i></i><i></i><i></i></span><span class="ed-file">query.sql</span>
+              <div class="ed-actions"><button class="btn-outline" id="ed-hint">💡 Hint</button><button class="btn-outline" id="ed-solution">🔓 Solution</button><button class="btn-outline" id="ed-reset">↺ Reset</button><button class="btn-blue" id="ed-run">▶ Run</button><button class="btn-ai" id="ed-check">✓ Submit</button></div></div>
+            <textarea id="ed-sql" spellcheck="false" aria-label="SQL editor"></textarea>
+          </div>
+          <div id="ed-msg"></div>
+          <div class="card ed-out" id="ed-out"></div>
+        </div>
+        <aside class="ed-schema card"><strong>Tables</strong><p style="font-size:12px;color:var(--ink-muted);margin:4px 0 8px;">Click a column to insert it.</p><div id="ed-schema"></div></aside>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===================== EXCEL ANALYSIS ===================== -->
 <section class="view" id="view-excel">
   <div class="wrap">
@@ -672,6 +751,12 @@
     </div>
     <div class="card table-scroll"><table class="dtable" id="recon-table"></table></div>
     <div class="section-head mt-40">
+      <div class="eyebrow">Referential integrity report</div>
+      <h2>Every key across the 5 Salesforce tables, checked</h2>
+      <p>Computed on the full export: primary-key uniqueness, every foreign key and the conversion links. This is real CRM data, so some checks find problems (orphan accounts, won deals with no amount). Your SQL and dashboards must handle them.</p>
+    </div>
+    <div class="card table-scroll"><table class="dtable" id="integrity-table"></table></div>
+    <div class="section-head mt-40">
       <div class="eyebrow">QA sign-off checklist</div>
       <h2>Before you call the dashboard "done"</h2>
     </div>
@@ -702,6 +787,43 @@
     </div>
     <div class="lab-score" id="lab-score"></div>
     <div id="lab-list"></div>
+  </div>
+</section>
+
+<!-- ===================== JOB SIMULATOR ===================== -->
+<section class="view" id="view-incident">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">🧪 Job Simulator · Incident Room</div>
+      <h2>Something's wrong with a number. Find out why.</h2>
+      <p>Real alerts from AXon sales, marketing and finance leaders, each built on a trap this project teaches. Check the evidence, pick the root cause and the fix, then write the reply you would send.</p>
+    </div>
+    <div class="js-summary"></div>
+    <div id="inc-root"></div>
+  </div>
+</section>
+
+<section class="view" id="view-broken">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">🧪 Job Simulator · Broken Dashboard</div>
+      <h2>Review a dashboard before leadership sees it</h2>
+      <p>A junior analyst built this Lead &amp; Opportunity dashboard from the Salesforce export. Find every tile that uses a wrong formula, filter or join before it reaches leadership.</p>
+    </div>
+    <div class="js-summary"></div>
+    <div id="brk-root"></div>
+  </div>
+</section>
+
+<section class="view" id="view-stakeholder">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">🧪 Job Simulator · Stakeholder Simulator</div>
+      <h2>Clarify the request before you build</h2>
+      <p>AXon stakeholders rarely ask precise questions. Pick the clarifying questions that turn a vague request into a clear KPI spec, and skip the ones that waste their time.</p>
+    </div>
+    <div class="js-summary"></div>
+    <div id="stk-root"></div>
   </div>
 </section>
 
@@ -772,7 +894,7 @@
         <button class="btn-blue" id="pitch-start">▶ Start 90-sec timer</button>
         <button class="btn-outline" id="pitch-reset">Reset</button>
       </div>
-      <textarea id="pitch-text" placeholder="Start with the business problem: “AXon's production, quality and maintenance teams each had their own numbers…”"></textarea>
+      <textarea id="pitch-text" placeholder="Start with the business problem: “AXon's marketing and sales teams each reported different numbers…”"></textarea>
       <div class="pitch-meta" id="pitch-meta"></div>
       <div class="pitch-checks" id="pitch-checks"></div>
       <div class="copy-row"><button class="btn-dark" id="pitch-save">✓ Save &amp; mark practiced</button></div>
@@ -879,7 +1001,7 @@
   <div class="wrap footer-inner">
     <div>
       <a href="#" class="footer-brand brand-home-link" style="text-decoration:none;color:inherit;"><img src="assets/favicon.png" alt="" class="footer-logo"> AXon CRM Analytics Capstone</a>
-      <div style="margin-top:4px;">by Mahendra Singh · CrackAnalytics. Built for the AXon CRM Analytics capstone; the dataset is for training use only.</div>
+      <div style="margin-top:4px;">by Mahendra Singh · Data Analyst Trainer, <a href="https://excelr.in/data_analyst_course_delhi/" target="_blank" rel="noopener">ExcelR</a>. Built for the AXon CRM Analytics capstone; the dataset is for training use only. <span style="opacity:.6;font-family:var(--mono);font-size:11px;">Site version 20261007-crm</span></div>
     </div>
     <div class="footer-links">
       <a href="https://www.linkedin.com/in/mahendra-singh-83699485/" target="_blank" rel="noopener">LinkedIn</a>
@@ -937,7 +1059,15 @@
   </div>
 </div>
 
-<script src="crm-data.js"></script>
-<script src="app.js"></script>
+<script src="crm-data.js?v=20261007-crm"></script>
+<script>window.SITE_V = "20261007-crm";</script>
+<script>document.write('<script src="schedule-config.js?t=' + Date.now() + '"><\/script>');</script>
+<script>document.write('<script src="project-schedule.js?t=' + Date.now() + '"><\/script>');</script>
+<script src="app.js?v=20261007-crm"></script>
+<script src="sim-content.js?v=20261008-sim"></script>
+<script>window.SIM_CFG = {"key": "axon_crm", "syncKeys": ["axon_crm_state_v1", "axon_crm_editor_v1"], "editorKey": "axon_crm_editor_v1", "sqlTotal": 24};</script>
+<script src="sim-kit.js?v=20261008-sim"></script>
+<script>window.VISIT_KEY = "axon_crm";</script>
+<script src="visit-kit.js?v=20261008-sim"></script>
 </body>
 </html>

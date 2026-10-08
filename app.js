@@ -2782,7 +2782,8 @@ function sqlBlockHtml(b, idx, prefix) {
       <div class="hint-text" id="sqlh-${idx}" style="display:none;">${esc(sqlHint(b.sql))}</div>
       <pre id="sqls-${idx}" style="display:none;">${esc(b.sql)}</pre></div>`;
   }
-  return `<div class="card sql-block"><div class="hd"><div><h4>${esc(b.title)}</h4><p>${esc(b.desc)}</p></div><button class="copy-btn" data-copy="${prefix}${idx}">Copy</button></div><pre>${esc(b.sql)}</pre></div>`;
+  const lv = b.level || ({ Setup: "Easy", KPI: "Medium", Breakdown: "Medium", Trap: "Advanced" }[b.cat] || "Medium");
+  return `<div class="card sql-block"><div class="hd"><div><h4><span class="lvl lvl-${lv.toLowerCase()}">${lv}</span> ${esc(b.title)}</h4><p>${esc(b.desc)}</p></div><button class="copy-btn" data-copy="${prefix}${idx}">Copy</button></div><pre>${esc(b.sql)}</pre></div>`;
 }
 function renderSql() {
   const pills = document.getElementById("sql-pills");
@@ -2870,7 +2871,7 @@ function renderQA() {
         <td class="st"></td></tr>`;
     }).join("")}</tbody>`;
   const evalRow = (tr) => {
-    const ans = parseFloat(String(tr.dataset.ans).replace(/[^0-9.\-]/g, ""));
+    const ansM = String(tr.dataset.ans).replace(/,/g, "").match(/-?\d+(\.\d+)?/); const ans = ansM ? parseFloat(ansM[0]) : NaN;
     const vals = [...tr.querySelectorAll("input")].map(i => i.value.trim());
     const ok = vals.map(v => v !== "" && Math.abs(parseFloat(v.replace(/[^0-9.\-]/g, "")) - ans) <= Math.max(0.011, Math.abs(ans) * 0.001));
     const st = tr.querySelector(".st");
@@ -3144,7 +3145,7 @@ function renderCertificate() {
     const nm = (document.getElementById("cert-name").value || "").trim(); if (!nm) { chatToastMini("Type your name first."); return; }
     document.getElementById("print-sheet").innerHTML = `<div class="cert-print"><img src="assets/axon-logo.png" alt="" style="width:220px;border-radius:8px;"><h1>Certificate of Completion</h1><p>This certifies that</p><h2>${esc(nm)}</h2>
       <p>has completed the <strong>AXon CRM Analytics Capstone</strong>: data model, SQL, Excel, Tableau, Power BI, KPI implementation, QA reconciliation, business analysis and interview preparation.</p>
-      <p style="margin-top:30px;">Mahendra Singh · CrackAnalytics &nbsp;|&nbsp; ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
+      <p style="margin-top:30px;">Mahendra Singh · Data Analyst Trainer, ExcelR &nbsp;|&nbsp; ${new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
       <p style="font-size:10px;color:#777;margin-top:20px;">Self-tracked completion on the AXon CRM Analytics learning hub.</p></div>`;
     setTimeout(() => window.print(), 80);
   });
@@ -3154,8 +3155,8 @@ function renderCertificate() {
    ============================================================ */
 const LAST_VIEW_KEY = "axon_crm_last_view_v1";
 const VIEW_LABELS = {
-  progress: "My Progress", problem: "Problem & Business Questions", rules: "Rules & Regulations", dataset: "Dataset", model: "Data Model",
-  datadict: "Data Dictionary", quality: "Data Quality", kpis: "KPI Library", sql: "SQL Lab", excel: "Excel Analysis", analysis: "Business Analysis",
+  schedule: "Project Schedule & Status", progress: "My Progress", problem: "Problem & Business Questions", rules: "Rules & Regulations", dataset: "Dataset", model: "Data Model",
+  datadict: "Data Dictionary", quality: "Data Quality", kpis: "KPI Library", sql: "SQL Lab", editor: "SQL Practice Editor", excel: "Excel Analysis", analysis: "Business Analysis",
   dashboards: "Dashboard Gallery", qa: "QA & Reconciliation", assignments: "Assignments", lab: "Analyst Thinking Lab", interview: "Interview Questions",
   pitch: "90-sec Project Pitch", career: "Resume, LinkedIn & Portfolio", glossary: "Glossary", tips: "Student Tips", learnmore: "Learn More",
 };
@@ -3174,6 +3175,7 @@ function switchView(viewName) {
   if (viewName !== "overview" && VIEW_LABELS[viewName]) lsSet(LAST_VIEW_KEY, JSON.stringify({ view: viewName, ts: Date.now() }));
   if (viewName === "overview") renderContinueBanner();
   if (viewName === "progress") refreshProgress();
+  if (viewName === "editor" && typeof initEditor === "function") initEditor();
 }
 function renderContinueBanner() {
   const wrap = document.getElementById("continue-banner"); if (!wrap) return;
@@ -3352,7 +3354,7 @@ function initThemeToggle() {
   if (!btn) return;
   const apply = (dark) => { document.body.classList.toggle("dark-mode", dark); if (icon) icon.textContent = dark ? "☀️" : "🌙"; if (label) label.textContent = dark ? "Light mode" : "Dark mode"; };
   const saved = lsGet(THEME_KEY);
-  if (saved === "dark") apply(true);
+  apply(saved === "dark");   // light (DailySQL-style) is the default
   btn.addEventListener("click", () => { const d = !document.body.classList.contains("dark-mode"); apply(d); lsSet(THEME_KEY, d ? "dark" : "light"); });
 }
 const STREAK_KEY = "axon_crm_visit_days_v1";
@@ -3512,7 +3514,7 @@ function printKpiCheatSheet() {
   .cs-item { break-inside: avoid; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dotted #ccc; } .cs-name { font-size: 10.5px; font-weight: 700; }
   .cs-tier { font-size: 8px; background: #E6F3FA; color: #0A5A87; padding: 1px 4px; border-radius: 3px; } .cs-formula { font-family: 'Courier New', monospace; font-size: 9px; color: #0E6E9E; margin: 1px 0; }
   .cs-def { font-size: 9px; color: #444; line-height: 1.3; }</style></head><body>
-  <div class="cs-header"><h1>AXon CRM Analytics — KPI Cheat Sheet (23 KPIs)</h1><p>by Mahendra Singh · CrackAnalytics · Win Rate = Won ÷ Closed · never sum Amount over line items</p></div>
+  <div class="cs-header"><h1>AXon CRM Analytics — KPI Cheat Sheet (23 KPIs)</h1><p>by Mahendra Singh · Data Analyst Trainer, ExcelR · Win Rate = Won ÷ Closed · never sum Amount over line items</p></div>
   <div class="cs-wrap">${rows}</div></body></html>`;
   const win = window.open("", "_blank");
   if (!win) { chatToastMini("Please allow pop-ups to print the cheat sheet."); return; }
@@ -3525,4 +3527,818 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("img.zoomable").forEach(img => img.addEventListener("click", () => openModal(`<img class="zoom-img" src="${img.src}" alt="${esc(img.alt)}">`)));
+});
+/* ============================================================
+   Live SQL Practice Editor (in-browser SQLite via sql.js) +
+   "Today's 3 problems" daily challenge (DailySQL-style).
+   ============================================================ */
+const PRACTICE_PROBLEMS = [
+ {
+  "id": "e1",
+  "topic": "Aggregations",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Leads and conversions",
+  "tables": [
+   "leads"
+  ],
+  "task": "Return total leads, converted leads and the lead conversion rate % (2 decimals). Columns: leads, converted, conversion_rate.",
+  "hint": "converted is 1/0, so SUM(converted) counts conversions. Multiply by 100.0.",
+  "sol": "SELECT COUNT(*) AS leads,\n       SUM(converted) AS converted,\n       ROUND(100.0 * SUM(converted) / COUNT(*), 2) AS conversion_rate\nFROM leads;"
+ },
+ {
+  "id": "e2",
+  "topic": "Aggregations",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Opportunities by stage",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "How many opportunities are in each stage? Return stage and n, biggest first.",
+  "hint": "GROUP BY stage.",
+  "sol": "SELECT stage, COUNT(*) AS n\nFROM opportunities\nGROUP BY stage\nORDER BY n DESC, stage;"
+ },
+ {
+  "id": "e3",
+  "topic": "Filtering",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Won revenue",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Total won revenue (sum of amount for won deals), rounded to 2 decimals, as won_revenue.",
+  "hint": "WHERE won = 1.",
+  "sol": "SELECT ROUND(SUM(amount), 2) AS won_revenue\nFROM opportunities\nWHERE won = 1;"
+ },
+ {
+  "id": "e4",
+  "topic": "Conditional Logic",
+  "level": "Easy",
+  "mins": 4,
+  "t": "Win rate (the right denominator)",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Win rate % = won ÷ (won + lost) × 100, 2 decimals. Lost = closed but not won. Open deals are NOT in the denominator. Return win_rate.",
+  "hint": "Divide by SUM(closed), not COUNT(*). Won ÷ all opportunities gives the wrong 31.06%.",
+  "sol": "SELECT ROUND(100.0 * SUM(won) / SUM(closed), 2) AS win_rate\nFROM opportunities;"
+ },
+ {
+  "id": "e5",
+  "topic": "Aggregations",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Leads by source",
+  "tables": [
+   "leads"
+  ],
+  "task": "Number of leads per lead_source, biggest first. Return lead_source and n.",
+  "hint": "GROUP BY lead_source. NULL sources form their own group.",
+  "sol": "SELECT lead_source, COUNT(*) AS n\nFROM leads\nGROUP BY lead_source\nORDER BY n DESC, lead_source;"
+ },
+ {
+  "id": "e6",
+  "topic": "Aggregations",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Average won deal size",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Average amount of won deals, 2 decimals, as avg_deal. (AVG ignores the 14 won deals with no amount.)",
+  "hint": "AVG(amount) WHERE won = 1.",
+  "sol": "SELECT ROUND(AVG(amount), 2) AS avg_deal\nFROM opportunities\nWHERE won = 1;"
+ },
+ {
+  "id": "e7",
+  "topic": "Filtering",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Active users",
+  "tables": [
+   "users"
+  ],
+  "task": "How many users are there in total and how many are active? Return users and active_users.",
+  "hint": "active is 1/0: SUM(active).",
+  "sol": "SELECT COUNT(*) AS users, SUM(active) AS active_users\nFROM users;"
+ },
+ {
+  "id": "e8",
+  "topic": "Sorting & Limits",
+  "level": "Easy",
+  "mins": 3,
+  "t": "Top 5 loss reasons",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "For lost deals (closed = 1 AND won = 0), the 5 most common closed_lost_reason values (ignore blanks). Return closed_lost_reason and n.",
+  "hint": "WHERE closed = 1 AND won = 0 AND closed_lost_reason IS NOT NULL … LIMIT 5.",
+  "sol": "SELECT closed_lost_reason, COUNT(*) AS n\nFROM opportunities\nWHERE closed = 1 AND won = 0 AND closed_lost_reason IS NOT NULL\nGROUP BY closed_lost_reason\nORDER BY n DESC\nLIMIT 5;"
+ },
+ {
+  "id": "m1",
+  "topic": "Aggregations",
+  "level": "Medium",
+  "mins": 5,
+  "t": "Conversion rate by lead source",
+  "tables": [
+   "leads"
+  ],
+  "task": "Conversion rate % (1 decimal) by lead_source, only for sources with at least 100 leads. Highest first.",
+  "hint": "AVG(converted) * 100, then HAVING COUNT(*) >= 100.",
+  "sol": "SELECT lead_source, COUNT(*) AS leads, ROUND(100.0 * AVG(converted), 1) AS conv_rate\nFROM leads\nGROUP BY lead_source\nHAVING COUNT(*) >= 100\nORDER BY conv_rate DESC;"
+ },
+ {
+  "id": "m2",
+  "topic": "Joins",
+  "level": "Medium",
+  "mins": 6,
+  "t": "Top reps by won revenue",
+  "tables": [
+   "opportunities",
+   "users"
+  ],
+  "task": "Top 5 sales reps (users.full_name via owner_id) by won revenue in ₹ millions (amount ÷ 1,000,000, 2 decimals).",
+  "hint": "JOIN users ON users.user_id = opportunities.owner_id, WHERE won = 1.",
+  "sol": "SELECT u.full_name, ROUND(SUM(o.amount) / 1000000.0, 2) AS won_rev_m\nFROM opportunities o\nJOIN users u ON u.user_id = o.owner_id\nWHERE o.won = 1\nGROUP BY u.full_name\nORDER BY won_rev_m DESC\nLIMIT 5;"
+ },
+ {
+  "id": "m3",
+  "topic": "Joins",
+  "level": "Medium",
+  "mins": 6,
+  "t": "Top accounts by won revenue",
+  "tables": [
+   "opportunities",
+   "accounts"
+  ],
+  "task": "Top 5 accounts by won revenue in millions (2 decimals). Return account_name and won_rev_m.",
+  "hint": "JOIN accounts ON account_id.",
+  "sol": "SELECT a.account_name, ROUND(SUM(o.amount) / 1000000.0, 2) AS won_rev_m\nFROM opportunities o\nJOIN accounts a ON a.account_id = o.account_id\nWHERE o.won = 1\nGROUP BY a.account_name\nORDER BY won_rev_m DESC\nLIMIT 5;"
+ },
+ {
+  "id": "m4",
+  "topic": "Dates",
+  "level": "Medium",
+  "mins": 6,
+  "t": "Win rate by close year",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Win rate % (1 decimal) of closed deals by close year, for 2016-2021. Return close_year and win_rate, oldest first.",
+  "hint": "SUBSTR(close_date, 1, 4); filter closed = 1 and the year range.",
+  "sol": "SELECT SUBSTR(close_date, 1, 4) AS close_year, ROUND(100.0 * AVG(won), 1) AS win_rate\nFROM opportunities\nWHERE closed = 1 AND close_date BETWEEN '2016-01-01' AND '2021-12-31'\nGROUP BY close_year\nORDER BY close_year;"
+ },
+ {
+  "id": "m5",
+  "topic": "Aggregations",
+  "level": "Medium",
+  "mins": 5,
+  "t": "Open pipeline (weighted)",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "For open deals (closed = 0): count, total amount and weighted pipeline (sum of expected_amount), both 2 decimals. Columns: open_deals, open_amount, weighted_pipeline.",
+  "hint": "expected_amount already = amount × probability.",
+  "sol": "SELECT COUNT(*) AS open_deals, ROUND(SUM(amount), 2) AS open_amount, ROUND(SUM(expected_amount), 2) AS weighted_pipeline\nFROM opportunities\nWHERE closed = 0;"
+ },
+ {
+  "id": "m6",
+  "topic": "Joins",
+  "level": "Medium",
+  "mins": 6,
+  "t": "Opportunities with no account",
+  "tables": [
+   "opportunities",
+   "accounts"
+  ],
+  "task": "How many opportunities have an account_id that does not exist in accounts (orphans)? Return orphan_opps.",
+  "hint": "LEFT JOIN accounts and keep rows where a.account_id IS NULL.",
+  "sol": "SELECT COUNT(*) AS orphan_opps\nFROM opportunities o\nLEFT JOIN accounts a ON a.account_id = o.account_id\nWHERE a.account_id IS NULL;"
+ },
+ {
+  "id": "m7",
+  "topic": "Conditional Logic",
+  "level": "Medium",
+  "mins": 7,
+  "t": "Deal size bands",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Won deals with an amount, by band: 'Small (<10K)', 'Mid (10K-200K)', 'Enterprise (>200K)'. Return band, deals and revenue_m (millions, 2 decimals), Small first.",
+  "hint": "CASE WHEN amount < 10000 … WHEN amount <= 200000 …; order with MIN(amount).",
+  "sol": "SELECT CASE WHEN amount < 10000 THEN 'Small (<10K)' WHEN amount <= 200000 THEN 'Mid (10K-200K)' ELSE 'Enterprise (>200K)' END AS band,\n       COUNT(*) AS deals, ROUND(SUM(amount) / 1000000.0, 2) AS revenue_m\nFROM opportunities\nWHERE won = 1 AND amount IS NOT NULL\nGROUP BY band\nORDER BY MIN(amount);"
+ },
+ {
+  "id": "m8",
+  "topic": "Aggregations",
+  "level": "Medium",
+  "mins": 5,
+  "t": "Average discount by product",
+  "tables": [
+   "opportunity_products"
+  ],
+  "task": "Top 5 products by average discount_pct (1 decimal), only lines with a discount, products with at least 50 such lines. Return product_name, lines, avg_discount.",
+  "hint": "WHERE discount_pct IS NOT NULL, GROUP BY product_name, HAVING COUNT(*) >= 50.",
+  "sol": "SELECT product_name, COUNT(*) AS lines, ROUND(AVG(discount_pct), 1) AS avg_discount\nFROM opportunity_products\nWHERE discount_pct IS NOT NULL\nGROUP BY product_name\nHAVING COUNT(*) >= 50\nORDER BY avg_discount DESC, product_name\nLIMIT 5;"
+ },
+ {
+  "id": "a1",
+  "topic": "Joins",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "The fan-out trap",
+  "tables": [
+   "opportunities",
+   "opportunity_products"
+  ],
+  "task": "Show why joining products inflates revenue: return wrong_won_revenue (SUM(o.amount) after joining opportunity_products to won deals) and right_won_revenue (won revenue without the join), both 2 decimals.",
+  "hint": "One opportunity has many product lines, so the join repeats its amount once per line. Use two scalar subqueries.",
+  "sol": "SELECT\n  (SELECT ROUND(SUM(o.amount), 2) FROM opportunities o JOIN opportunity_products p ON p.opportunity_id = o.opportunity_id WHERE o.won = 1) AS wrong_won_revenue,\n  (SELECT ROUND(SUM(amount), 2) FROM opportunities WHERE won = 1) AS right_won_revenue;"
+ },
+ {
+  "id": "a2",
+  "topic": "Window Functions",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "Rank reps by win rate",
+  "tables": [
+   "opportunities",
+   "users"
+  ],
+  "task": "Win rate % (1 decimal) per rep with at least 50 closed deals, ranked with RANK(). Return rnk, full_name, closed_deals, win_rate for the top 5.",
+  "hint": "Aggregate per owner in a CTE with HAVING SUM(closed) >= 50, then RANK() OVER (ORDER BY win_rate DESC).",
+  "sol": "WITH r AS (\n  SELECT u.full_name, SUM(o.closed) AS closed_deals, ROUND(100.0 * SUM(o.won) / SUM(o.closed), 1) AS win_rate\n  FROM opportunities o\n  JOIN users u ON u.user_id = o.owner_id\n  GROUP BY u.full_name\n  HAVING SUM(o.closed) >= 50\n)\nSELECT RANK() OVER (ORDER BY win_rate DESC) AS rnk, full_name, closed_deals, win_rate\nFROM r\nORDER BY rnk, full_name\nLIMIT 5;"
+ },
+ {
+  "id": "a3",
+  "topic": "Window Functions",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "Won revenue running total by year",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Won revenue per close year 2016-2021 in millions (2 decimals) and the running total. Columns: close_year, won_rev_m, running_m.",
+  "hint": "Sum by year in a CTE, then SUM(…) OVER (ORDER BY close_year).",
+  "sol": "WITH y AS (\n  SELECT SUBSTR(close_date, 1, 4) AS close_year, SUM(amount) AS rev\n  FROM opportunities\n  WHERE won = 1 AND close_date BETWEEN '2016-01-01' AND '2021-12-31'\n  GROUP BY close_year\n)\nSELECT close_year, ROUND(rev / 1000000.0, 2) AS won_rev_m,\n       ROUND(SUM(rev) OVER (ORDER BY close_year) / 1000000.0, 2) AS running_m\nFROM y\nORDER BY close_year;"
+ },
+ {
+  "id": "a4",
+  "topic": "Dates",
+  "level": "Advanced",
+  "mins": 9,
+  "t": "Days to close and bad dates",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "For won deals where close_date ≥ created_date, the average days to close (1 decimal) and how many won deals have close_date before created_date (bad data). Columns: avg_days, bad_dates.",
+  "hint": "julianday(close_date) - julianday(created_date). Count the negatives with a separate SUM(CASE…).",
+  "sol": "SELECT ROUND(AVG(CASE WHEN julianday(close_date) >= julianday(created_date) THEN julianday(close_date) - julianday(created_date) END), 1) AS avg_days,\n       SUM(CASE WHEN julianday(close_date) < julianday(created_date) THEN 1 ELSE 0 END) AS bad_dates\nFROM opportunities\nWHERE won = 1;"
+ },
+ {
+  "id": "a5",
+  "topic": "CTEs & Unions",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "Lead → opportunity → won funnel",
+  "tables": [
+   "leads",
+   "opportunities"
+  ],
+  "task": "Funnel for converted leads: converted_leads, linked_opps (converted leads whose converted_opportunity_id exists in opportunities) and won_opps (of those, won). One row.",
+  "hint": "LEFT JOIN leads to opportunities on converted_opportunity_id; COUNT(o.opportunity_id) skips NULLs.",
+  "sol": "SELECT COUNT(*) AS converted_leads,\n       COUNT(o.opportunity_id) AS linked_opps,\n       SUM(CASE WHEN o.won = 1 THEN 1 ELSE 0 END) AS won_opps\nFROM leads l\nLEFT JOIN opportunities o ON o.opportunity_id = l.converted_opportunity_id\nWHERE l.converted = 1;"
+ },
+ {
+  "id": "a6",
+  "topic": "Subqueries",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "Industries beating the overall win rate",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Industries (at least 80 closed deals) whose win rate is above the overall win rate. Return industry and win_rate (1 decimal), highest first.",
+  "hint": "HAVING … AND 1.0 * SUM(won) / SUM(closed) > (scalar subquery).",
+  "sol": "SELECT industry, ROUND(100.0 * SUM(won) / SUM(closed), 1) AS win_rate\nFROM opportunities\nWHERE closed = 1 AND industry IS NOT NULL\nGROUP BY industry\nHAVING COUNT(*) >= 80\n   AND 1.0 * SUM(won) / SUM(closed) > (SELECT 1.0 * SUM(won) / SUM(closed) FROM opportunities)\nORDER BY win_rate DESC;"
+ },
+ {
+  "id": "a7",
+  "topic": "Window Functions",
+  "level": "Advanced",
+  "mins": 11,
+  "t": "Biggest won deal per rep",
+  "tables": [
+   "opportunities",
+   "users"
+  ],
+  "task": "For the 5 reps with the highest won revenue, show their single biggest won deal. Return full_name, opportunity_id and amount, biggest amount first. (Ties: lowest opportunity_id.)",
+  "hint": "ROW_NUMBER() OVER (PARTITION BY owner ORDER BY amount DESC, opportunity_id) = 1, then keep the top-5 reps.",
+  "sol": "WITH top_reps AS (\n  SELECT owner_id FROM opportunities WHERE won = 1 GROUP BY owner_id ORDER BY SUM(amount) DESC LIMIT 5\n), r AS (\n  SELECT o.owner_id, o.opportunity_id, o.amount,\n         ROW_NUMBER() OVER (PARTITION BY o.owner_id ORDER BY o.amount DESC, o.opportunity_id) AS rn\n  FROM opportunities o\n  WHERE o.won = 1 AND o.amount IS NOT NULL\n)\nSELECT u.full_name, r.opportunity_id, r.amount\nFROM r\nJOIN top_reps t ON t.owner_id = r.owner_id\nJOIN users u ON u.user_id = r.owner_id\nWHERE r.rn = 1\nORDER BY r.amount DESC;"
+ },
+ {
+  "id": "a8",
+  "topic": "Conditional Logic",
+  "level": "Advanced",
+  "mins": 10,
+  "t": "Won revenue share by lead source",
+  "tables": [
+   "opportunities"
+  ],
+  "task": "Share of total won revenue (% 1 decimal) by opportunity lead_source, top 5. Return lead_source, won_rev_m (2 decimals) and share_pct.",
+  "hint": "SUM(amount) per source ÷ SUM(SUM(amount)) OVER () × 100.",
+  "sol": "SELECT lead_source, ROUND(SUM(amount) / 1000000.0, 2) AS won_rev_m,\n       ROUND(100.0 * SUM(amount) / SUM(SUM(amount)) OVER (), 1) AS share_pct\nFROM opportunities\nWHERE won = 1\nGROUP BY lead_source\nORDER BY won_rev_m DESC\nLIMIT 5;"
+ }
+];
+const ED_KEY = "axon_crm_editor_v1";
+let edDb = null, edLoading = null, edCur = null, psLevel = "All", psTopic = "All", psTable = "All";
+function edState() { try { const s = JSON.parse(lsGet(ED_KEY)); return s && s.solved ? s : { solved: {}, drafts: {} }; } catch (e) { return { solved: {}, drafts: {} }; } }
+function edSave(s) { lsSet(ED_KEY, JSON.stringify(s)); }
+const localDay = (d) => { const x = d || new Date(); return new Date(x.getTime() - x.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+function todaysProblems() {
+  const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
+  const pick = (lv, k) => { const L = PRACTICE_PROBLEMS.filter(p => p.level === lv); return L[(day * k) % L.length]; };
+  return [pick("Easy", 1), pick("Medium", 3), pick("Advanced", 5)];
+}
+function solveDays() { const st = edState(); return new Set(Object.values(st.solved)); }
+function solveStreak() {
+  const set = solveDays(); let n = 0; const d = new Date();
+  if (!set.has(localDay(d))) d.setDate(d.getDate() - 1);           // streak survives until today ends
+  while (set.has(localDay(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function loadSqlEngine() {
+  if (edDb) return Promise.resolve(edDb);
+  if (edLoading) return edLoading;
+  edLoading = new Promise((res, rej) => {
+    const go = () => window.initSqlJs({}).then(SQL => {
+      const db = new SQL.Database(); const T = window.PRACTICE_DB || {};
+      db.run("BEGIN");
+      Object.entries(T).forEach(([name, t]) => {
+        const types = t.cols.map((c, i) => { const vals = t.rows.map(r => r[i]).filter(v => v !== null); if (!vals.length || typeof vals[0] !== "number") return "TEXT"; return vals.every(Number.isInteger) && !/inr|rate|pct/.test(c) ? "INTEGER" : "REAL"; });
+        db.run(`CREATE TABLE ${name} (${t.cols.map((c, i) => `"${c}" ${types[i]}`).join(", ")})`);
+        const st = db.prepare(`INSERT INTO ${name} VALUES (${t.cols.map(() => "?").join(",")})`);
+        t.rows.forEach(r => st.run(r)); st.free();
+      });
+      db.run("COMMIT"); edDb = db; res(db);
+    }).catch(rej);
+    const eng = () => { if (window.initSqlJs) go(); else { const s = document.createElement("script"); s.src = "assets/vendor/sql-asm.js"; s.onload = go; s.onerror = () => rej(new Error("Could not load the SQL engine")); document.head.appendChild(s); } };
+    loadPracticeData().then(eng).catch(rej);
+  });
+  return edLoading;
+}
+let pdLoading = null;
+function loadPracticeData() {
+  if (window.PRACTICE_DB) return Promise.resolve();
+  if (!pdLoading) pdLoading = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/practice-db.js?v=" + (window.SITE_V || "1"); s.onload = () => { res(); renderProblemset(); }; s.onerror = () => { pdLoading = null; rej(new Error("Could not load the practice tables")); }; document.head.appendChild(s); });
+  return pdLoading;
+}
+function edRun(sql) { const res = edDb.exec(sql); return res.length ? res[res.length - 1] : { columns: [], values: [] }; }
+function edNorm(r, ordered) {
+  const rows = r.values.map(row => row.map(v => v === null ? "∅" : (typeof v === "number" ? (Math.round(v * 100) / 100).toFixed(2) : String(v).trim())).join("¦"));
+  return ordered ? rows : rows.slice().sort();
+}
+function edTable(r) {
+  if (!r.columns.length) return `<div class="ed-empty">Query ran. No rows returned.</div>`;
+  const head = `<tr>${r.columns.map(c => `<th>${esc(c)}</th>`).join("")}</tr>`;
+  const body = r.values.slice(0, 200).map(row => `<tr>${row.map(v => `<td>${v === null ? '<span class="ed-null">NULL</span>' : esc(typeof v === "number" ? (Number.isInteger(v) ? v.toLocaleString("en-IN") : (Math.round(v * 100) / 100).toLocaleString("en-IN")) : v)}</td>`).join("")}</tr>`).join("");
+  return `<div class="ed-rowcount">${r.values.length} row${r.values.length === 1 ? "" : "s"}${r.values.length > 200 ? " (showing 200)" : ""}</div><div class="ed-table-wrap"><table class="dtable ed-table"><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
+const lvlBadge = (l) => `<span class="lvl lvl-${l.toLowerCase()}">${l === "Medium" ? "Med." : l === "Advanced" ? "Hard" : l}</span>`;
+
+/* ---------------- Problemset (browse) ---------------- */
+function renderProblemset() {
+  const rowsEl = document.getElementById("ps-rows"); if (!rowsEl) return;
+  const st = edState(); const solvedN = Object.keys(st.solved).length; const today = todaysProblems();
+  document.getElementById("ps-progress").textContent = `${solvedN} / ${PRACTICE_PROBLEMS.length} Solved`;
+  document.getElementById("ps-streak").textContent = `${solveStreak()} day streak · ${today.filter(p => st.solved[p.id]).length}/3 of today's set`;
+  document.getElementById("ps-today-sub").textContent = today.map(p => p.t).join(" · ");
+  const topics = ["All", ...new Set(PRACTICE_PROBLEMS.map(p => p.topic))];
+  document.getElementById("ps-topics").innerHTML = topics.map(t => `<button class="ps-chip ${t === psTopic ? "on" : ""}" data-topic="${esc(t)}">${t === "All" ? "All Topics" : esc(t)} <small>(${t === "All" ? PRACTICE_PROBLEMS.length : PRACTICE_PROBLEMS.filter(p => p.topic === t).length})</small></button>`).join("");
+  const tabs = ["All", "leads", "opportunities", "accounts", "users", "opportunity_products"];
+  const tlabel = { All: "All Tables", leads: "Leads", opportunities: "Opportunities", accounts: "Accounts", users: "Users", opportunity_products: "Products" };
+  document.getElementById("ps-tables").innerHTML = tabs.map(t => `<button class="ps-disc ${t === psTable ? "on" : ""}" data-tab="${t}">${tlabel[t]}</button>`).join("");
+  document.getElementById("ps-levels").innerHTML = ["All", "Easy", "Medium", "Advanced"].map(l => `<button class="${l === psLevel ? "on" : ""}" data-lv="${l}">${l === "Advanced" ? "Hard" : l}</button>`).join("");
+  const q = (document.getElementById("ps-search").value || "").toLowerCase(); const stf = document.getElementById("ps-status").value;
+  const list = PRACTICE_PROBLEMS.map((p, i) => ({ ...p, n: i + 1 })).filter(p => (psLevel === "All" || p.level === psLevel) && (psTopic === "All" || p.topic === psTopic) && (psTable === "All" || p.tables.includes(psTable))
+    && (!q || (p.n + " " + p.t + " " + p.task).toLowerCase().includes(q)) && (stf === "all" || (stf === "done") === !!st.solved[p.id]));
+  rowsEl.innerHTML = list.length ? list.map(p => `<tr data-open="${p.id}">
+      <td>${st.solved[p.id] ? '<span class="ps-st done">✓</span>' : '<span class="ps-st"></span>'}</td>
+      <td><div class="ps-title">${p.n}. ${esc(p.t)}${today.some(x => x.id === p.id) ? ' <span class="ps-todaytag">TODAY</span>' : ""}</div><div class="ps-tags"><span class="ps-tag2">▤ SQL</span>${p.tables.map(t => `<span class="ps-tag2 grey">${t}</span>`).join("")}</div></td>
+      <td class="ps-time">${p.mins} min</td><td>${lvlBadge(p.level)}</td><td class="ps-arrow">→</td></tr>`).join("")
+    : `<tr><td colspan="5" class="ed-empty">No problems match these filters.</td></tr>`;
+  rowsEl.querySelectorAll("[data-open]").forEach(r => r.addEventListener("click", () => openProblem(r.dataset.open)));
+  document.querySelectorAll("#ps-topics [data-topic]").forEach(b => b.addEventListener("click", () => { psTopic = b.dataset.topic; renderProblemset(); }));
+  document.querySelectorAll("#ps-tables [data-tab]").forEach(b => b.addEventListener("click", () => { psTable = b.dataset.tab; renderProblemset(); }));
+  document.querySelectorAll("#ps-levels [data-lv]").forEach(b => b.addEventListener("click", () => { psLevel = b.dataset.lv; renderProblemset(); }));
+  renderCalendar();
+  const tl = document.getElementById("ps-tablelist");
+  if (tl && !window.PRACTICE_DB) { tl.innerHTML = '<div class="ps-tl"><span>Loading tables…</span></div>'; loadPracticeData().catch(() => {}); }
+  else if (tl) tl.innerHTML = Object.entries(window.PRACTICE_DB || {}).map(([n, t]) => `<div class="ps-tl"><code>${n}</code><span>${t.rows.length} rows · ${t.cols.length} cols</span></div>`).join("");
+}
+function renderCalendar() {
+  const w = document.getElementById("ps-cal"); if (!w) return;
+  const days = solveDays(); const now = new Date(); const y = now.getFullYear(), m = now.getMonth();
+  const first = new Date(y, m, 1).getDay(), n = new Date(y, m + 1, 0).getDate(); const todayN = now.getDate();
+  let cells = ""; for (let i = 0; i < first; i++) cells += "<span></span>";
+  for (let d = 1; d <= n; d++) { const key = localDay(new Date(y, m, d)); cells += `<span class="${d === todayN ? "today" : ""} ${days.has(key) ? "solved" : ""}">${d}</span>`; }
+  let last7 = 0; for (let i = 0; i < 7; i++) { const d = new Date(); d.setDate(d.getDate() - i); if (days.has(localDay(d))) last7++; }
+  const solvedToday = days.has(localDay());
+  w.innerHTML = `<div class="ps-cal-head"><span class="ps-fire">🔥</span><div><strong>${now.toLocaleDateString("en-IN", { month: "long", year: "numeric" }).toUpperCase()}</strong><small>${days.size} days solved · ${solveStreak()} day streak</small></div><span class="ps-badge ${solvedToday ? "ok" : ""}">${solvedToday ? "Done today" : "Not yet today"}</span></div>
+    <div class="ps-cal-grid">${["S", "M", "T", "W", "T", "F", "S"].map(x => `<b>${x}</b>`).join("")}${cells}</div>
+    <div class="ps-cal-foot"><span>Last 7 days</span><strong>${last7} / 7 Days</strong></div><div class="ps-cal-bar"><i style="width:${Math.round(last7 / 7 * 100)}%"></i></div>`;
+}
+
+/* ---------------- Solve view ---------------- */
+function renderSchema() {
+  const w = document.getElementById("ed-schema"); if (!w) return;
+  const T = window.PRACTICE_DB || {};
+  w.innerHTML = Object.entries(T).map(([n, t]) => `<details ${edCur && edCur.tables.includes(n) ? "open" : ""}><summary><code>${n}</code> <span>${t.rows.length} rows</span></summary><div class="ed-cols">${t.cols.map(c => `<button class="ed-col" data-ins="${c}">${c}</button>`).join("")}</div></details>`).join("");
+  w.querySelectorAll("[data-ins]").forEach(b => b.addEventListener("click", () => { const ta = document.getElementById("ed-sql"); const p = ta.selectionStart; ta.value = ta.value.slice(0, p) + b.dataset.ins + ta.value.slice(ta.selectionEnd); ta.focus(); ta.selectionStart = ta.selectionEnd = p + b.dataset.ins.length; }));
+}
+function showBrowse() { const b = document.getElementById("ed-browse"), s = document.getElementById("ed-solve"); if (!b) return; b.style.display = ""; s.style.display = "none"; renderProblemset(); }
+function openProblem(id) {
+  initEditor();
+  edCur = PRACTICE_PROBLEMS.find(p => p.id === id) || PRACTICE_PROBLEMS[0];
+  document.getElementById("ed-browse").style.display = "none"; document.getElementById("ed-solve").style.display = "";
+  const st = edState(); const idx = PRACTICE_PROBLEMS.indexOf(edCur);
+  document.getElementById("ed-pos").textContent = `Problem ${idx + 1} of ${PRACTICE_PROBLEMS.length} · ${edCur.topic}`;
+  document.getElementById("ed-title").innerHTML = `${lvlBadge(edCur.level)} ${idx + 1}. ${esc(edCur.t)} <span class="ed-mins">⏱ ${edCur.mins} min</span>${st.solved[edCur.id] ? ' <span class="ps-badge ok">Solved</span>' : ""}`;
+  document.getElementById("ed-task").textContent = edCur.task;
+  document.getElementById("ed-tables").innerHTML = "Tables: " + edCur.tables.map(t => `<code>${t}</code>`).join(" ");
+  document.getElementById("ed-sql").value = st.drafts[edCur.id] || `-- ${edCur.t}\nSELECT *\nFROM ${edCur.tables[0]}\nLIMIT 10;`;
+  document.getElementById("ed-out").innerHTML = `<div class="ed-empty">Write your query, then press <kbd>Run</kbd> (Ctrl + Enter) and <kbd>Submit</kbd>.</div>`;
+  document.getElementById("ed-msg").innerHTML = "";
+  renderSchema(); window.scrollTo({ top: 0, behavior: "auto" });
+}
+function edMsg(kind, html) { document.getElementById("ed-msg").innerHTML = `<div class="ed-msg ${kind}">${html}</div>`; }
+function initEditor() {
+  const run = document.getElementById("ed-run"); if (!run) return;
+  if (run._b) { if (document.getElementById("ed-solve").style.display === "none") renderProblemset(); return; }
+  run._b = true;
+  const ta = document.getElementById("ed-sql");
+  const withDb = (fn) => { edMsg("info", "⏳ Loading the SQL engine (first time only)…"); loadSqlEngine().then(() => { document.getElementById("ed-msg").innerHTML = ""; fn(); }).catch(e => edMsg("bad", "⚠ " + esc(e.message) + ". Open the site from a web server (or check your connection)."));
+  };
+  const doRun = () => withDb(() => { const st = edState(); st.drafts[edCur.id] = ta.value; edSave(st);
+    try { document.getElementById("ed-out").innerHTML = edTable(edRun(ta.value)); } catch (e) { edMsg("bad", "❌ " + esc(e.message)); } });
+  run.addEventListener("click", doRun);
+  ta.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); doRun(); }
+    if (e.key === "Tab") { e.preventDefault(); const p = ta.selectionStart; ta.value = ta.value.slice(0, p) + "  " + ta.value.slice(ta.selectionEnd); ta.selectionStart = ta.selectionEnd = p + 2; }
+  });
+  document.getElementById("ed-check").addEventListener("click", () => withDb(() => {
+    let mine;
+    try { mine = edRun(ta.value); } catch (e) { edMsg("bad", "❌ Your query has an error: " + esc(e.message)); return; }
+    const exp = edRun(edCur.sol); document.getElementById("ed-out").innerHTML = edTable(mine);
+    const ordered = /order\s+by[^()]*;?\s*$/i.test(edCur.sol);
+    const ok = mine.columns.length === exp.columns.length && JSON.stringify(edNorm(mine, ordered)) === JSON.stringify(edNorm(exp, ordered));
+    if (ok) { const st = edState(); if (!st.solved[edCur.id]) st.solved[edCur.id] = localDay(); st.drafts[edCur.id] = ta.value; edSave(st);
+      const t3 = todaysProblems(); const done = t3.filter(p => st.solved[p.id]).length;
+      edMsg("good", `✅ Correct · ${done} of 3 today · 🔥 ${solveStreak()} day streak`); renderHeroCards(); }
+    else edMsg("bad", `✗ Not quite. Expected ${exp.values.length} row(s) × ${exp.columns.length} column(s); you returned ${mine.values.length} × ${mine.columns.length}. ${mine.columns.length === exp.columns.length ? "Check your values, rounding and filters." : "Check the columns you SELECT."}`);
+  }));
+  document.getElementById("ed-hint").addEventListener("click", () => edMsg("info", "💡 " + esc(edCur.hint)));
+  document.getElementById("ed-solution").addEventListener("click", () => { ta.value = edCur.sol; edMsg("info", "🔓 Solution loaded. Run it and compare with your approach."); });
+  document.getElementById("ed-reset").addEventListener("click", () => { const st = edState(); delete st.drafts[edCur.id]; edSave(st); openProblem(edCur.id); });
+  document.getElementById("ed-back").addEventListener("click", showBrowse);
+  const step = (k) => { const i = PRACTICE_PROBLEMS.indexOf(edCur); openProblem(PRACTICE_PROBLEMS[(i + k + PRACTICE_PROBLEMS.length) % PRACTICE_PROBLEMS.length].id); };
+  document.getElementById("ed-prev").addEventListener("click", () => step(-1));
+  document.getElementById("ed-next").addEventListener("click", () => step(1));
+  document.getElementById("ps-search").addEventListener("input", renderProblemset);
+  document.getElementById("ps-status").addEventListener("change", renderProblemset);
+  document.getElementById("ps-random").addEventListener("click", () => { const st = edState(); const L = PRACTICE_PROBLEMS.filter(p => !st.solved[p.id]); const pool = L.length ? L : PRACTICE_PROBLEMS; openProblem(pool[Math.floor(Math.random() * pool.length)].id); });
+  document.getElementById("ps-today-go").addEventListener("click", () => { const st = edState(); const t = todaysProblems(); openProblem((t.find(p => !st.solved[p.id]) || t[0]).id); });
+  renderProblemset();
+}
+
+/* ---------------- Hero floating cards (DailySQL-style) ---------------- */
+function renderHeroCards() {
+  const st = edState(); const t3 = todaysProblems(); const done = t3.filter(p => st.solved[p.id]).length; const streak = solveStreak();
+  const c3 = document.getElementById("hero-top-card");
+  if (c3) {
+    const tr = ((window.CRM && CRM.M && CRM.M.top_reps_m) || []).slice(0, 4); const col = ["#2563EB", "#7C3AED", "#0EA5A4", "#F59E0B"];
+    c3.innerHTML = `<div class="hf-top"><span>🏆</span><span class="hf-lv dark">Top reps · won revenue</span></div>${tr.map(([k, v], n) => `<div class="hf-lb"><i style="background:${col[n]}">${esc(k[0])}</i><span>${esc(k)}</span><b>$${v}M</b></div>`).join("")}<div class="hf-foot">From the Salesforce CRM export</div>`;
+  }
+}
+function renderDailyCard() { renderHeroCards(); }
+function renderIntegrity() {
+  const t = document.getElementById("integrity-table"); const R = (window.CRM && window.CRM.integrity) || []; if (!t || !R.length) return;
+  const ok = R.filter(r => r.ok).length;
+  t.innerHTML = `<thead><tr><th>Check</th><th>Relationship / rule</th><th>Result</th><th>Status</th></tr></thead><tbody>${R.map(r => `<tr><td>${esc(r.check)}</td><td><code>${esc(r.relationship)}</code></td><td class="num">${fmtN(r.result)}${r.note ? `<div style="font-size:11.5px;color:var(--ink-muted);">${esc(r.note)}</div>` : ""}</td><td>${r.ok ? '<span class="recon-ok">✓ Pass</span>' : '<span style="color:#B45309;font-weight:700;">⚠ Found: handle in QA</span>'}</td></tr>`).join("")}</tbody><tfoot><tr><td colspan="4"><strong>${ok} / ${R.length} checks clean.</strong> The others are real Salesforce-export issues: your SQL and dashboards must handle them, not hide them.</td></tr></tfoot>`;
+}
+document.addEventListener("DOMContentLoaded", () => {
+  renderHeroCards(); renderIntegrity();
+  document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("click", () => { const t = document.getElementById(b.dataset.scroll); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  document.querySelectorAll('.ds-announce [data-goto="editor"]').forEach(b => b.addEventListener("click", () => switchView("editor")));
+});
+/* ============================================================
+   Project Schedule & Group Presentation Status
+   - Students: read-only view of the schedule published by the trainer
+     (project-schedule.js, or a trainer's share link).
+   - Trainer: PIN unlock → edit project code, kick-off date, presentation
+     day, groups and statuses → "Publish" downloads project-schedule.js
+     to upload with the site. Students can't change what others see:
+     only the uploaded file (or the trainer's link) is shown to everyone.
+   ============================================================ */
+const SCH_STAGES = [
+  { key: "kickoff", t: "Project Kick-off", d: "Problem statement, KPI document and dataset walkthrough; groups formed.", week: 0, track: false },
+  { key: "excel", t: "Excel Dashboard Presentation", d: "KPIs in Excel and the Excel dashboard.", week: 1, track: true },
+  { key: "tableau", t: "Tableau Dashboard Presentation", d: "Tableau connected to the Snowflake / SQL mart. SQL QA can be presented this week or next.", week: 2, track: true, sqlqa: true },
+  { key: "powerbi", t: "Power BI Dashboard Presentation", d: "Power BI connected to the Snowflake / SQL mart. Last chance to present SQL QA.", week: 3, track: true, sqlqa: true },
+  { key: "final", t: "Final Presentation", d: "7 parts: Business Problem → Dataset → Architecture & Model → KPIs → Dashboards → Insights → Recommendations.", week: 4, track: true },
+];
+const SCH_COLS = [["excel", "Excel"], ["tableau", "Tableau"], ["powerbi", "Power BI"], ["sqlqa", "SQL QA"], ["final", "Final"]];
+const SCH_ST = { done: ["✅", "Done", "st-done"], pending: ["⏳", "Pending", "st-pending"], absent: ["❌", "Nobody presented", "st-absent"] };
+const SCH_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const SCH_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const SCH_DRAFT = "axon_crm_schedule_draft_v1", SCH_UNLOCK = "axon_crm_schedule_unlocked", SCH_VIEW = "axon_crm_schedule_view";
+let schEditCode = null;
+/* Live sync. schedule-config.js: "auto" = use this site's own /api/schedule (Vercel + Upstash Redis) when it is
+   connected, otherwise fall back to project-schedule.js. A full URL (e.g. a Google Apps Script web app) also works. */
+const SCH_CFG = String(window.PROJECT_SCHEDULE_API || "").trim();
+const SCH_AUTO = SCH_CFG.toLowerCase() === "auto";
+let SCH_API = SCH_AUTO ? "" : SCH_CFG;
+const SCH_PIN = "axon_crm_schedule_pin";
+let schRemote = null, schSyncMsg = "", schSaveTimer = null, schLoaded = !SCH_API;
+/* "auto": probe /api/schedule once; switch to live mode only if the server answers with a configured database. */
+function schProbe() {
+  if (!SCH_AUTO || !/^https?:$/.test(location.protocol)) return;
+  fetch("api/schedule?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(j => {
+    if (!j || j.configured === false || !Array.isArray(j.projects)) return;   // not set up → keep file mode
+    SCH_API = "api/schedule";
+    if (schIsTrainer()) { try { sessionStorage.removeItem(SCH_UNLOCK); } catch (e) {} }  // re-login against the server PIN
+    schRemote = j.projects.length ? j : null; schLoaded = true;
+    renderSchedule(); renderHeroSchedule();
+    setInterval(() => { if (!schIsTrainer()) schLoadRemote(true); }, 60000);
+  }).catch(() => {});
+}
+function schApi(payload) {
+  return fetch(SCH_API, { method: "POST", body: JSON.stringify(payload) }).then(r => r.json());
+}
+function schLoadRemote(silent) {
+  if (!SCH_API) return Promise.resolve();
+  return fetch(SCH_API + (SCH_API.includes("?") ? "&" : "?") + "t=" + Date.now()).then(r => r.json()).then(j => {
+    if (schIsTrainer() && schSaveTimer) return;                 // don't overwrite unsaved trainer edits
+    schRemote = j && j.projects && j.projects.length ? j : null; schLoaded = true;
+    renderSchedule(); renderHeroSchedule();
+  }).catch(() => { schLoaded = true; if (!silent) { schSyncMsg = "⚠ Could not load the live schedule. Showing the last published file."; renderSchedule(); } });
+}
+function schPushRemote(d) {
+  schRemote = d; schSyncMsg = "⏳ Saving…"; schShowSync();
+  clearTimeout(schSaveTimer);
+  schSaveTimer = setTimeout(() => {
+    let pin = ""; try { pin = sessionStorage.getItem(SCH_PIN) || ""; } catch (e) {}
+    schApi({ action: "save", pin, data: d }).then(j => {
+      schSaveTimer = null;
+      schSyncMsg = j.ok ? `✅ Saved ${new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })} · students see it now (on refresh)` : "⚠ Not saved: " + (j.error || "error");
+      schShowSync();
+    }).catch(() => { schSaveTimer = null; schSyncMsg = "⚠ Not saved: no internet or server not ready. Try again."; schShowSync(); });
+  }, 700);
+}
+function schShowSync() { const e = document.getElementById("sch-sync"); if (e) e.textContent = schSyncMsg; }
+
+/* ---------- tiny SHA-256 (works on file:// too) ---------- */
+function sha256(str) {
+  const K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967, 0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070, 0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
+  const bytes = Array.from(new TextEncoder().encode(str)); const l = bytes.length * 8;
+  bytes.push(0x80); while (bytes.length % 64 !== 56) bytes.push(0);
+  for (let i = 7; i >= 0; i--) bytes.push(i >= 4 ? 0 : (l >>> (i * 8)) & 255);
+  let H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+  const r = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let o = 0; o < bytes.length; o += 64) {
+    const w = [];
+    for (let i = 0; i < 16; i++) w[i] = (bytes[o + 4 * i] << 24) | (bytes[o + 4 * i + 1] << 16) | (bytes[o + 4 * i + 2] << 8) | bytes[o + 4 * i + 3];
+    for (let i = 16; i < 64; i++) { const s0 = r(w[i - 15], 7) ^ r(w[i - 15], 18) ^ (w[i - 15] >>> 3), s1 = r(w[i - 2], 17) ^ r(w[i - 2], 19) ^ (w[i - 2] >>> 10); w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0; }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0, t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    H = H.map((v, i) => (v + [a, b, c, d, e, f, g, h][i]) | 0);
+  }
+  return H.map(v => (v >>> 0).toString(16).padStart(8, "0")).join("");
+}
+const schHash = (pin) => sha256("axon-crm-trainer|" + pin);
+
+/* ---------- data ---------- */
+const schClone = (o) => JSON.parse(JSON.stringify(o));
+function schPublished() { return schClone(window.PROJECT_SCHEDULE || { pinHash: schHash("excelr2026"), active: "", projects: [] }); }
+function schFromHash() {
+  const m = location.hash.match(/schedule=([A-Za-z0-9_\-]+)/); if (!m) return null;
+  try { return JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))))); } catch (e) { return null; }
+}
+function schIsTrainerX() { try { return sessionStorage.getItem(SCH_UNLOCK) === "1"; } catch (e) { return false; } }
+function schIsTrainer() { return schIsTrainerX(); }
+function schDraft() { try { const d = JSON.parse(lsGet(SCH_DRAFT)); return d && d.projects ? d : null; } catch (e) { return null; } }
+function schData() {
+  if (SCH_API) {
+    if (schIsTrainer()) { if (!schRemote) schRemote = schPublished(); return schRemote; }
+    const base = schRemote ? schClone(schRemote) : schPublished(); const h = schFromHash();
+    if (h && h.code) { base.projects = base.projects.filter(x => x.code !== h.code).concat([h]); base.active = h.code; }
+    return base;
+  }
+  if (schIsTrainer()) return schDraft() || schPublished();
+  const pub = schPublished(); const h = schFromHash();
+  if (h && h.code) { pub.projects = pub.projects.filter(p => p.code !== h.code).concat([h]); pub.active = h.code; }
+  return pub;
+}
+function schSaveDraft(d) { d.updated = new Date().toISOString(); if (SCH_API) { schPushRemote(d); return; } lsSet(SCH_DRAFT, JSON.stringify(d)); }
+function schCurrent(d) {
+  let code = schIsTrainer() ? schEditCode : null;
+  if (!code) { try { code = lsGet(SCH_VIEW); } catch (e) {} }
+  const h = schFromHash(); if (!schIsTrainer() && h && h.code) code = h.code;
+  return d.projects.find(p => p.code === code) || d.projects.find(p => p.code === d.active) || d.projects[0] || null;
+}
+const ymd = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+const parseYmd = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+function schStageDates(p) {
+  const k = parseYmd(p.kickoff); const out = { kickoff: p.kickoff };
+  let first = new Date(k); first.setDate(first.getDate() + 6);
+  while (first.getDay() !== Number(p.presDay)) first.setDate(first.getDate() + 1);
+  SCH_STAGES.filter(s => s.week > 0).forEach(s => { const d = new Date(first); d.setDate(d.getDate() + 7 * (s.week - 1)); out[s.key] = (p.overrides && p.overrides[s.key]) || ymd(d); });
+  if (p.overrides && p.overrides.kickoff) out.kickoff = p.overrides.kickoff;
+  return out;
+}
+const fmtD = (s) => { const d = parseYmd(s); return `${SCH_DAYS[d.getDay()].slice(0, 3)}, ${d.getDate()} ${SCH_MONTHS[d.getMonth()]} ${d.getFullYear()}`; };
+function schPhase(dateStr, nextStr) {
+  const today = parseYmd(ymd(new Date())), d = parseYmd(dateStr);
+  if (+d === +today) return ["today", "Today"];
+  if (d < today) return ["past", "Completed"];
+  const prevWeek = new Date(d); prevWeek.setDate(prevWeek.getDate() - 7);
+  return today > prevWeek ? ["next", "This week"] : ["future", "Upcoming"];
+}
+function schNext(p) {
+  const ds = schStageDates(p); const today = ymd(new Date());
+  return SCH_STAGES.find(s => ds[s.key] >= today) || null;
+}
+function schGroupStatus(p, g, key) { const s = (p.status && p.status[g.id]) || {}; return s[key] || "pending"; }
+function schCounts(p, key) { const c = { done: 0, pending: 0, absent: 0 }; (p.groups || []).forEach(g => c[schGroupStatus(p, g, key)]++); return c; }
+function schNewProject(code) {
+  const today = new Date(); const fri = new Date(today); while (fri.getDay() !== 5) fri.setDate(fri.getDate() - 1);
+  const groups = Array.from({ length: 6 }, (_, i) => ({ id: "g" + (i + 1), name: "Group " + (i + 1), members: "" }));
+  return { code, name: "CRM Analytics Capstone", kickoff: ymd(fri), presDay: 6, time: "9:00 PM – 10:00 PM", overrides: {}, groups, status: {} };
+}
+
+/* ---------- rendering ---------- */
+const stChip = (s, extra) => `<span class="st-chip ${SCH_ST[s][2]}">${SCH_ST[s][0]} ${SCH_ST[s][1]}${extra || ""}</span>`;
+function renderSchedule() {
+  const root = document.getElementById("sch-root"); if (!root) return;
+  const d = schData(); const p = schCurrent(d); const tr = schIsTrainer();
+  document.getElementById("sch-mode").innerHTML = tr
+    ? `<span class="sch-badge tr">🔓 Trainer mode</span><button class="btn-outline" id="sch-lock">Lock</button>`
+    : `<span class="sch-badge">👀 Student view (read-only)</span><button class="sch-trainer-link" id="sch-unlock">Trainer login</button>`;
+  const picker = d.projects.length > 1 || tr ? `<label class="sch-pick">Project code <select id="sch-select">${d.projects.map(x => `<option value="${esc(x.code)}" ${p && x.code === p.code ? "selected" : ""}>${esc(x.code)}</option>`).join("")}</select></label>` : "";
+  if (!p) { root.innerHTML = `${picker}<div class="card sch-empty">No project has been published yet. ${tr ? "Create one below." : "Ask your trainer for the project link."}</div>` + (tr ? schAdminHtml(d, null) : ""); schBind(d, null); return; }
+  const ds = schStageDates(p); const nx = schNext(p);
+  const timeline = SCH_STAGES.map((s, i) => {
+    const [ph, pl] = schPhase(ds[s.key]);
+    const c = s.track ? schCounts(p, s.key) : null;
+    const qa = s.sqlqa ? schCounts(p, "sqlqa") : null;
+    return `<div class="sch-stage ${ph}"><div class="sch-dot">${ph === "past" ? "✓" : i}</div><div class="sch-body">
+      <div class="sch-when">${fmtD(ds[s.key])} · ${esc(p.time || "")} <span class="sch-ph ${ph}">${pl}</span></div>
+      <h4>${s.week ? "Week " + s.week + " · " : ""}${esc(s.t)}</h4><p>${esc(s.d)}</p>
+      ${c ? `<div class="sch-counts">${stChip("done", ` ${c.done}`)}${stChip("pending", ` ${c.pending}`)}${c.absent ? stChip("absent", ` ${c.absent}`) : ""}</div>` : ""}
+      ${s.sqlqa ? `<div class="sch-qa">+ SQL QA (either week): ${qa.done} of ${(p.groups || []).length} groups done</div>` : ""}
+    </div></div>`;
+  }).join("");
+  const rows = (p.groups || []).map(g => {
+    const st = (p.status && p.status[g.id]) || {};
+    return `<tr><td><strong>${esc(g.name)}</strong>${g.members ? `<div class="sch-mem">${esc(g.members)}</div>` : ""}</td>${SCH_COLS.map(([k]) => `<td>${stChip(schGroupStatus(p, g, k), k === "sqlqa" && st.sqlqaWeek ? ` · ${st.sqlqaWeek === "tableau" ? "Tableau wk" : "Power BI wk"}` : "")}</td>`).join("")}<td class="sch-note">${esc(st.note || "")}</td></tr>`;
+  }).join("");
+  root.innerHTML = `${picker}
+    <div class="sch-head card"><div><div class="sch-code">${esc(p.code)}</div><h3>${esc(p.name || "CRM Analytics Capstone")}</h3>
+      <p>Kick-off ${fmtD(ds.kickoff)} · weekly presentations every <strong>${SCH_DAYS[p.presDay]}</strong> · ${esc(p.time || "")} · ${(p.groups || []).length} groups</p></div>
+      ${nx ? `<div class="sch-next"><span>Next</span><strong>${esc(nx.t)}</strong><em>${fmtD(ds[nx.key])}</em></div>` : `<div class="sch-next done"><span>Status</span><strong>Project completed 🎉</strong></div>`}</div>
+    <div class="sch-timeline">${timeline}</div>
+    <div class="section-head mt-40" style="margin-bottom:12px;"><div class="eyebrow">Group status</div><h2>Who has presented what</h2><p>✅ Done · ⏳ Pending · ❌ Nobody from the group presented in the meeting. SQL QA can be presented in the Tableau week or the Power BI week.</p></div>
+    <div class="card table-scroll"><table class="dtable sch-table"><thead><tr><th>Group</th>${SCH_COLS.map(([, l]) => `<th>${l}</th>`).join("")}<th>Trainer note</th></tr></thead><tbody>${rows || `<tr><td colspan="7">No groups yet.</td></tr>`}</tbody></table></div>
+    <p class="sch-upd">Last updated by trainer: ${p.updated ? new Date(p.updated).toLocaleString("en-IN") : "—"}</p>
+    ${tr ? schAdminHtml(d, p) : ""}`;
+  schBind(d, p);
+}
+function schAdminHtml(d, p) {
+  if (!p) return `<div class="card sch-admin"><h3>Create a project</h3><div class="sch-row"><input class="search-input" id="sch-newcode" placeholder="Project code, e.g. CRM-OCT26-B1"><button class="btn-blue" id="sch-create">Create project</button></div></div>`;
+  const k = parseYmd(p.kickoff); const yrs = []; for (let y = new Date().getFullYear() - 1; y <= new Date().getFullYear() + 1; y++) yrs.push(y);
+  const dim = new Date(k.getFullYear(), k.getMonth() + 1, 0).getDate();
+  const ds = schStageDates(p);
+  const sel = (id, opts, v) => `<select id="${id}">${opts.map(([val, lab]) => `<option value="${val}" ${String(val) === String(v) ? "selected" : ""}>${lab}</option>`).join("")}</select>`;
+  const stSel = (gid, key, v) => `<select data-st="${gid}|${key}" class="st-sel ${SCH_ST[v][2]}">${Object.entries(SCH_ST).map(([s, [i, l]]) => `<option value="${s}" ${s === v ? "selected" : ""}>${i} ${l}</option>`).join("")}</select>`;
+  const groups = (p.groups || []).map(g => { const st = (p.status && p.status[g.id]) || {};
+    return `<tr><td><input data-gname="${g.id}" value="${esc(g.name)}"><input data-gmem="${g.id}" value="${esc(g.members || "")}" placeholder="Members (optional)"></td>
+      ${SCH_COLS.map(([key]) => `<td>${stSel(g.id, key, st[key] || "pending")}${key === "sqlqa" ? sel("", [["", "Week?"], ["tableau", "Tableau wk"], ["powerbi", "Power BI wk"]], st.sqlqaWeek || "").replace('<select id=""', `<select data-qaw="${g.id}"`) : ""}</td>`).join("")}
+      <td><input data-gnote="${g.id}" value="${esc(st.note || "")}" placeholder="Note"></td><td><button class="sch-del" data-gdel="${g.id}" title="Remove group">✕</button></td></tr>`; }).join("");
+  return `<div class="card sch-admin">
+    <div class="sch-admin-head"><h3>🔓 Trainer controls</h3>${SCH_API ? `<span class="sch-live">☁ Live sync ON: every change saves automatically and students see it.</span>` : `<span>Changes save on this device. Students see them only after you <strong>Publish</strong> (or set up Live sync).</span>`}</div>
+    ${SCH_API ? `<div class="sch-sync" id="sch-sync">${esc(schSyncMsg || "☁ Connected")}</div>` : ""}
+    <div class="sch-grid">
+      <label>Project code<input class="search-input" id="sch-code" value="${esc(p.code)}"></label>
+      <label>Project name<input class="search-input" id="sch-name" value="${esc(p.name || "")}"></label>
+      <label>Kick-off: year ${sel("sch-y", yrs.map(y => [y, y]), k.getFullYear())}</label>
+      <label>Month ${sel("sch-m", SCH_MONTHS.map((m, i) => [i, m]), k.getMonth())}</label>
+      <label>Day ${sel("sch-d", Array.from({ length: dim }, (_, i) => [i + 1, `${i + 1} · ${SCH_DAYS[new Date(k.getFullYear(), k.getMonth(), i + 1).getDay()].slice(0, 3)}`]), k.getDate())}</label>
+      <label>Presentation day ${sel("sch-pd", SCH_DAYS.map((x, i) => [i, x]), p.presDay)}</label>
+      <label>Meeting time<input class="search-input" id="sch-time" value="${esc(p.time || "")}"></label>
+    </div>
+    <details class="sch-over"><summary>Change a single presentation date (holiday, reschedule)</summary><div class="sch-grid">${SCH_STAGES.filter(s => s.week > 0).map(s => `<label>${s.t}<input type="date" data-over="${s.key}" value="${ds[s.key]}"></label>`).join("")}<button class="btn-outline" id="sch-clearover">Reset to weekly dates</button></div></details>
+    <h4 style="margin:16px 0 8px;">Groups & presentation status</h4>
+    <div class="table-scroll"><table class="dtable sch-edit"><thead><tr><th>Group</th>${SCH_COLS.map(([, l]) => `<th>${l}</th>`).join("")}<th>Note</th><th></th></tr></thead><tbody>${groups}</tbody></table></div>
+    <div class="sch-row"><button class="btn-outline" id="sch-addg">+ Add group</button><button class="btn-outline" id="sch-reset">↺ Reset all statuses</button><button class="btn-outline" id="sch-newp">+ New project</button><button class="btn-outline" id="sch-delp">🗑 Delete project</button><button class="btn-outline" id="sch-pin">Change PIN</button>${SCH_API ? `<button class="btn-outline" id="sch-reload">⟳ Reload from server</button>` : `<button class="btn-outline" id="sch-discard">Load live file (discard draft)</button>`}</div>
+    <div class="sch-publish" ${SCH_API ? 'style="display:none"' : ""}>
+      <div><strong>Publish to students</strong><p>1) Download <code>project-schedule.js</code> → 2) replace that file in the site folder (GitHub / Vercel / hosting) → students see the update. Or share a link right now (works for the selected project).</p></div>
+      <div class="sch-row"><button class="btn-blue" id="sch-download">⬇ Download project-schedule.js</button><button class="btn-dark" id="sch-link">🔗 Copy student link</button></div>
+    </div></div>`;
+}
+function schBind(d, p) {
+  const $ = (id) => document.getElementById(id);
+  const save = () => { if (p) p.updated = new Date().toISOString(); schSaveDraft(d); renderSchedule(); renderHeroSchedule(); };
+  const selEl = $("sch-select");
+  if (selEl) selEl.addEventListener("change", () => { if (schIsTrainer()) schEditCode = selEl.value; else lsSet(SCH_VIEW, selEl.value); if (schIsTrainer()) { d.active = selEl.value; schSaveDraft(d); } renderSchedule(); renderHeroSchedule(); });
+  const un = $("sch-unlock");
+  if (un) un.addEventListener("click", () => {
+    const pin = prompt("Trainer PIN"); if (pin === null) return;
+    if (SCH_API) {
+      schApi({ action: "check", pin }).then(j => {
+        if (!j.ok) { alert(j.error || "Wrong PIN."); return; }
+        try { sessionStorage.setItem(SCH_UNLOCK, "1"); sessionStorage.setItem(SCH_PIN, pin); } catch (e) {}
+        if (!schRemote) { schRemote = schDraft() || schPublished(); schSaveDraft(schRemote); }   // first live login: carry over the details already filled on this device
+        schSyncMsg = "☁ Connected · changes save automatically"; renderSchedule();
+      }).catch(() => alert("Could not reach the live sync server. Check your internet and try again."));
+      return;
+    }
+    if (schHash(pin) === schPublished().pinHash || (schDraft() && schHash(pin) === schDraft().pinHash)) { try { sessionStorage.setItem(SCH_UNLOCK, "1"); } catch (e) {} if (!schDraft()) schSaveDraft(schPublished()); renderSchedule(); }
+    else alert("Wrong PIN.");
+  });
+  const lk = $("sch-lock"); if (lk) lk.addEventListener("click", () => { try { sessionStorage.removeItem(SCH_UNLOCK); sessionStorage.removeItem(SCH_PIN); } catch (e) {} schEditCode = null; renderSchedule(); renderHeroSchedule(); });
+  if (!schIsTrainer()) return;
+  const cr = $("sch-create"); if (cr) cr.addEventListener("click", () => { const c = ($("sch-newcode").value || "").trim(); if (!c) return; d.projects.push(schNewProject(c)); d.active = c; schEditCode = c; save(); });
+  if (!p) return;
+  const on = (id, ev, fn) => { const e = $(id); if (e) e.addEventListener(ev, fn); };
+  on("sch-code", "change", (e) => { const v = e.target.value.trim(); if (!v || d.projects.some(x => x !== p && x.code === v)) { alert("Code must be unique."); renderSchedule(); return; } if (d.active === p.code) d.active = v; p.code = v; schEditCode = v; save(); });
+  on("sch-name", "change", (e) => { p.name = e.target.value; save(); });
+  const setK = () => { const y = +$("sch-y").value, m = +$("sch-m").value; const dim = new Date(y, m + 1, 0).getDate(); const dd = Math.min(+$("sch-d").value, dim); p.kickoff = ymd(new Date(y, m, dd)); save(); };
+  ["sch-y", "sch-m", "sch-d"].forEach(id => on(id, "change", setK));
+  on("sch-pd", "change", (e) => { p.presDay = +e.target.value; save(); });
+  on("sch-time", "change", (e) => { p.time = e.target.value; save(); });
+  document.querySelectorAll("[data-over]").forEach(i => i.addEventListener("change", () => { p.overrides = p.overrides || {}; p.overrides[i.dataset.over] = i.value; save(); }));
+  on("sch-clearover", "click", () => { p.overrides = {}; save(); });
+  const gst = (gid) => { p.status = p.status || {}; p.status[gid] = p.status[gid] || {}; return p.status[gid]; };
+  document.querySelectorAll("[data-st]").forEach(s => s.addEventListener("change", () => { const [gid, key] = s.dataset.st.split("|"); gst(gid)[key] = s.value; save(); }));
+  document.querySelectorAll("[data-qaw]").forEach(s => s.addEventListener("change", () => { gst(s.dataset.qaw).sqlqaWeek = s.value; save(); }));
+  document.querySelectorAll("[data-gnote]").forEach(s => s.addEventListener("change", () => { gst(s.dataset.gnote).note = s.value; save(); }));
+  document.querySelectorAll("[data-gname]").forEach(s => s.addEventListener("change", () => { p.groups.find(g => g.id === s.dataset.gname).name = s.value; save(); }));
+  document.querySelectorAll("[data-gmem]").forEach(s => s.addEventListener("change", () => { p.groups.find(g => g.id === s.dataset.gmem).members = s.value; save(); }));
+  document.querySelectorAll("[data-gdel]").forEach(b => b.addEventListener("click", () => { if (!confirm("Remove this group?")) return; p.groups = p.groups.filter(g => g.id !== b.dataset.gdel); if (p.status) delete p.status[b.dataset.gdel]; save(); }));
+  on("sch-addg", "click", () => { const n = (p.groups || []).length + 1; let id = "g" + n; while (p.groups.some(g => g.id === id)) id += "x"; p.groups.push({ id, name: "Group " + n, members: "" }); save(); });
+  on("sch-reset", "click", () => { if (confirm("Reset every group's status to Pending for " + p.code + "?")) { p.status = {}; save(); } });
+  on("sch-newp", "click", () => { const c = (prompt("New project code (e.g. CRM-NOV26-B2)") || "").trim(); if (!c) return; if (d.projects.some(x => x.code === c)) { alert("That code already exists."); return; } d.projects.push(schNewProject(c)); schEditCode = c; d.active = c; save(); });
+  on("sch-delp", "click", () => { if (!confirm("Delete project " + p.code + "?")) return; d.projects = d.projects.filter(x => x !== p); schEditCode = null; d.active = d.projects[0] ? d.projects[0].code : ""; save(); });
+  on("sch-pin", "click", () => { const a = prompt("New trainer PIN (min 4 characters)"); if (!a || a.length < 4) return; if (prompt("Type the new PIN again") !== a) { alert("PINs don't match."); return; }
+    if (SCH_API) { let pin = ""; try { pin = sessionStorage.getItem(SCH_PIN) || ""; } catch (e) {} schApi({ action: "setpin", pin, newPin: a }).then(j => { if (j.ok) { try { sessionStorage.setItem(SCH_PIN, a); } catch (e) {} alert("PIN changed on the server. Use the new PIN from now on."); } else alert(j.error || "Could not change PIN."); }).catch(() => alert("Could not reach the server.")); return; } d.pinHash = schHash(a); save(); alert("PIN changed. Download and upload project-schedule.js so the new PIN applies on the live site."); });
+  on("sch-reload", "click", () => { schRemote = null; schLoadRemote(); });
+  on("sch-discard", "click", () => { if (!confirm("Discard your unpublished changes on this device and load the live project-schedule.js?")) return; lsSet(SCH_DRAFT, JSON.stringify(schPublished())); schEditCode = null; renderSchedule(); renderHeroSchedule(); });
+  on("sch-download", "click", () => {
+    d.active = p.code; const out = schClone(d); out.updated = new Date().toISOString();
+    const js = "/* Project schedule & group status. Edit it from the site (Trainer login), then replace this file. */\nwindow.PROJECT_SCHEDULE = " + JSON.stringify(out, null, 1) + ";\n";
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([js], { type: "text/javascript" })); a.download = "project-schedule.js"; document.body.appendChild(a); a.click(); a.remove();
+  });
+  on("sch-link", "click", (e) => {
+    const one = schClone(p); one.updated = new Date().toISOString();
+    const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(one)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const url = location.href.split("#")[0] + "#schedule=" + b64;
+    copyText(url, e.target, "🔗 Copy student link");
+  });
+}
+/* ---------- hero cards (home) ---------- */
+function renderHeroSchedule() {
+  const d = schData(); const p = schCurrent(d);
+  const c1 = document.getElementById("hero-problem-card"), c2 = document.getElementById("hero-streak-card"), c4 = document.getElementById("hero-today-card");
+  if (!p) { [c1, c2, c4].forEach(c => { if (c) c.innerHTML = `<div class="hf-lv dark">PROJECT SCHEDULE</div><p style="margin-top:6px;">Your trainer will publish the schedule here.</p>`; }); return; }
+  const ds = schStageDates(p); const nx = schNext(p);
+  if (c1) {
+    c1.innerHTML = nx ? `<div class="hf-top"><span class="hf-ic">📅</span><span class="hf-lv">${esc(p.code)}</span><span class="hf-day">${schPhase(ds[nx.key])[1]}</span></div><h5>Next: ${esc(nx.t)}</h5><p>${esc(nx.d)}</p>
+      <div class="hf-when">${fmtD(ds[nx.key])}<br><small>${esc(p.time || "")}</small></div>` : `<div class="hf-top"><span class="hf-ic">🎉</span><span class="hf-lv">${esc(p.code)}</span></div><h5>Project completed</h5><p>All presentations are done.</p>`;
+    c1.onclick = () => switchView("schedule");
+  }
+  if (c2) {
+    const stg = nx && nx.track ? nx : SCH_STAGES.filter(s => s.track).reverse().find(s => ds[s.key] <= ymd(new Date())) || SCH_STAGES[1];
+    const c = schCounts(p, stg.key); const n = (p.groups || []).length || 1;
+    c2.innerHTML = `<div class="hf-top"><span>👥</span><span class="hf-lv dark">GROUP STATUS</span><span class="hf-fire">${esc(stg.t.split(" ")[0])}</span></div>
+      <div class="hf-big">${c.done}<small>of ${n} groups done</small></div><div class="hf-bar"><i style="width:${Math.round(c.done / n * 100)}%"></i></div>
+      ${(p.groups || []).slice(0, 4).map(g => { const s = schGroupStatus(p, g, stg.key); return `<div class="hf-row"><span>${esc(g.name)}</span><span class="${s === "done" ? "ok" : ""}">${SCH_ST[s][0]}</span></div>`; }).join("")}
+      ${(p.groups || []).length > 4 ? `<div class="hf-foot">+${p.groups.length - 4} more groups</div>` : ""}`;
+    c2.onclick = () => switchView("schedule"); c2.style.cursor = "pointer";
+  }
+  if (c4) {
+    c4.innerHTML = `<div class="hf-lv dark" style="margin-bottom:8px;">PROJECT TIMELINE · ${esc(p.code)}</div>${SCH_STAGES.map(s => { const [ph] = schPhase(ds[s.key]); return `<div class="hf-li ${ph}"><span>${ph === "past" ? "✓" : ph === "next" || ph === "today" ? "●" : "○"}</span><span>${esc(s.t.replace(" Presentation", ""))}</span><small>${fmtD(ds[s.key]).replace(/, \d{4}$/, "")}</small></div>`; }).join("")}<div class="hf-foot"><i class="dot"></i> Weekly every ${SCH_DAYS[p.presDay]}</div>`;
+    c4.onclick = () => switchView("schedule"); c4.style.cursor = "pointer";
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  renderSchedule(); renderHeroSchedule();
+  if (schFromHash()) setTimeout(() => switchView("schedule"), 50);
+  if (SCH_API) { schLoadRemote(); setInterval(() => { if (!schIsTrainer()) schLoadRemote(true); }, 60000); }
+  else schProbe();
 });
