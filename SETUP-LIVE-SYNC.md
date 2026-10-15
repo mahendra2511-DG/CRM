@@ -20,7 +20,7 @@ Vercel apne aap deploy kar dega.
 Project → **Deployments** → sabse upar wale ke **⋯** → **Redeploy**.
 
 ## Step 4 — Check
-1. Site kholo → **Project Schedule & Status** → **Trainer login** → PIN `excelr2026`.
+1. Site kholo → **Project Schedule & Status** → **Trainer login** → username + password (trainer login).
 2. Upar **"☁ Live sync ON"** dikhe to setup ho gaya.
 3. Aapne jo details pehle isi browser me bhari thi, wo pehli login par apne aap server par chali jayengi.
 4. **Turant "Change PIN" dabake apna naya PIN rakho.** (Naya PIN server par safe rehta hai; website code me kahin nahi hota.)
@@ -35,7 +35,7 @@ Project → **Deployments** → sabse upar wale ke **⋯** → **Redeploy**.
 - PIN bhool gaye? Vercel → Settings → Environment Variables me `ADMIN_PIN` = naya PIN daalo, phir Storage → Upstash → Data Browser me key `axon:crm:pinhash` delete karo → Redeploy.
 
 ## Optional
-- Shuruaati PIN alag chahiye to Vercel → Settings → Environment Variables → `ADMIN_PIN` add karo (default `excelr2026`).
+- Shuruaati PIN alag chahiye to Vercel → Settings → Environment Variables → `ADMIN_PIN` add karo .
 
 ## Real visitor counter + student check-in (same database, nothing extra to set up)
 - Students open the site → enter their **name and group once** (saved on their device).
@@ -43,3 +43,40 @@ Project → **Deployments** → sabse upar wale ke **⋯** → **Redeploy**.
 - **Trainer login** on Project Schedule → a "👥 Student visits" panel appears below the schedule:
   who visited, first/last visit, visited today ✓, active days, page views, most opened pages, a 30-day chart, search, group filter and **Download CSV**.
 - Same student on phone + laptop shows as one row (merged by name + group).
+
+
+## Ek saath kai batches (project codes, jaise P1426 aur P1427)
+- Trainer login → **+ New project** → code daalo (P1426). Har code ka apna kick-off, presentation din, **time** aur groups hota hai.
+- Students site kholte hi **Project code + naam + group** chunte hain. Code list me time bhi dikhta hai (P1426 · Sat 7:00 PM), taaki sahi batch chunein.
+- Schedule page par sabse upar **Batch dashboard**: har code ka time, agla presentation, aur Excel / Tableau / Power BI / SQL QA / Final me kitne groups ho gaye. Ye students ko bhi dikhta hai.
+- Student ko apna card dikhta hai: uske group ka har presentation ka status (✅ / ⏳ / ❌), kya pending hai, agla presentation kab hai.
+- Trainer ki **Student visits** report me project code ke hisaab se filter, har code ke tiles, aur CSV me Project code column.
+- Purane students (jinhone pehle sirf naam daala tha) ko ek baar code chunne ko kaha jayega, jab ek se zyada code chal rahe hon.
+
+
+## Update (14 Oct): kai projects ek saath, trainer panel aur zaroori login
+- **Trainer:** Project Schedule → Trainer login (ya check-in box me "I'm the trainer →"). Upar **Projects** tabs dikhte hain: har code (P1227, P1428 …) ka tab, aur **＋ New project**. New project me code, kick-off date, presentation day, start time, end time aur groups ki ginti bharo → Create.
+- Kisi bhi tab par click → us project ki date/time, groups aur har meeting ka status (✅ / ⏳ / ❌) bharo. Sab apne aap save hota hai.
+- **Batch dashboard** (sirf trainer): har code ka time, agla presentation, kitne students check-in hue, aaj kitne aaye, aur har presentation me kitne groups ho gaye.
+- **Time:** start/end time list se chuno (jaise 12:00 PM – 1:00 PM). Agla meeting apne aap us din ke us time ka banta hai, aur meeting khatam hote hi agla hafta "Up next" ho jaata hai.
+- **Students:** login me **Project code + naam + group** teeno zaroori. Login ke baad student ko sirf apne project ka schedule, agla meeting (date + time) aur apne group ka status dikhta hai.
+- Trainer reload kare to login bana rehta hai (same browser tab).
+
+
+## Trainer login (15 Oct) aur students ka ek-baar login
+- **Trainer login ab Username + Password se hota hai** (PIN wala popup hata diya). Password code me plain text me nahi hai, sirf uska coded (hash) roop hai. Login ke baad **Change password** se badal sakte ho.
+- Password bhool gaye? Vercel → Settings → Environment Variables me `ADMIN_PASSWORD` = naya password (aur chaho to `ADMIN_USER` = naya username) → Upstash Data Browser me is site ki `passhash` key delete karo → Redeploy.
+- **Students:** pehli baar sirf **mobile number** → naam, project code, group. Uske baad us device par kabhi nahi poocha jayega. Naye phone/laptop par sirf mobile number daalte hi details wapas aa jaati hain. Pura number save nahi hota: sirf coded id aur aakhri 4 digit.
+- Project code wahi chalega jo trainer ne banaya hai (server bhi check karta hai). Agar ek hi project chal raha hai aur student ka purana code band ho gaya, to use apne aap naye code me daal diya jaata hai; kai project hon to sirf code dobara poocha jaata hai.
+- Check-in box me "I'm the trainer →" dabane par seedha trainer login khulta hai, group nahi poocha jaata.
+
+## Ask Mahendra (AI chat) — 15 Oct 2026
+
+1. Get a free key at console.groq.com → API Keys → Create API Key (shown only once).
+2. Vercel → this project → Settings → Environment Variables → add `GROQ_API_KEY` = the key → Save → Redeploy.
+3. Open the site → chat button → type a question. The panel subtitle changes to "AI assistant · answers from this project's content" when the key is working.
+
+- Without the key (or if the free limit is used up), the chat answers from the site's built-in search exactly as before.
+- One key works on all sites; the free limit is shared across them.
+- Never put the key in code or GitHub. If it leaks, delete it in console.groq.com and create a new one.
+- Optional: `GROQ_MODEL` picks a specific model; otherwise the API tries a few current Groq models in order.
