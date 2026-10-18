@@ -34,7 +34,7 @@ function redisEnv() {
   const e = process.env;
   let url = e.KV_REST_API_URL || e.UPSTASH_REDIS_REST_URL, token = e.KV_REST_API_TOKEN || e.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
-    const k = Object.keys(e).find(k => /_REST_API_URL$/.test(k) && e[k.replace(/_URL$/, "_TOKEN")]);
+    const k = Object.keys(e).find(k => /_REST_(API_)?URL$/.test(k) && /KV|REDIS|UPSTASH/i.test(k) && e[k.replace(/_URL$/, "_TOKEN")]);
     if (k) { url = e[k]; token = e[k.replace(/_URL$/, "_TOKEN")]; }
   }
   if (!url || !token) {   // fallback: Upstash also gives rediss://default:TOKEN@host:6379 → REST is https://host with the same token

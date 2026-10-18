@@ -80,3 +80,17 @@ Project → **Deployments** → sabse upar wale ke **⋯** → **Redeploy**.
 - One key works on all sites; the free limit is shared across them.
 - Never put the key in code or GitHub. If it leaks, delete it in console.groq.com and create a new one.
 - Optional: `GROQ_MODEL` picks a specific model; otherwise the API tries a few current Groq models in order.
+
+## Mahendra Dashboard Evaluation Feedback (18 Oct 2026)
+
+Sidebar → Dashboards → "Mahendra Dashboard Evaluation Feedback". Students upload .twbx/.twb, .pbix/.pbit, .xlsx/.xlsm or a screenshot and get a 100-point scorecard.
+
+- Uses the same `GROQ_API_KEY` as Ask Mahendra (no new setup). Without the key, students still get the automatic checks.
+- The file is opened only in the student's browser; only a text summary of its structure (no data rows) and the screenshot go to Groq. Nothing is stored on the server; reviews are kept in the student's browser.
+- Change scoring weights or add review rules for this project in `review-config.js`.
+- Limits: 6 reviews per student every 30 minutes; files up to 80 MB. A .pbix can't expose DAX in the browser: ask students to upload a .pbit (File → Export → Power BI template) for a full review.
+- Optional env: `GROQ_VISION_MODEL` (screenshot model), `GROQ_MODEL` (text model).
+
+Fix (18 Oct): trainer changes made in two tabs or two devices no longer overwrite each other (changes are merged before saving).
+
+- Review also marks where each problem is (on the screenshot, or on the layout read from a Tableau / Power BI file) and suggests a full wireframe that students can download (SVG/PNG) or edit for free in Excalidraw (excalidraw.com).

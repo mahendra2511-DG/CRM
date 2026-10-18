@@ -4060,17 +4060,49 @@ function schProbe() {
     if (!j || j.configured === false || !Array.isArray(j.projects)) return;
     SCH_API = "api/schedule";
     if (schIsTrainer()) { try { if (!sessionStorage.getItem(SCH_PIN)) sessionStorage.removeItem(SCH_UNLOCK); } catch (e) {} }   // keep a server-checked login across reloads
-    schRemote = j.projects.length ? j : null; schLoaded = true;
+    schRemote = j.projects.length ? j : null; schBase = schRemote ? schClone(schRemote) : null; schLoaded = true;
     renderSchedule(); renderHeroSchedule();
-    setInterval(() => { if (!schIsTrainer()) schLoadRemote(true); }, 60000);
+    setInterval(() => { if (!schIsTrainer() || schIdle()) schLoadRemote(true); }, schIsTrainer() ? 30000 : 60000);
   }).catch(() => {});
 }
+/* 3-way merge so two trainer tabs/devices never overwrite each other's changes */
+let schBase = null;
+const schJ = (x) => JSON.stringify(x === undefined ? null : x);
+const schIsObj = (x) => x && typeof x === "object" && !Array.isArray(x);
+function schMerge3(base, mine, theirs) {
+  if (schJ(mine) === schJ(base)) return theirs;
+  if (schJ(theirs) === schJ(base) || theirs === undefined && base === undefined) return mine;
+  if (schIsObj(mine) && schIsObj(theirs)) {
+    const out = {}, b = schIsObj(base) ? base : {};
+    new Set([...Object.keys(mine), ...Object.keys(theirs)]).forEach(k => { const v = schMerge3(b[k], mine[k], theirs[k]); if (v !== undefined) out[k] = v; });
+    return out;
+  }
+  return mine;
+}
+function schMergeDocs(base, mine, theirs) {
+  const byCode = (d) => { const o = {}; ((d && d.projects) || []).forEach(p => { o[schNorm(p.code)] = p; }); return o; };
+  const strip = (d) => { const o = Object.assign({}, d || {}); delete o.projects; delete o.updated; return o; };
+  const out = schMerge3(strip(base), strip(mine), strip(theirs)) || {};
+  const m = schMerge3(byCode(base), byCode(mine), byCode(theirs)) || {};
+  const order = [...((mine && mine.projects) || []), ...((theirs && theirs.projects) || [])].map(p => schNorm(p.code));
+  out.projects = [...new Set(order)].filter(c => m[c]).map(c => m[c]);
+  out.updated = new Date().toISOString();
+  return out;
+}
+function schIdle() {   // trainer is not in the middle of typing / a form
+  const a = document.activeElement; const root = document.getElementById("sch-root");
+  if (schNewOpen || document.getElementById("sch-login")) return false;
+  return !(a && root && root.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
+}
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && SCH_API && schIsTrainer() && schIdle()) schLoadRemote(true); });
 function schApi(payload) { return fetch(SCH_API, { method: "POST", body: JSON.stringify(payload) }).then(r => r.json()); }
 function schLoadRemote(silent) {
   if (!SCH_API) return Promise.resolve();
   return fetch(SCH_API + (SCH_API.includes("?") ? "&" : "?") + "t=" + Date.now()).then(r => r.json()).then(j => {
-    if (schIsTrainer() && schSaveTimer) return;
-    schRemote = j && j.projects && j.projects.length ? j : null; schLoaded = true;
+    if (schIsTrainer() && (schSaveTimer || !schIdle())) return;
+    const nx = j && j.projects && j.projects.length ? j : null;
+    if (schIsTrainer() && schJ(nx) === schJ(schRemote)) return;          // nothing new: don't re-render under the trainer
+    schRemote = nx; schBase = nx ? schClone(nx) : null; schLoaded = true;
     renderSchedule(); renderHeroSchedule();
   }).catch(() => { schLoaded = true; if (!silent) { schSyncMsg = "⚠ Could not load the live schedule. Showing the last published file."; renderSchedule(); } });
 }
@@ -4079,7 +4111,14 @@ function schPushRemote(d) {
   clearTimeout(schSaveTimer);
   schSaveTimer = setTimeout(() => {
     let pin = ""; try { pin = sessionStorage.getItem(SCH_PIN) || ""; } catch (e) {}
-    schApi({ action: "save", pin, data: d }).then(j => {
+    fetch(SCH_API + (SCH_API.includes("?") ? "&" : "?") + "t=" + Date.now(), { cache: "no-store" }).then(r => r.json()).catch(() => null).then(latest => {
+      let out = d;
+      if (latest && Array.isArray(latest.projects)) {
+        out = schMergeDocs(schBase, d, latest);
+        if (schJ(out.projects) !== schJ(d.projects)) { schRemote = out; setTimeout(() => { try { renderSchedule(); renderHeroSchedule(); } catch (e) {} }, 0); }
+      }
+      return schApi({ action: "save", pin, data: out }).then(j => { if (j && j.ok) schBase = schClone(out); return j; });
+    }).then(j => {
       schSaveTimer = null;
       schSyncMsg = j.ok ? `✅ Saved ${new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })} · students see it now (on refresh)` : "⚠ Not saved: " + (j.error || "error");
       schShowSync();

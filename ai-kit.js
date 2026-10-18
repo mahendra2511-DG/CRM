@@ -84,7 +84,9 @@
     } catch (e) { r = null; }
     typing.remove(); busy = false;
     if (!r || !r.ok || !j.answer) {
-      if (r && (r.status === 429)) { bubble(esc(j.message || "Too many questions right now. Please try again in a few minutes.") + "<br><small>Showing the site's own answer instead:</small>", "bot"); }
+      const why = r && r.status === 429 ? (j.message || "Too many questions right now. Please try again in a few minutes.")
+        : r && r.status === 503 ? "" : (j.message || ("AI couldn't answer right now" + (r ? " (" + (j.error || r.status) + ")" : " (network)") + "."));
+      if (why) bubble(`<small>⚠️ ${esc(why)} Showing the site's own answer:</small>`, "bot");
       if (r && (r.status === 503 || r.status === 404)) ready = false;
       user.remove(); bypass = true;               // let the built-in search answer
       const inp = $("chat-input"); inp.value = q;
@@ -106,6 +108,13 @@
       e.preventDefault(); e.stopImmediatePropagation();
       const inp = $("chat-input"); const q = (inp.value || "").trim(); if (!q || busy) return;
       inp.value = ""; ask(q, form);
+    }, true);
+    document.addEventListener("click", (e) => {    // suggestion chips also go to the AI (except "Open …" navigation chips)
+      const b = e.target.closest && e.target.closest("#chat-quick-replies button, .chat-followup-chip");
+      if (!b || !ready || bypass) return;
+      const q = (b.dataset.quick || b.textContent || "").trim(); if (!q || /^open\b/i.test(q)) return;
+      e.preventDefault(); e.stopImmediatePropagation(); if (busy) return;
+      ask(q, $("chat-panel-form"));
     }, true);
   }
   function probe() {

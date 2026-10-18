@@ -3,7 +3,7 @@
  *
  * Uses Groq's free API. Set ONE environment variable in Vercel → Settings → Environment Variables:
  *   GROQ_API_KEY = gsk_...        (never put the key in code or GitHub)
- * Optional: GROQ_MODEL = a model id from console.groq.com/docs/models (otherwise the list below is tried in order).
+ * Optional: GROQ_MODEL = a model id from console.groq.com/docs/models (otherwise api/_groq.js picks a current model).
  *
  *   GET  /api/ask                → {ok, configured}
  *   POST {q, ctx:[{h,t}], hist:[{r,c}], site}  → {answer, model}
@@ -11,7 +11,7 @@
  * The browser sends the question plus the most relevant passages from this site, so answers stay grounded in the
  * project. If the key is missing, the limit is hit, or Groq is down, the site falls back to its built-in search.
  */
-const MODELS = ["llama-3.3-70b-versatile", "openai/gpt-oss-120b", "llama-3.1-8b-instant"];
+const { candidates, chat } = require("./_groq");
 const PER_IP = 20, WINDOW_MS = 10 * 60 * 1000;           // 20 questions / 10 minutes per student (per server instance)
 const hits = new Map();
 
@@ -44,19 +44,6 @@ SITE CONTEXT (passages from this website):
 ${ctx || "(no matching passage found on the site)"}`;
 }
 
-async function callGroq(key, model, messages) {
-  const ac = new AbortController(); const t = setTimeout(() => ac.abort(), 25000);
-  try {
-    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST", signal: ac.signal,
-      headers: { "Authorization": "Bearer " + key, "Content-Type": "application/json" },
-      body: JSON.stringify({ model, messages, temperature: 0.3, max_tokens: 700 }),
-    });
-    const j = await r.json().catch(() => ({}));
-    return { status: r.status, j };
-  } finally { clearTimeout(t); }
-}
-
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   const key = process.env.GROQ_API_KEY || "";
@@ -80,16 +67,12 @@ module.exports = async (req, res) => {
     .map(m => ({ role: m.r, content: clip(m.c, 1200) }));
   const messages = [{ role: "system", content: systemPrompt(site, ctx) }, ...hist, { role: "user", content: q }];
 
-  const models = (process.env.GROQ_MODEL ? [process.env.GROQ_MODEL] : []).concat(MODELS);
   let last = null;
-  for (const model of models) {
-    let r;
-    try { r = await callGroq(key, model, messages); } catch (e) { last = { status: 504 }; continue; }
-    const answer = r.j && r.j.choices && r.j.choices[0] && r.j.choices[0].message && r.j.choices[0].message.content;
-    if (r.status === 200 && answer) return res.status(200).json({ answer: String(answer).trim(), model });
-    last = r;
+  for (const model of await candidates(key, false)) {
+    const r = await chat(key, model, { messages, temperature: 0.3, max_tokens: 1500 }, 25000);
+    if (r.status === 200 && r.content) return res.status(200).json({ answer: r.content, model });
     if (r.status === 401) return res.status(502).json({ error: "bad_key", message: "The GROQ_API_KEY in Vercel is not valid." });
-    // 404/400 = model retired or unknown, 429 = this model's free limit reached, 5xx = Groq hiccup → try the next model
+    last = r;
   }
   const busy = last && last.status === 429;
   return res.status(busy ? 429 : 502).json({ error: busy ? "limit" : "upstream", message: busy ? "The free AI limit is used up for now. Please try again later." : "The AI service did not answer." });
