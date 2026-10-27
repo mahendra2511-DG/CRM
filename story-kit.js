@@ -59,240 +59,244 @@
 .ko-teaser p{margin:0;font-size:13.5px;color:var(--ink-muted,#5B6472);max-width:640px}
 .ko-teaser button{margin-left:auto;background:var(--teal,#0E86C9);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;position:relative;z-index:1}
 
-/* ---------- comic ---------- */
-.ko{--ln:#151515;--y:#ffd43b;--acc:var(--teal,#0E86C9);--acc-t:var(--teal-tint,#E6F3FA);--amb:var(--amber,#A15C07);max-width:1100px;margin:0 auto}
+/* ---------- story (clean professional storyboard) ---------- */
+.ko{--ln:#e3e7ec;--y:#fff7e0;--acc:var(--teal,#0E86C9);--acc-t:var(--teal-tint,#E6F3FA);--acc-d:var(--teal-deep,#0A5A87);--amb:var(--amber,#A15C07);--tx:#1d2532;--mut:#5b6472;max-width:1100px;margin:0 auto}
 .ko-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.ko-head h2{margin:6px 0 0;font:400 34px/1 "Bangers","Impact","Arial Black",sans-serif;letter-spacing:.05em;color:var(--ink,#101826)}
+.ko-head h2{margin:6px 0 0;font:800 28px/1.15 var(--display,inherit);letter-spacing:-.01em;color:var(--ink,#101826)}
 .ko-head p{margin:6px 0 0;color:var(--ink-muted,#666);font-size:14px}
-.ko-ep{display:inline-block;background:var(--acc);color:#fff;font:700 11px/1 var(--body,inherit);letter-spacing:.06em;padding:6px 10px;border-radius:99px}
-.ko-book{position:relative;background:#fbf7ee;border:3px solid var(--ln);border-radius:14px;box-shadow:8px 8px 0 var(--ln);padding:16px 16px 84px;min-height:560px;color:#151515}
-body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
-.ko-page{animation:koPg .45s cubic-bezier(.2,.9,.3,1.15)}
-@keyframes koPg{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
-.ko-ptitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}
-.ko-ptitle .no{font:400 15px/1 "Bangers","Impact",sans-serif;letter-spacing:.06em;background:#151515;color:#fff;padding:6px 9px;border-radius:6px}
-.ko-ptitle h3{margin:0;font:400 28px/1 "Bangers","Impact","Arial Black",sans-serif;letter-spacing:.05em;color:#151515}
+.ko-ep{display:inline-block;background:var(--acc-t);color:var(--acc-d);font:700 11px/1 var(--body,inherit);letter-spacing:.06em;padding:6px 10px;border-radius:99px}
+.ko-book{position:relative;background:#fff;border:1px solid var(--line,#DDE2E0);border-radius:18px;box-shadow:0 10px 30px -12px rgba(16,24,38,.18);padding:18px 18px 84px;min-height:560px;color:var(--tx)}
+body.dark-mode .ko-book{background:#f7f8fa;border-color:#2b3442}
+.ko-page{animation:koPg .4s ease}
+@keyframes koPg{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.ko-ptitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.ko-ptitle .no{font:700 11px/1 var(--body,inherit);letter-spacing:.06em;background:var(--acc);color:#fff;padding:6px 9px;border-radius:99px}
+.ko-ptitle h3{margin:0;font:800 22px/1.2 var(--display,inherit);letter-spacing:-.01em;color:var(--tx)}
 .ko-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.kp{position:relative;grid-column:span 6;border:3px solid var(--ln);border-radius:6px;background:#fff;overflow:hidden;display:flex;flex-direction:column;min-height:250px;opacity:.13;filter:grayscale(1);transform:scale(.98);transition:opacity .35s,filter .35s,transform .45s cubic-bezier(.2,1.3,.4,1)}
-.kp.in{opacity:1;filter:none;transform:none}
+.kp{position:relative;grid-column:span 6;border:1px solid var(--ln);border-radius:14px;background:#fff;overflow:hidden;display:flex;flex-direction:column;min-height:250px;opacity:.28;filter:saturate(.2);transition:opacity .35s,filter .35s,box-shadow .35s}
+.kp.in{opacity:1;filter:none;box-shadow:0 4px 14px -8px rgba(16,24,38,.2)}
 .kp.w2{grid-column:span 2}.kp.w3{grid-column:span 3}.kp.w4{grid-column:span 4}
-.kp-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
-.kp:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1.2px);background-size:7px 7px;pointer-events:none;z-index:1}
+.kp-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.85}
 .kp>*:not(.kp-bg):not(.kp-sfx){position:relative;z-index:2}
-.kp-cap{align-self:flex-start;margin:0;background:var(--y);border-right:3px solid var(--ln);border-bottom:3px solid var(--ln);padding:6px 10px;font:700 11.5px/1.3 var(--body,inherit);text-transform:uppercase;letter-spacing:.04em;max-width:90%;color:#151515}
-.kp-talk{flex:1;display:flex;flex-direction:column;gap:12px;padding:12px 12px 6px}
-.kb{position:relative;max-width:86%;background:#fff;border:2.5px solid var(--ln);border-radius:18px;padding:8px 12px;font:700 13.5px/1.42 "Comic Neue","Comic Sans MS","Trebuchet MS",sans-serif;color:#151515;box-shadow:2px 3px 0 rgba(0,0,0,.15);opacity:0;transform:scale(.6);transform-origin:var(--o,20% 100%)}
-.kb.show{animation:kbPop .4s cubic-bezier(.2,1.6,.4,1) forwards}
+.kp-cap{align-self:flex-start;margin:0;background:rgba(255,255,255,.92);border-right:1px solid var(--ln);border-bottom:1px solid var(--ln);border-radius:0 0 10px 0;padding:6px 11px;font:700 11px/1.35 var(--body,inherit);text-transform:uppercase;letter-spacing:.05em;max-width:90%;color:var(--acc-d)}
+.kp-talk{flex:1;display:flex;flex-direction:column;gap:10px;padding:12px 12px 6px}
+.kb{position:relative;max-width:86%;background:#fff;border:1px solid #dde2e8;border-radius:14px;padding:9px 13px;font:500 14px/1.5 var(--body,inherit);color:var(--tx);box-shadow:0 3px 10px -4px rgba(16,24,38,.16);opacity:0;transform:translateY(6px)}
+.kb.show{animation:kbPop .35s ease forwards}
 .kb.done{opacity:1;transform:none}
-.kb .caret{display:inline-block;width:2px;height:1em;background:#151515;margin-left:1px;vertical-align:-2px;animation:caret .6s steps(1) infinite}
+.kb .caret{display:inline-block;width:2px;height:1em;background:var(--acc);margin-left:1px;vertical-align:-2px;animation:caret .7s steps(1) infinite}
 @keyframes caret{50%{opacity:0}}
 .ch .mo{opacity:0}
-.ch.talk .mouth{animation:mA .28s steps(1) infinite}.ch.talk .mo{animation:mB .28s steps(1) infinite}
+.ch.talk .mouth{animation:mA .3s steps(1) infinite}.ch.talk .mo{animation:mB .3s steps(1) infinite}
 @keyframes mA{0%{opacity:1}50%{opacity:0}}@keyframes mB{0%{opacity:0}50%{opacity:1}}
-.ch .bd{transform-origin:50% 100%;transform-box:fill-box;animation:breathe 3.2s ease-in-out infinite}
-.ch .hd{transform-origin:50% 90%;transform-box:fill-box}
-.ch.talk .hd{animation:bob .55s ease-in-out infinite alternate}
-.ch.talk .arms{transform-origin:50% 0;transform-box:fill-box;animation:gest 1.1s ease-in-out infinite alternate}
-@keyframes breathe{50%{transform:translateY(1.5px) scaleY(.992)}}
-@keyframes bob{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg) translateY(-1px)}}
-@keyframes gest{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
-.kp.in .ch{animation:enter .55s cubic-bezier(.2,1.2,.4,1) backwards;animation-delay:var(--ed,0s)}
-@keyframes enter{from{opacity:0;transform:translateX(-50%) translateY(40px)}to{opacity:1;transform:translateX(-50%)}}
+.ch .bd{transform-origin:50% 100%;transform-box:fill-box;animation:breathe 4s ease-in-out infinite}
+.ch .hd{transform-origin:50% 95%;transform-box:fill-box}
+.ch.talk .hd{animation:bob 1.3s ease-in-out infinite alternate}
+.ch.talk .arms{transform-origin:50% 0;transform-box:fill-box;animation:gest 1.8s ease-in-out infinite alternate}
+@keyframes breathe{50%{transform:translateY(.8px)}}
+@keyframes bob{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
+@keyframes gest{from{transform:rotate(-.6deg)}to{transform:rotate(.6deg)}}
+.kp.in .ch{animation:enter .5s ease backwards;animation-delay:var(--ed,0s)}
+@keyframes enter{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%)}}
 .ch.talk .tag{background:var(--acc)}
 .ko-play{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}
-.ko-play .big{border:3px solid #151515;background:var(--y);color:#151515;border-radius:14px;padding:12px 20px;font:400 22px/1 "Bangers","Impact",sans-serif;letter-spacing:.06em;cursor:pointer;box-shadow:4px 4px 0 #151515}
-.ko-play .big:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #151515}
+.ko-play .big{border:0;background:var(--acc);color:#fff;border-radius:12px;padding:12px 20px;font:700 15px/1 var(--body,inherit);cursor:pointer;box-shadow:0 8px 18px -10px var(--acc)}
+.ko-play .big:active{transform:translateY(1px)}
 .ko-play span{font-size:13px;color:var(--ink-muted,#555)}
 .ko-nav button.pl{min-width:96px}
-.ko-vbtn{border:2.5px solid #151515;background:#fff;color:#151515;border-radius:12px;padding:9px 12px;font:700 13.5px/1 var(--body,inherit);cursor:pointer;box-shadow:3px 3px 0 #151515}
-.ko-vbtn[aria-pressed="false"]{background:#f1f1f1;color:#666}
-.ko-vsel{display:inline-flex;align-items:center;gap:6px;font:600 12.5px/1 var(--body,inherit);color:var(--ink,#151515)}
-.ko-vsel select{border:2px solid #151515;border-radius:8px;padding:5px 6px;font:inherit;background:#fff;color:#151515}
+.ko-vbtn{border:1px solid var(--line,#d0d6de);background:var(--paper-raised,#fff);color:var(--ink,#1d2532);border-radius:10px;padding:9px 12px;font:600 13px/1 var(--body,inherit);cursor:pointer}
+.ko-vbtn[aria-pressed="false"]{opacity:.7}
+.ko-vsel{display:inline-flex;align-items:center;gap:6px;font:600 12.5px/1 var(--body,inherit);color:var(--ink,#1d2532)}
+.ko-vsel select{border:1px solid var(--line,#d0d6de);border-radius:8px;padding:6px 6px;font:inherit;background:var(--paper-raised,#fff);color:var(--ink,#1d2532)}
 @keyframes kbPop{to{opacity:1;transform:none}}
-.kb .who{display:block;font:800 10px/1 var(--body,inherit);letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:3px}
-.kb:after{content:"";position:absolute;bottom:-10px;left:var(--tx,28px);width:15px;height:15px;background:inherit;border-right:2.5px solid var(--ln);border-bottom:2.5px solid var(--ln);transform:rotate(45deg);border-radius:0 0 3px 0}
-.kb.al{align-self:flex-start}.kb.ac{align-self:center;--tx:calc(50% - 8px);--o:50% 100%}.kb.ar{align-self:flex-end;--tx:calc(100% - 44px);--o:80% 100%}
-.kb.think{background:#eef4ff;border-style:dashed;border-radius:26px}
-.kb.think:after{width:11px;height:11px;border-radius:50%;border:2.5px solid var(--ln);transform:none;bottom:-15px}
-.kb.shout{background:#fff1f1;border-width:3px}
-.kb.narr{background:var(--y);border-radius:4px;box-shadow:none}.kb.narr:after{display:none}
-.kb .why{display:block;margin-top:6px;font:700 11px/1.4 var(--body,inherit);color:var(--acc);background:var(--acc-t);border-radius:8px;padding:5px 7px}
+.kb .who{display:block;font:700 10px/1 var(--body,inherit);letter-spacing:.08em;text-transform:uppercase;color:var(--acc-d);margin-bottom:4px}
+.kb:after{content:"";position:absolute;bottom:-6px;left:var(--tx2,26px);width:11px;height:11px;background:inherit;border-right:1px solid #dde2e8;border-bottom:1px solid #dde2e8;transform:rotate(45deg)}
+.kb.al{align-self:flex-start}.kb.ac{align-self:center;--tx2:calc(50% - 6px)}.kb.ar{align-self:flex-end;--tx2:calc(100% - 40px)}
+.kb.think{background:#f5f7fb;border-style:dashed;font-style:italic}
+.kb.think:after{display:none}
+.kb.shout{background:#fff6f5;border-color:#f6c9c4}
+.kb.shout:after{border-color:#f6c9c4}
+.kb.narr{background:var(--acc-t);border:0;border-left:3px solid var(--acc);border-radius:8px;box-shadow:none;color:var(--tx)}.kb.narr:after{display:none}
+.kb .why{display:block;margin-top:6px;font:600 11.5px/1.45 var(--body,inherit);color:var(--acc-d);background:var(--acc-t);border-radius:8px;padding:5px 8px}
 .kp-cast{position:relative;height:176px;flex:none}
 .kp-cast .ch{position:absolute;bottom:0;width:150px;transform:translateX(-50%)}
 .kp-cast .ch svg{display:block;width:150px;height:176px}
 .kp-cast .ch.flip svg{transform:scaleX(-1)}
-.kp-cast .ch .tag{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:#151515;color:#fff;font:700 10px/1 var(--body,inherit);padding:4px 7px;border-radius:5px;white-space:nowrap;z-index:3}
+.kp-cast .ch .tag{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);background:#1d2532;color:#fff;font:600 10px/1 var(--body,inherit);padding:4px 8px;border-radius:99px;white-space:nowrap;z-index:3}
 .kp-front{position:absolute;left:0;right:0;bottom:0;width:100%;height:34px;z-index:2;pointer-events:none}
 .kp-cast.tbl .ch .tag{bottom:36px}
-.kp-sfx{position:absolute;right:16px;top:12px;z-index:4;font:400 27px/1 "Bangers","Impact","Arial Black",sans-serif;letter-spacing:.06em;color:#ffd43b;-webkit-text-stroke:1.5px #151515;text-shadow:3px 3px 0 #151515;transform:rotate(8deg)}
-.kp.in .kp-sfx{animation:sfx .5s cubic-bezier(.2,1.8,.4,1)}
-@keyframes sfx{from{transform:rotate(8deg) scale(.2)}to{transform:rotate(8deg) scale(1)}}
-.kp-note{background:#151515;color:#fff;font:600 12px/1.4 var(--body,inherit);padding:7px 10px}
+.kp-sfx{position:absolute;right:12px;top:10px;z-index:4;font:700 10.5px/1 var(--body,inherit);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#1d2532;padding:6px 9px;border-radius:99px;box-shadow:0 4px 10px -6px rgba(0,0,0,.4)}
+.kp.in .kp-sfx{animation:sfx .4s ease}
+@keyframes sfx{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.kp-note{background:#1d2532;color:#fff;font:500 12.5px/1.45 var(--body,inherit);padding:8px 12px}
 .kp-info{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
-.kc{background:#fff;border:2.5px solid var(--ln);border-radius:10px;padding:10px 11px;box-shadow:3px 3px 0 var(--ln)}
-.kc h5{margin:0 0 4px;font:800 13.5px/1.3 var(--body,inherit);color:#151515}
-.kc p{margin:0;font-size:12.5px;line-height:1.45;color:#333}
-.kc .tg{display:inline-block;font:700 9.5px/1 var(--body,inherit);letter-spacing:.08em;text-transform:uppercase;background:var(--acc);color:#fff;border-radius:4px;padding:4px 6px;margin-bottom:6px}
-.kc code{display:block;margin-top:6px;font:600 11.5px/1.45 var(--mono,monospace);background:#f4f4f2;border:1px solid #ddd;border-radius:6px;padding:4px 6px;color:#151515;white-space:normal}
-.kc.warn{background:#fffaf0}.kc.warn .tg{background:var(--amb)}
-.kc.pain{background:#fff4f4}.kc.pain .tg{background:#dc2626}
-.kc.ok{background:#f2fbf6}.kc.ok .tg{background:#15803d}
+.kc{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:11px 12px;box-shadow:0 2px 8px -6px rgba(16,24,38,.25)}
+.kc h5{margin:0 0 4px;font:700 13.5px/1.3 var(--display,inherit);color:var(--tx)}
+.kc p{margin:0;font-size:12.5px;line-height:1.5;color:#3d4653}
+.kc .tg{display:inline-block;font:700 9.5px/1 var(--body,inherit);letter-spacing:.08em;text-transform:uppercase;background:var(--acc-t);color:var(--acc-d);border-radius:99px;padding:4px 8px;margin-bottom:6px}
+.kc code{display:block;margin-top:6px;font:600 11.5px/1.45 var(--mono,monospace);background:#f5f7f9;border:1px solid #e6e9ee;border-radius:6px;padding:4px 6px;color:var(--tx);white-space:normal}
+.kc.warn{border-left:3px solid var(--amb)}.kc.warn .tg{background:#fdf1dc;color:var(--amb)}
+.kc.pain{border-left:3px solid #dc2626}.kc.pain .tg{background:#fde8e8;color:#b91c1c}
+.kc.ok{border-left:3px solid #15803d}.kc.ok .tg{background:#e3f6ea;color:#15803d}
 .kg{display:grid;gap:10px}.kg1{grid-template-columns:1fr}.kg2{grid-template-columns:repeat(2,minmax(0,1fr))}.kg3{grid-template-columns:repeat(3,minmax(0,1fr))}.kg4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.kn{background:#fff59d;padding:10px 11px;border-radius:3px;box-shadow:2px 4px 0 rgba(0,0,0,.2);transform:rotate(var(--r,-2deg));font:700 13px/1.35 "Comic Neue","Comic Sans MS",sans-serif;color:#151515}
-.kn b{display:block;font:400 17px/1 "Bangers","Impact",sans-serif;letter-spacing:.05em;margin-bottom:4px}
+.kn{background:#fffaeb;border:1px solid #f3e3b5;padding:10px 12px;border-radius:10px;font:500 13px/1.45 var(--body,inherit);color:var(--tx)}
+.kn b{display:block;font:700 13.5px/1.2 var(--display,inherit);margin-bottom:4px;color:var(--amb)}
 .kroster{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .kroster .kc{text-align:center;padding:8px}
 .kroster svg{width:100px;height:134px;display:block;margin:0 auto -4px}
-.kroster .nm{font:800 12.5px/1.2 var(--body,inherit);color:#151515}
-.kroster .rl{font:700 10.5px/1.2 var(--body,inherit);color:var(--acc);text-transform:uppercase;letter-spacing:.04em;margin:3px 0}
-.kroster .sd{display:inline-block;font:700 9px/1 var(--body,inherit);letter-spacing:.08em;padding:3px 6px;border-radius:4px;margin-bottom:4px;background:#151515;color:#fff}
-.kroster .sd.cl{background:var(--amb)}
+.kroster .nm{font:700 12.5px/1.2 var(--body,inherit);color:var(--tx)}
+.kroster .rl{font:700 10.5px/1.2 var(--body,inherit);color:var(--acc-d);text-transform:uppercase;letter-spacing:.04em;margin:3px 0}
+.kroster .sd{display:inline-block;font:700 9px/1 var(--body,inherit);letter-spacing:.08em;padding:3px 7px;border-radius:99px;margin-bottom:4px;background:#eef1f4;color:#3d4653}
+.kroster .sd.cl{background:#fdf1dc;color:var(--amb)}
 .kroster p{font-size:11.5px}
 .ktime{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative;margin-top:6px}
 .ktime>div{position:relative;padding:40px 6px 0;text-align:center}
-.ktime>div:before{content:"";position:absolute;top:16px;left:0;right:0;height:5px;background:#151515}
+.ktime>div:before{content:"";position:absolute;top:17px;left:0;right:0;height:3px;background:#dfe4ea}
 .ktime>div:first-child:before{left:50%}.ktime>div:last-child:before{right:50%}
-.ktime .dt{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:var(--acc-t);border:3px solid #151515;display:grid;place-items:center;font-size:14px}
-.ktime h6{margin:0;font:400 16px/1 "Bangers","Impact",sans-serif;letter-spacing:.05em;color:#151515}
-.ktime .wk{font:700 10px/1 var(--mono,monospace);color:#555;margin-top:3px}
-.ktime p{font-size:12px;line-height:1.38;margin:5px 0 0;color:#222}
-.kmom{background:#fff;border:2.5px solid var(--ln);border-radius:4px;box-shadow:5px 5px 0 var(--ln);padding:14px 16px;transform:rotate(-.5deg);font-size:13px;color:#151515}
-.kmom h5{margin:0 0 6px;font:400 20px/1 "Bangers","Impact",sans-serif;letter-spacing:.05em}
-.kmom table{width:100%;border-collapse:collapse}.kmom td,.kmom th{border-bottom:1.5px dashed #bbb;padding:6px 4px;text-align:left;vertical-align:top;font-size:12.5px}
-.kmom th{font:700 10px/1 var(--body,inherit);text-transform:uppercase;letter-spacing:.06em;color:#555}
-.kq{margin-bottom:12px}.kq p{font-weight:800;margin:0 0 6px;font-size:14px;color:#151515}
-.kq button{display:block;width:100%;text-align:left;border:2.5px solid #151515;background:#fff;border-radius:10px;padding:8px 11px;margin:6px 0;font:600 13.5px/1.35 var(--body,inherit);cursor:pointer;color:#151515}
-.kq button.ok{background:#bbf7d0}.kq button.no{background:#fecdd3}.kq .fb{font-size:12.5px;margin-top:4px;color:#333}
+.ktime .dt{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--acc);display:grid;place-items:center;font-size:14px}
+.ktime h6{margin:0;font:700 14px/1.2 var(--display,inherit);color:var(--tx)}
+.ktime .wk{font:600 10px/1 var(--mono,monospace);color:var(--mut);margin-top:3px}
+.ktime p{font-size:12px;line-height:1.4;margin:5px 0 0;color:#3d4653}
+.kmom{background:#fff;border:1px solid var(--ln);border-radius:12px;box-shadow:0 6px 18px -12px rgba(16,24,38,.3);padding:14px 16px;font-size:13px;color:var(--tx)}
+.kmom h5{margin:0 0 6px;font:800 16px/1.2 var(--display,inherit)}
+.kmom table{width:100%;border-collapse:collapse}.kmom td,.kmom th{border-bottom:1px solid #eceff3;padding:6px 4px;text-align:left;vertical-align:top;font-size:12.5px}
+.kmom th{font:700 10px/1 var(--body,inherit);text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+.kq{margin-bottom:12px}.kq p{font-weight:700;margin:0 0 6px;font-size:14px;color:var(--tx)}
+.kq button{display:block;width:100%;text-align:left;border:1px solid #d6dbe2;background:#fff;border-radius:10px;padding:9px 12px;margin:6px 0;font:500 13.5px/1.4 var(--body,inherit);cursor:pointer;color:var(--tx)}
+.kq button:hover{border-color:var(--acc)}
+.kq button.ok{background:#e3f6ea;border-color:#86d19f}.kq button.no{background:#fde8e8;border-color:#f3a7a7}.kq .fb{font-size:12.5px;margin-top:4px;color:#3d4653}
 .kcta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.kcta button{border:2.5px solid #151515;background:var(--y);border-radius:10px;padding:9px 12px;font:700 13px/1 var(--body,inherit);cursor:pointer;box-shadow:3px 3px 0 #151515;color:#151515}
-.ko-nav{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:3px solid var(--ln);background:#fff;border-radius:0 0 11px 11px;z-index:5}
-.ko-nav button{border:2.5px solid #151515;background:#fff;color:#151515;border-radius:10px;padding:9px 14px;font:800 14px/1 var(--body,inherit);cursor:pointer;box-shadow:3px 3px 0 #151515}
-.ko-nav button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #151515}
-.ko-nav button.go{background:var(--acc);color:#fff;min-width:140px}
-.ko-nav button:disabled{opacity:.35;cursor:default}
-.ko-prog{flex:1;min-width:80px;height:10px;border:2px solid #151515;border-radius:99px;overflow:hidden;background:#fff}
-.ko-prog i{display:block;height:100%;width:0;background:var(--y);transition:width .3s}
-.ko-scene{font:700 12px/1.2 var(--body,inherit);color:#333;white-space:nowrap}
-.ko-arch{border:2.5px solid var(--ln);border-radius:10px;overflow:hidden}
+.kcta button{border:1px solid var(--acc);background:var(--acc);border-radius:10px;padding:9px 13px;font:600 13px/1 var(--body,inherit);cursor:pointer;color:#fff}
+.ko-nav{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--ln);background:#fff;border-radius:0 0 17px 17px;z-index:5}
+.ko-nav button{border:1px solid #d6dbe2;background:#fff;color:var(--tx);border-radius:10px;padding:9px 14px;font:600 14px/1 var(--body,inherit);cursor:pointer}
+.ko-nav button:hover:not(:disabled){border-color:var(--acc)}
+.ko-nav button.go{background:var(--acc);border-color:var(--acc);color:#fff;min-width:140px}
+.ko-nav button:disabled{opacity:.4;cursor:default}
+.ko-prog{flex:1;min-width:80px;height:6px;border-radius:99px;overflow:hidden;background:#eef1f4}
+.ko-prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.ko-scene{font:600 12px/1.2 var(--body,inherit);color:var(--mut);white-space:nowrap}
+.ko-arch{border:1px solid var(--ln);border-radius:12px;overflow:hidden}
 .ko-arch .arch2{border:0;border-radius:0;box-shadow:none}
-.kp .ch .eye{transform-origin:center;transform-box:fill-box;animation:koBlink 5s infinite}
-@keyframes koBlink{0%,93%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
-@media (max-width:860px){.kp.w2,.kp.w3,.kp.w4{grid-column:span 6}.kg3,.kg4{grid-template-columns:repeat(2,minmax(0,1fr))}.ktime{grid-template-columns:1fr}.ktime>div{padding:0 0 12px 44px;text-align:left}.ktime>div:before{top:0;bottom:0;left:16px;right:auto;width:5px;height:auto}.ktime>div:first-child:before{top:16px;left:16px}.ktime>div:last-child:before{bottom:auto;height:16px;right:auto}.ktime .dt{left:17px;top:0}}
-@media (max-width:560px){.ko-book{padding:10px 10px 84px}.kg2,.kg3,.kg4{grid-template-columns:1fr}.kp-cast{height:140px}.kp-cast .ch{width:118px}.kp-cast .ch svg{width:118px;height:140px}.kb{max-width:96%;font-size:13px}.ko-ptitle h3{font-size:23px}.ko-scene{display:none}.ko-teaser button{margin-left:0;width:100%}.ko-nav{gap:6px;padding:10px}.ko-nav button{padding:8px 10px;font-size:13px}.ko-nav button.go,.ko-nav button.pl{min-width:0}.ko-prog{min-width:24px}.ko-play .big{font-size:19px;padding:10px 14px}}
+.kp .ch .eye{transform-origin:center;transform-box:fill-box;animation:koBlink 5.5s infinite}
+@keyframes koBlink{0%,95%,100%{transform:scaleY(1)}97%{transform:scaleY(.15)}}
+@media (max-width:860px){.kp.w2,.kp.w3,.kp.w4{grid-column:span 6}.kg3,.kg4{grid-template-columns:repeat(2,minmax(0,1fr))}.ktime{grid-template-columns:1fr}.ktime>div{padding:0 0 12px 44px;text-align:left}.ktime>div:before{top:0;bottom:0;left:16px;right:auto;width:3px;height:auto}.ktime>div:first-child:before{top:16px;left:16px}.ktime>div:last-child:before{bottom:auto;height:16px;right:auto}.ktime .dt{left:17px;top:0}}
+@media (max-width:560px){.ko-book{padding:10px 10px 84px}.kg2,.kg3,.kg4{grid-template-columns:1fr}.kp-cast{height:140px}.kp-cast .ch{width:118px}.kp-cast .ch svg{width:118px;height:140px}.kb{max-width:96%;font-size:13.5px}.ko-ptitle h3{font-size:19px}.ko-scene{display:none}.ko-teaser button{margin-left:0;width:100%}.ko-nav{gap:6px;padding:10px}.ko-nav button{padding:8px 10px;font-size:13px}.ko-nav button.go,.ko-nav button.pl{min-width:0}.ko-prog{min-width:24px}.ko-play .big{font-size:14px;padding:10px 14px}}
 @media (prefers-reduced-motion:reduce){.kp,.kb,.ko-page,.arch2-feed div,.kp.in .ch{animation:none!important;transition:none!important;opacity:1!important}.kp,.kb{transform:none!important}.arch2 .pth2,.arch2-live i,.kp .ch .eye,.ch .bd,.ch.talk .hd,.ch.talk .arms{animation:none!important}}
 `;
   function addCss() { if (document.getElementById("ko-css")) return; const s = document.createElement("style"); s.id = "ko-css"; s.textContent = STYLE; document.head.appendChild(s); }
 
-  /* ===================================================== characters ===================================================== */
+  /* ===================================================== characters (clean flat business illustration) ===================================================== */
   // look: {skin, hair, hs, top, wear: blazer|shirt|hoodie|kurta|tee|coat, inner, glasses, beard, stubble, mustache, bindi, earrings, lanyard, tie}
-  const K = "#1b1b1b";
+  const K = "#1f2733";
   const shade = (hex, f) => { const n = parseInt(String(hex).slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255; r = Math.min(255, Math.round(r * f)); g = Math.min(255, Math.round(g * f)); b = Math.min(255, Math.round(b * f)); return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1); };
+  // tone the bright data colours down a little so outfits look like real business clothing
+  const calm = (hex) => { const n = parseInt(String(hex).slice(1), 16); const r = n >> 16, g = (n >> 8) & 255, b = n & 255; const m = (r + g + b) / 3; const mix = (c) => Math.round(c * .78 + m * .12); return "#" + ((1 << 24) + (mix(r) << 16) + (mix(g) << 8) + mix(b)).toString(16).slice(1); };
   function hairBack(L) {
-    const d = shade(L.hair, .8);
-    if (L.hs === "long") return `<path d="M42 70 C34 120 40 160 54 176 L106 176 C120 160 126 120 118 70 Z" fill="${d}" stroke="${K}" stroke-width="2.5"/>`;
-    if (L.hs === "wavy") return `<path d="M44 70 C30 112 38 150 50 160 C58 168 70 164 80 166 C90 164 102 168 110 160 C122 150 130 112 116 70 Z" fill="${d}" stroke="${K}" stroke-width="2.5"/>`;
-    if (L.hs === "pony") return `<path d="M112 64 C132 70 136 104 124 128 C120 112 116 96 108 86 Z" fill="${d}" stroke="${K}" stroke-width="2.5"/>`;
+    const d = shade(L.hairC, .85);
+    if (L.hs === "long") return `<path d="M54 54 C48 84 48 112 54 126 C66 130 94 130 106 126 C112 112 112 84 106 54 Z" fill="${d}"/>`;
+    if (L.hs === "wavy") return `<path d="M54 54 C46 82 50 106 52 116 C56 124 64 122 70 124 C78 122 86 124 92 122 C98 124 106 122 108 114 C112 102 114 80 106 54 Z" fill="${d}"/>`;
+    if (L.hs === "pony") return `<path d="M100 44 C116 50 118 76 110 94 C107 82 104 70 98 62 Z" fill="${d}"/>`;
+    if (L.hs === "bun") return `<circle cx="80" cy="26" r="9.5" fill="${d}"/>`;
     return "";
   }
   function hairFront(L) {
-    const h = L.hair, k = `stroke="${K}" stroke-width="2.5" stroke-linejoin="round"`;
+    const h = L.hairC, hi = `<path d="M66 34 C74 30 86 30 94 34" fill="none" stroke="#fff" stroke-width="1.6" opacity=".18" stroke-linecap="round"/>`;
     switch (L.hs) {
-      case "short": return `<path d="M45 74 C40 40 62 24 82 25 C104 26 122 40 117 74 C112 60 104 52 92 50 C82 56 64 58 52 56 C48 62 46 68 45 74 Z" fill="${h}" ${k}/>`;
-      case "side": return `<path d="M45 76 C40 38 66 22 86 24 C108 27 122 44 116 72 C110 56 98 46 80 46 C70 52 58 52 48 60 Z" fill="${h}" ${k}/><path d="M60 40 C72 34 88 34 102 42" fill="none" stroke="#fff" stroke-width="2" opacity=".35"/>`;
-      case "spiky": return `<path d="M44 74 L46 44 L56 50 L58 30 L70 42 L78 24 L88 40 L98 26 L104 44 L116 38 L116 74 C108 58 96 52 80 52 C64 52 52 58 44 74 Z" fill="${h}" ${k}/>`;
-      case "curly": return `<g fill="${h}" ${k}>${[[52, 46, 12], [66, 34, 13], [82, 30, 13], [98, 34, 13], [111, 46, 12], [46, 60, 9], [117, 60, 9]].map(c => `<circle cx="${c[0]}" cy="${c[1]}" r="${c[2]}"/>`).join("")}</g>`;
-      case "long": case "wavy": return `<path d="M44 80 C38 40 62 24 80 24 C100 24 124 40 116 80 C112 62 104 50 86 46 C80 54 64 58 52 60 C48 66 46 72 44 80 Z" fill="${h}" ${k}/>`;
-      case "bun": return `<circle cx="80" cy="20" r="13" fill="${h}" ${k}/><path d="M45 74 C42 40 62 28 80 28 C100 28 120 40 115 74 C110 58 98 48 80 47 C64 48 52 58 45 74 Z" fill="${h}" ${k}/>`;
-      case "pony": return `<path d="M45 76 C42 40 62 26 80 26 C100 26 120 40 115 74 C110 58 98 48 80 47 C64 48 52 58 45 76 Z" fill="${h}" ${k}/>`;
-      case "bald": return `<path d="M44 66 C44 56 46 52 48 50 L48 76 Z M116 66 C116 56 114 52 112 50 L112 76 Z" fill="${h}" ${k}/><path d="M58 38 C68 32 80 31 92 33" fill="none" stroke="#fff" stroke-width="3" opacity=".45" stroke-linecap="round"/>`;
-      case "grey": return `<path d="M45 74 C40 40 62 24 82 25 C104 26 122 40 117 74 C112 60 104 52 92 50 C82 56 64 58 52 56 C48 62 46 68 45 74 Z" fill="#d6dbe1" ${k}/>`;
+      case "short": return `<path d="M55 62 C52 38 65 27 80 27 C96 27 108 38 105 62 C102 51 97 45 89 42 C80 46 67 46 59 50 C57 54 55.5 58 55 62 Z" fill="${h}"/>${hi}`;
+      case "side": return `<path d="M55 64 C51 36 67 26 84 27 C100 28 109 40 105 61 C100 47 90 40 75 41 C67 44 60 50 55 64 Z" fill="${h}"/>${hi}`;
+      case "spiky": return `<path d="M55 61 C53 41 61 31 71 28 C74 24 79 23 83 25 C89 22 95 25 96 30 C104 34 108 44 105 61 C100 48 92 43 80 43 C68 44 59 50 55 61 Z" fill="${h}"/>${hi}`;
+      case "curly": return `<g fill="${h}">${[[60, 44, 8], [69, 35, 9], [80, 31, 9.5], [91, 35, 9], [100, 44, 8], [56, 54, 6], [104, 54, 6]].map(c => `<circle cx="${c[0]}" cy="${c[1]}" r="${c[2]}"/>`).join("")}</g>`;
+      case "long": case "wavy": return `<path d="M54 68 C49 37 65 26 80 26 C96 26 111 37 106 68 C103 52 95 44 85 41 C80 48 67 52 57 55 C55 59 54.5 63 54 68 Z" fill="${h}"/>${hi}`;
+      case "bun": case "pony": return `<path d="M55 63 C52 37 66 28 80 28 C95 28 108 37 105 62 C101 50 93 43 80 42 C67 43 59 50 55 63 Z" fill="${h}"/>${hi}`;
+      case "bald": return `<path d="M55 58 C55 52 56.5 49 58 47 L58 66 Z M105 58 C105 52 103.5 49 102 47 L102 66 Z" fill="${h}"/>`;
+      case "grey": return `<path d="M55 62 C52 38 65 27 80 27 C96 27 108 38 105 62 C102 51 97 45 89 42 C80 46 67 46 59 50 C57 54 55.5 58 55 62 Z" fill="#c9ced6"/><path d="M66 34 C74 30 86 30 94 34" fill="none" stroke="#fff" stroke-width="1.6" opacity=".4" stroke-linecap="round"/>`;
       default: return "";
     }
   }
   function faceParts(L, mood) {
-    const k = K;
-    const brow = { worry: `<path d="M56 56 L70 60 M104 56 L90 60" stroke="${k}" stroke-width="3.2" stroke-linecap="round"/>`, angry: `<path d="M56 54 L71 61 M104 54 L89 61" stroke="${k}" stroke-width="3.6" stroke-linecap="round"/>`, think: `<path d="M56 57 L70 56 M90 53 Q97 50 104 55" fill="none" stroke="${k}" stroke-width="3.2" stroke-linecap="round"/>`, wow: `<path d="M56 52 Q63 47 70 52 M90 52 Q97 47 104 52" fill="none" stroke="${k}" stroke-width="3.2" stroke-linecap="round"/>` }[mood] || `<path d="M56 56 Q63 52 70 56 M90 56 Q97 52 104 56" fill="none" stroke="${k}" stroke-width="3.2" stroke-linecap="round"/>`;
+    const ink = "#2a221d", br = shade(L.hairC === "#c9ced6" ? "#8b9099" : L.hairC, 1), lip = shade(L.skin, .62);
+    const brow = { worry: `<path d="M66 54 L74 56.5 M94 54 L86 56.5" stroke="${br}" stroke-width="2" stroke-linecap="round"/>`, angry: `<path d="M66 53.5 L74.5 57 M94 53.5 L85.5 57" stroke="${br}" stroke-width="2.2" stroke-linecap="round"/>`, think: `<path d="M66 55.5 L74 55 M86 53 Q90 51 94 53.5" fill="none" stroke="${br}" stroke-width="2" stroke-linecap="round"/>`, wow: `<path d="M66 52.5 Q70 50 74 52.5 M86 52.5 Q90 50 94 52.5" fill="none" stroke="${br}" stroke-width="2" stroke-linecap="round"/>` }[mood] || `<path d="M66 55 Q70 53 74 55 M86 55 Q90 53 94 55" fill="none" stroke="${br}" stroke-width="2" stroke-linecap="round"/>`;
     let eyes;
-    if (mood === "happy") eyes = `<path class="eye" d="M58 69 Q64 62 70 69 M90 69 Q96 62 102 69" fill="none" stroke="${k}" stroke-width="3.2" stroke-linecap="round"/>`;
-    else { const px = mood === "think" ? 3 : 0, py = mood === "think" ? -3 : 0, r = mood === "wow" ? 7.5 : 6.5; eyes = `<g class="eye"><ellipse cx="64" cy="68" rx="${r}" ry="${r + .8}" fill="#fff" stroke="${k}" stroke-width="2"/><ellipse cx="96" cy="68" rx="${r}" ry="${r + .8}" fill="#fff" stroke="${k}" stroke-width="2"/><circle cx="${65 + px}" cy="${69 + py}" r="3.6" fill="${k}"/><circle cx="${97 + px}" cy="${69 + py}" r="3.6" fill="${k}"/><circle cx="${66.5 + px}" cy="${67.6 + py}" r="1.2" fill="#fff"/><circle cx="${98.5 + px}" cy="${67.6 + py}" r="1.2" fill="#fff"/></g>`; }
-    const mouth = { worry: `<path d="M70 96 Q80 89 90 96" fill="none" stroke="${k}" stroke-width="3" stroke-linecap="round"/>`, angry: `<path d="M68 96 Q80 90 92 96 L92 98 Q80 94 68 98 Z" fill="#7a1d1d" stroke="${k}" stroke-width="2.6" stroke-linejoin="round"/>`, think: `<path d="M72 94 Q80 92 88 90" fill="none" stroke="${k}" stroke-width="3" stroke-linecap="round"/>`, wow: `<ellipse cx="80" cy="94" rx="6" ry="7.5" fill="#7a1d1d" stroke="${k}" stroke-width="2.5"/>`, happy: `<path d="M66 88 Q80 106 94 88 Z" fill="#fff" stroke="${k}" stroke-width="2.8" stroke-linejoin="round"/>` }[mood] || `<path d="M68 89 Q80 100 92 89" fill="none" stroke="${k}" stroke-width="3" stroke-linecap="round"/>`;
-    const nose = `<path d="M80 74 Q76 83 81 85" fill="none" stroke="${shade(L.skin, .7)}" stroke-width="2.4" stroke-linecap="round"/>`;
-    const blush = `<ellipse cx="57" cy="83" rx="6" ry="3.5" fill="#f87171" opacity=".28"/><ellipse cx="103" cy="83" rx="6" ry="3.5" fill="#f87171" opacity=".28"/>`;
-    const glasses = L.glasses ? `<g fill="rgba(255,255,255,.18)" stroke="${k}" stroke-width="2.6"><rect x="53" y="59" width="22" height="18" rx="6"/><rect x="85" y="59" width="22" height="18" rx="6"/><path d="M75 67 H85 M53 66 L46 63 M107 66 L114 63"/></g>` : "";
-    const beard = L.beard ? `<path d="M48 82 C50 108 64 120 80 120 C96 120 110 108 112 82 C104 96 94 100 80 100 C66 100 56 96 48 82 Z" fill="${L.hair}" stroke="${k}" stroke-width="2.4"/>` : "";
-    const stub = L.stubble ? `<path d="M50 88 C54 106 66 116 80 116 C94 116 106 106 110 88" fill="none" stroke="${shade(L.skin, .72)}" stroke-width="9" opacity=".3"/>` : "";
-    const must = L.mustache || L.beard ? `<path d="M66 86 Q73 81 80 85 Q87 81 94 86 Q87 90 80 87 Q73 90 66 86 Z" fill="${L.hair}" stroke="${k}" stroke-width="1.8"/>` : "";
-    const bindi = L.bindi ? `<circle cx="80" cy="54" r="2.4" fill="#dc2626"/>` : "";
-    const open = `<ellipse class="mo" cx="80" cy="93" rx="6.5" ry="5.5" fill="#7a1d1d" stroke="${k}" stroke-width="2.4"/>`;
-    return brow + eyes + nose + blush + stub + beard + `<g class="mouth">${mouth}</g>` + open + must + glasses + bindi;
+    if (mood === "happy") eyes = `<path class="eye" d="M67 62.5 Q70 59.5 73 62.5 M87 62.5 Q90 59.5 93 62.5" fill="none" stroke="${ink}" stroke-width="1.9" stroke-linecap="round"/>`;
+    else { const px = mood === "think" ? 1.2 : 0, py = mood === "think" ? -1 : 0, r = mood === "wow" ? 2.6 : 2.2; eyes = `<g class="eye"><ellipse cx="${70 + px}" cy="${62 + py}" rx="${r}" ry="${r + .5}" fill="${ink}"/><ellipse cx="${90 + px}" cy="${62 + py}" rx="${r}" ry="${r + .5}" fill="${ink}"/><circle cx="${70.8 + px}" cy="${61.1 + py}" r=".7" fill="#fff"/><circle cx="${90.8 + px}" cy="${61.1 + py}" r=".7" fill="#fff"/></g>`; }
+    const mouth = { worry: `<path d="M75 79 Q80 76.5 85 79" fill="none" stroke="${lip}" stroke-width="1.8" stroke-linecap="round"/>`, angry: `<path d="M75 78.5 Q80 76.8 85 78.5" fill="none" stroke="${lip}" stroke-width="2" stroke-linecap="round"/>`, think: `<path d="M76 78 Q80 77.6 85 76.6" fill="none" stroke="${lip}" stroke-width="1.8" stroke-linecap="round"/>`, wow: `<ellipse cx="80" cy="78" rx="2.6" ry="3.2" fill="#6e3b33"/>`, happy: `<path d="M73.5 75 Q80 83.5 86.5 75 Z" fill="#fff" stroke="${lip}" stroke-width="1.5" stroke-linejoin="round"/>` }[mood] || `<path d="M74.5 75.5 Q80 80.5 85.5 75.5" fill="none" stroke="${lip}" stroke-width="1.8" stroke-linecap="round"/>`;
+    const nose = `<path d="M80 63 Q78 69.5 80.5 71" fill="none" stroke="${shade(L.skin, .78)}" stroke-width="1.5" stroke-linecap="round"/>`;
+    const glasses = L.glasses ? `<g fill="rgba(255,255,255,.12)" stroke="#2b3340" stroke-width="1.5"><rect x="63.5" y="57" width="13" height="10" rx="3.5"/><rect x="83.5" y="57" width="13" height="10" rx="3.5"/><path d="M76.5 61 H83.5 M63.5 60.5 L57 59 M96.5 60.5 L103 59"/></g>` : "";
+    const beard = L.beard ? `<path d="M57 68 C58 86 68 95 80 95 C92 95 102 86 103 68 C98 79 91 82 80 82 C69 82 62 79 57 68 Z" fill="${L.hairC}"/>` : "";
+    const stub = L.stubble ? `<path d="M59 73 C62 85 70 92 80 92 C90 92 98 85 101 73" fill="none" stroke="${shade(L.skin, .7)}" stroke-width="6" opacity=".22"/>` : "";
+    const must = L.mustache || L.beard ? `<path d="M73.5 73.4 Q77 70.8 80 72.6 Q83 70.8 86.5 73.4 Q83 75 80 73.9 Q77 75 73.5 73.4 Z" fill="${L.hairC}"/>` : "";
+    const bindi = L.bindi ? `<circle cx="80" cy="51.5" r="1.4" fill="#c2410c"/>` : "";
+    const open = `<ellipse class="mo" cx="80" cy="77.5" rx="3.4" ry="2.6" fill="#6e3b33"/>`;
+    return brow + eyes + nose + stub + beard + `<g class="mouth">${mouth}</g>` + open + must + glasses + bindi;
   }
   function arm(pts, col, skin, hand) {
     const d = "M" + pts.map(p => p.join(",")).join(" L"), h = pts[pts.length - 1];
-    const hs = hand === "point" ? `<g transform="translate(${h[0]},${h[1]})"><circle r="8.5" fill="${skin}" stroke="${K}" stroke-width="2.4"/><path d="M2 -6 L9 -20" stroke="${K}" stroke-width="7" stroke-linecap="round"/><path d="M2 -6 L9 -20" stroke="${skin}" stroke-width="3.4" stroke-linecap="round"/></g>`
-      : hand === "open" ? `<g transform="translate(${h[0]},${h[1]})"><path d="M-9 4 C-12 -4 -10 -12 -6 -16 M-2 -8 L-3 -20 M3 -8 L4 -21 M7 -6 L10 -17" stroke="${K}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M-9 4 C-12 -4 -10 -12 -6 -16 M-2 -8 L-3 -20 M3 -8 L4 -21 M7 -6 L10 -17" stroke="${skin}" stroke-width="3.4" stroke-linecap="round" fill="none"/><ellipse rx="10" ry="9" fill="${skin}" stroke="${K}" stroke-width="2.4"/></g>`
-      : `<circle cx="${h[0]}" cy="${h[1]}" r="9" fill="${skin}" stroke="${K}" stroke-width="2.4"/>`;
-    return `<path d="${d}" fill="none" stroke="${K}" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>${hs}`;
+    const hs = hand === "point" ? `<g transform="translate(${h[0]},${h[1]})"><circle r="5.6" fill="${skin}"/><path d="M1 -3 L5 -12" stroke="${skin}" stroke-width="3.4" stroke-linecap="round"/></g>`
+      : hand === "open" ? `<g transform="translate(${h[0]},${h[1]})"><path d="M-5 2 L-7 -7 M-2 -3 L-2.5 -11 M1.5 -3 L2 -11.5 M4.5 -2 L6.5 -9.5" stroke="${skin}" stroke-width="3" stroke-linecap="round"/><ellipse rx="6" ry="5.6" fill="${skin}"/></g>`
+      : `<circle cx="${h[0]}" cy="${h[1]}" r="5.8" fill="${skin}"/>`;
+    return `<path d="${d}" fill="none" stroke="${shade(col, .86)}" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>${hs}`;
   }
   const POSES = {
-    idle: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 146], [124, 184], [122, 214]] },
-    point: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 146], [138, 124], [146, 98]], rh: "point" },
-    chin: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 148], [112, 186], [94, 116]] },
-    present: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 146], [142, 170], [150, 150]], rh: "open" },
-    cross: { l: [[44, 148], [62, 186], [112, 176]], r: [[116, 148], [98, 188], [48, 178]] },
-    laptop: { l: [[44, 148], [46, 190], [70, 186]], r: [[116, 148], [114, 190], [90, 186]], prop: "laptop" },
-    wave: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 146], [140, 124], [140, 92]], rh: "open" },
-    cheer: { l: [[44, 146], [24, 116], [30, 84]], r: [[116, 146], [136, 116], [130, 84]] },
-    phone: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 148], [128, 172], [114, 102]], prop: "phone" },
-    facepalm: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 148], [124, 170], [96, 60]], rh: "open" },
-    note: { l: [[44, 148], [50, 188], [74, 180]], r: [[116, 148], [112, 188], [92, 174]], prop: "note" },
-    marker: { l: [[44, 146], [36, 184], [38, 214]], r: [[116, 146], [146, 132], [150, 106]], prop: "marker" },
-    shrug: { l: [[44, 148], [26, 166], [20, 146]], r: [[116, 148], [134, 166], [140, 146]], lh: "open", rh: "open" }
+    idle: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 122], [121, 168], [118, 224]] },
+    point: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 122], [134, 106], [146, 86]], rh: "point" },
+    chin: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 124], [110, 160], [90, 97]] },
+    present: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 122], [136, 150], [148, 134]], rh: "open" },
+    cross: { l: [[46, 124], [58, 156], [104, 148]], r: [[114, 124], [102, 158], [56, 150]] },
+    laptop: { l: [[46, 122], [46, 160], [68, 168]], r: [[114, 122], [114, 160], [92, 168]], prop: "laptop" },
+    wave: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 122], [134, 100], [136, 74]], rh: "open" },
+    cheer: { l: [[46, 122], [32, 98], [36, 70]], r: [[114, 122], [128, 98], [124, 70]] },
+    phone: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 124], [122, 154], [103, 84]], prop: "phone" },
+    facepalm: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 124], [118, 146], [92, 60]], rh: "open" },
+    note: { l: [[46, 124], [50, 160], [70, 158]], r: [[114, 124], [112, 160], [94, 152]], prop: "note" },
+    marker: { l: [[46, 122], [39, 168], [42, 224]], r: [[114, 122], [138, 108], [146, 88]], prop: "marker" },
+    shrug: { l: [[46, 124], [32, 140], [28, 124]], r: [[114, 124], [128, 140], [132, 124]], lh: "open", rh: "open" }
   };
   function torso(L) {
-    const c = L.top, d = shade(c, .82), inner = L.inner || "#ffffff";
-    let s = `<path d="M18 214 C20 172 38 146 62 140 L98 140 C122 146 140 172 142 214 Z" fill="${c}" stroke="${K}" stroke-width="2.6"/><path d="M118 152 C130 168 136 190 138 214 L126 214 C124 190 120 170 112 156 Z" fill="#000" opacity=".08"/>`;
-    if (L.wear === "blazer") s += `<path d="M66 140 L80 176 L94 140 Z" fill="${inner}" stroke="${K}" stroke-width="2.2"/><path d="M62 140 L80 186 L70 214 M98 140 L80 186 L90 214" fill="none" stroke="${K}" stroke-width="2.2"/><path d="M62 140 L54 158 L68 164 Z M98 140 L106 158 L92 164 Z" fill="${d}" stroke="${K}" stroke-width="2"/><circle cx="80" cy="198" r="2.4" fill="${K}"/>`;
-    else if (L.wear === "hoodie") s += `<path d="M54 142 C60 162 100 162 106 142" fill="${d}" stroke="${K}" stroke-width="2.4"/><path d="M74 154 L72 178 M86 154 L88 178" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M56 194 H104 V214 H56 Z" fill="${d}" stroke="${K}" stroke-width="2"/>`;
-    else if (L.wear === "kurta") s += `<path d="M70 140 L70 150 C70 156 90 156 90 150 L90 140" fill="${d}" stroke="${K}" stroke-width="2"/><path d="M80 150 V192" stroke="${K}" stroke-width="2"/><circle cx="80" cy="164" r="1.8" fill="${K}"/><circle cx="80" cy="176" r="1.8" fill="${K}"/>`;
-    else if (L.wear === "coat") s += `<path d="M66 140 L80 166 L94 140 Z" fill="${inner}" stroke="${K}" stroke-width="2"/><path d="M80 166 V214" stroke="${K}" stroke-width="2"/><path d="M104 170 h9 v12 h-9 z" fill="#93c5fd" stroke="${K}" stroke-width="1.6"/><path d="M44 150 C52 168 54 190 52 214" fill="none" stroke="#94a3b8" stroke-width="3"/>`;
-    else if (L.wear === "tee") s += `<path d="M66 140 Q80 154 94 140" fill="none" stroke="${K}" stroke-width="2.4"/><path d="M70 176 h20 v14 h-20 z" fill="rgba(255,255,255,.35)" stroke="${K}" stroke-width="1.5"/>`;
-    else s += `<path d="M64 140 L80 156 L96 140 L90 150 L80 160 L70 150 Z" fill="${inner}" stroke="${K}" stroke-width="2.2"/><path d="M80 160 V214" stroke="${K}" stroke-width="1.6" opacity=".5"/><circle cx="80" cy="176" r="1.6" fill="${K}"/><circle cx="80" cy="192" r="1.6" fill="${K}"/>`;
-    if (L.tie) s += `<path d="M80 156 L74 166 L80 198 L86 166 Z" fill="${L.tie === true ? "#b91c1c" : L.tie}" stroke="${K}" stroke-width="2"/>`;
-    if (L.lanyard) s += `<path d="M66 142 L76 184 M94 142 L84 184" stroke="${L.lanyard}" stroke-width="3.5"/><rect x="72" y="182" width="16" height="20" rx="2" fill="#fff" stroke="${K}" stroke-width="2"/><rect x="75" y="186" width="10" height="6" fill="${L.lanyard}"/>`;
+    const c = L.topC, d = shade(c, .82), inner = L.inner || "#f8fafc";
+    let s = `<path d="M30 214 C30 160 33 126 48 116 C55 111 63 109.5 70 108.5 L90 108.5 C97 109.5 105 111 112 116 C127 126 130 160 130 214 Z" fill="${c}"/><path d="M106 116 C122 128 128 160 130 214 L114 214 C114 174 112 140 104 120 Z" fill="#000" opacity=".07"/>`;
+    if (L.wear === "blazer") s += `<path d="M69 110 L80 146 L91 110 Z" fill="${inner}"/><path d="M66 110 L80 152 L60 128 L62 112 Z M94 110 L80 152 L100 128 L98 112 Z" fill="${d}"/><path d="M80 152 V214" stroke="${shade(c, .7)}" stroke-width="1.2"/><circle cx="80" cy="172" r="1.6" fill="${shade(c, .6)}"/><circle cx="80" cy="186" r="1.6" fill="${shade(c, .6)}"/><path d="M104 140 h10" stroke="${shade(c, .7)}" stroke-width="1.4" stroke-linecap="round"/>`;
+    else if (L.wear === "hoodie") s += `<path d="M60 112 C64 128 96 128 100 112" fill="${d}"/><path d="M75 124 L74 144 M85 124 L86 144" stroke="#f1f5f9" stroke-width="1.6" stroke-linecap="round"/><path d="M60 178 H100 V200 H60 Z" fill="${d}" opacity=".7"/>`;
+    else if (L.wear === "kurta") s += `<path d="M72 110 L72 118 C72 123 88 123 88 118 L88 110" fill="${d}"/><path d="M80 120 V170" stroke="${shade(c, .7)}" stroke-width="1.4"/><circle cx="80" cy="132" r="1.3" fill="${shade(c, .55)}"/><circle cx="80" cy="144" r="1.3" fill="${shade(c, .55)}"/><circle cx="80" cy="156" r="1.3" fill="${shade(c, .55)}"/>`;
+    else if (L.wear === "coat") s += `<path d="M69 110 L80 136 L91 110 Z" fill="${inner}"/><path d="M80 136 V214" stroke="${shade(c, .75)}" stroke-width="1.4"/><rect x="100" y="146" width="10" height="13" rx="1.5" fill="#93c5fd"/><path d="M58 122 C64 140 66 170 64 196" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round"/><circle cx="64" cy="198" r="3.5" fill="#94a3b8"/>`;
+    else if (L.wear === "tee") s += `<path d="M69 110 Q80 121 91 110" fill="none" stroke="${shade(c, .7)}" stroke-width="2"/>`;
+    else s += `<path d="M68 110 L80 124 L92 110 L88 104 L80 112 L72 104 Z" fill="${inner}"/><path d="M80 124 V214" stroke="${shade(c, .74)}" stroke-width="1.2"/><circle cx="80" cy="140" r="1.3" fill="${shade(c, .6)}"/><circle cx="80" cy="156" r="1.3" fill="${shade(c, .6)}"/><circle cx="80" cy="172" r="1.3" fill="${shade(c, .6)}"/>`;
+    if (L.tie) s += `<path d="M77 122 L83 122 L82 127 L85 160 L80 166 L75 160 L78 127 Z" fill="${L.tie === true ? "#7f1d1d" : calm(L.tie)}"/>`;
+    if (L.lanyard) s += `<path d="M68 112 L77 150 M92 112 L83 150" stroke="${calm(L.lanyard)}" stroke-width="2.4"/><rect x="73" y="148" width="14" height="18" rx="2" fill="#fff" stroke="#cbd5e1" stroke-width="1"/><rect x="75.5" y="151" width="9" height="5" rx="1" fill="${calm(L.lanyard)}"/>`;
     return s;
   }
   function prop(kind) {
-    if (kind === "laptop") return `<g><path d="M44 178 L116 178 L124 208 L36 208 Z" fill="#cbd5e1" stroke="${K}" stroke-width="2.4"/><rect x="50" y="146" width="60" height="34" rx="3" fill="#334155" stroke="${K}" stroke-width="2.4" transform="rotate(-6 80 162)"/><circle cx="80" cy="162" r="4" fill="#e2e8f0" transform="rotate(-6 80 162)"/></g>`;
-    if (kind === "phone") return `<rect x="104" y="74" width="14" height="26" rx="3" fill="#1f2937" stroke="${K}" stroke-width="2"/>`;
-    if (kind === "note") return `<g transform="rotate(-8 82 176)"><rect x="64" y="160" width="40" height="44" rx="3" fill="#fff" stroke="${K}" stroke-width="2.4"/><path d="M70 172 h28 M70 180 h24 M70 188 h26" stroke="#94a3b8" stroke-width="2"/><rect x="64" y="160" width="40" height="7" fill="#fbbf24" stroke="${K}" stroke-width="2"/></g>`;
-    if (kind === "marker") return `<rect x="147" y="86" width="7" height="22" rx="2" fill="#2563eb" stroke="${K}" stroke-width="2" transform="rotate(20 150 98)"/>`;
+    if (kind === "laptop") return `<g><path d="M44 170 L116 170 L122 186 L38 186 Z" fill="#cbd5e1"/><path d="M38 186 L122 186 L120 190 L40 190 Z" fill="#94a3b8"/><rect x="50" y="136" width="60" height="36" rx="3" fill="#334155" transform="rotate(-4 80 154)"/><circle cx="80" cy="154" r="3" fill="#e2e8f0" transform="rotate(-4 80 154)"/></g>`;
+    if (kind === "phone") return `<rect x="99" y="62" width="9" height="18" rx="2.2" fill="#1f2937"/>`;
+    if (kind === "note") return `<g transform="rotate(-6 84 150)"><rect x="64" y="132" width="38" height="44" rx="3" fill="#fff" stroke="#d6dbe1" stroke-width="1"/><path d="M70 144 h26 M70 151 h22 M70 158 h24 M70 165 h18" stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round"/><rect x="64" y="132" width="38" height="6" rx="2" style="fill:var(--teal,#0E86C9)"/></g>`;
+    if (kind === "marker") return `<rect x="143" y="72" width="5.5" height="18" rx="1.6" style="fill:var(--teal,#0E86C9)" transform="rotate(20 146 82)"/>`;
     return "";
   }
   function figure(look, mood, pose) {
-    const L = Object.assign({ skin: "#E0A982", hair: "#2a1d14", hs: "short", top: "#2563eb", wear: "shirt" }, look || {});
+    const L = Object.assign({ skin: "#D9A07A", hair: "#2a1d14", hs: "short", top: "#2563eb", wear: "shirt" }, look || {});
+    L.topC = calm(L.top); L.hairC = L.hs === "grey" ? "#c9ced6" : L.hair;
     const Pz = POSES[pose] || POSES.idle; mood = mood || "smile";
     const front = ["chin", "facepalm", "phone"].includes(pose);
-    const arms = arm(Pz.l, L.top, L.skin, Pz.lh) + arm(Pz.r, L.top, L.skin, Pz.rh);
-    const head = `<rect x="70" y="112" width="20" height="30" rx="7" fill="${shade(L.skin, .88)}" stroke="${K}" stroke-width="2.6"/>
-      <ellipse cx="44" cy="74" rx="7" ry="10" fill="${L.skin}" stroke="${K}" stroke-width="2.6"/><ellipse cx="116" cy="74" rx="7" ry="10" fill="${L.skin}" stroke="${K}" stroke-width="2.6"/>
-      ${L.earrings ? `<circle cx="44" cy="88" r="3.4" fill="#facc15" stroke="${K}" stroke-width="1.6"/><circle cx="116" cy="88" r="3.4" fill="#facc15" stroke="${K}" stroke-width="1.6"/>` : ""}
-      <path d="M44 72 C44 40 60 30 80 30 C100 30 116 40 116 72 C116 102 100 120 80 120 C60 120 44 102 44 72 Z" fill="${L.skin}" stroke="${K}" stroke-width="2.6"/>
-      <path d="M100 40 C114 54 116 90 98 114 C108 96 110 66 100 40 Z" fill="#000" opacity=".07"/>`;
-    return `<svg viewBox="0 0 160 214" aria-hidden="true"><g class="bd">${torso(L)}${front ? "" : `<g class="arms">${arms}</g>`}<g class="hd">${hairBack(L)}${head}${hairFront(L)}${faceParts(L, mood)}</g>${front ? `<g class="arms">${arms}</g>` : ""}${prop(Pz.prop)}</g></svg>`;
+    const arms = arm(Pz.l, L.topC, L.skin, Pz.lh) + arm(Pz.r, L.topC, L.skin, Pz.rh);
+    const sk = L.skin, skd = shade(sk, .9);
+    const head = `<path d="M73 84 L87 84 L87 102 Q80 107 73 102 Z" fill="${skd}"/><path d="M73 96 Q80 101 87 96 L87 92 Q80 97 73 92 Z" fill="#000" opacity=".08"/>
+      <ellipse cx="55.5" cy="64" rx="3.6" ry="6" fill="${skd}"/><ellipse cx="104.5" cy="64" rx="3.6" ry="6" fill="${skd}"/>
+      ${L.earrings ? `<circle cx="55.5" cy="72" r="1.8" fill="#d4a017"/><circle cx="104.5" cy="72" r="1.8" fill="#d4a017"/>` : ""}
+      <path d="M56 60 C56 38 66 30 80 30 C94 30 104 38 104 60 C104 80 94 92 80 92 C66 92 56 80 56 60 Z" fill="${sk}"/>
+      <path d="M94 38 C104 50 104 74 92 88 C99 74 100 54 94 38 Z" fill="#000" opacity=".06"/>`;
+    return `<svg viewBox="0 0 160 214" aria-hidden="true"><ellipse cx="80" cy="212" rx="50" ry="3" fill="#000" opacity=".06"/><g class="bd">${torso(L)}${front ? "" : `<g class="arms">${arms}</g>`}<g class="hd"><g transform="translate(0 6)">${hairBack(L)}${head}${hairFront(L)}${faceParts(L, mood)}</g></g>${front ? `<g class="arms">${arms}</g>` : ""}${prop(Pz.prop)}</g></svg>`;
   }
 
   /* ===================================================== backgrounds ===================================================== */
   const BG = {
-    cabin: `<rect width="400" height="260" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="220" y="24" width="150" height="120" rx="4" fill="#cfe8ff" stroke="#1b1b1b" stroke-width="3"/><path d="M220 144 V110 h20 V90 h16 v54 M262 144 V74 h22 v70 M290 144 V98 h18 v46 M314 144 V82 h24 v62 M344 144 V104 h26 v40" style="fill:var(--teal,#0E86C9)" opacity=".25"/><path d="M295 24 V144 M220 84 H370" stroke="#1b1b1b" stroke-width="3"/><rect x="30" y="40" width="70" height="52" rx="3" fill="#fff" stroke="#1b1b1b" stroke-width="3"/><path d="M40 80 l12 -12 l10 6 l14 -18 l14 8" fill="none" style="stroke:var(--teal,#0E86C9)" stroke-width="3"/><rect y="200" width="400" height="60" fill="#8a5a3c" stroke="#1b1b1b" stroke-width="3"/>`,
-    meeting: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect width="400" height="24" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="120" y="30" width="160" height="90" rx="6" fill="#1f2937" stroke="#1b1b1b" stroke-width="3"/><rect x="132" y="42" width="136" height="66" rx="3" fill="#0f172a"/><path d="M142 96 l20 -14 l16 8 l22 -22 l18 10 l22 -18" fill="none" style="stroke:var(--teal,#0E86C9)" stroke-width="3"/><rect x="20" y="40" width="70" height="110" fill="#e5e7eb" stroke="#1b1b1b" stroke-width="3"/><path d="M55 40 V150" stroke="#1b1b1b" stroke-width="2"/><g transform="translate(330 70)"><path d="M10 80 h30 l-5 30 h-20 z" fill="#b45309" stroke="#1b1b1b" stroke-width="2.5"/><path d="M25 80 C10 60 0 40 8 20 M25 80 C30 50 40 30 50 22 M25 80 C24 56 26 36 28 10" fill="none" stroke="#15803d" stroke-width="7" stroke-linecap="round"/></g>`,
-    board: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect x="30" y="18" width="340" height="150" rx="4" fill="#fff" stroke="#1b1b1b" stroke-width="3"/><rect x="30" y="162" width="340" height="8" fill="#9ca3af" stroke="#1b1b1b" stroke-width="2"/><g fill="none" stroke-width="3" stroke-linecap="round"><rect x="56" y="44" width="56" height="34" rx="6" style="stroke:var(--teal,#0E86C9)"/><path d="M114 61 h40" style="stroke:var(--teal,#0E86C9)"/><ellipse cx="184" cy="52" rx="26" ry="8" style="stroke:var(--blue,#2856A3)"/><path d="M158 52 v24 a26 8 0 0 0 52 0 v-24" style="stroke:var(--blue,#2856A3)"/><path d="M212 64 h40" style="stroke:var(--amber,#A15C07)"/><path d="M262 44 l44 0 l-16 20 l0 18 l-12 6 l0 -24 z" style="stroke:var(--amber,#A15C07)"/><path d="M70 120 q40 -20 80 0 t80 0 t80 0" stroke="#ef4444"/></g>`,
-    corridor: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect y="200" width="400" height="60" fill="#d6d3d1" stroke="#1b1b1b" stroke-width="3"/><g stroke="#1b1b1b" stroke-width="3"><rect x="20" y="20" width="110" height="180" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="150" y="20" width="110" height="180" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="290" y="40" width="80" height="160" fill="#a16207"/></g><circle cx="356" cy="122" r="4" fill="#fde68a" stroke="#1b1b1b" stroke-width="2"/><path d="M40 40 l30 60 M170 40 l30 60" stroke="#fff" stroke-width="6" opacity=".7"/>`,
-    night: `<rect width="400" height="260" fill="#1e293b"/><rect x="240" y="20" width="140" height="110" rx="4" fill="#0f172a" stroke="#000" stroke-width="3"/><circle cx="340" cy="52" r="14" fill="#fef3c7"/><g fill="#fde68a" opacity=".6"><rect x="252" y="96" width="6" height="8"/><rect x="270" y="86" width="6" height="8"/><rect x="300" y="100" width="6" height="8"/></g><path d="M40 0 L90 0 L120 200 L10 200 Z" fill="#fde68a" opacity=".08"/><rect y="200" width="400" height="60" fill="#334155" stroke="#000" stroke-width="3"/>`,
-    burst: `<rect width="400" height="260" style="fill:var(--amber-tint,#FBF0DD)"/><g style="fill:var(--amber,#A15C07)" opacity=".18">${Array.from({ length: 18 }, (_, i) => { const a = i / 18 * Math.PI * 2, b = a + Math.PI / 18; return `<path d="M200 130 L${(200 + 400 * Math.cos(a)).toFixed(1)} ${(130 + 400 * Math.sin(a)).toFixed(1)} L${(200 + 400 * Math.cos(b)).toFixed(1)} ${(130 + 400 * Math.sin(b)).toFixed(1)} Z"/>`; }).join("")}</g>`,
+    cabin: `<rect width="400" height="260" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="220" y="24" width="150" height="120" rx="4" fill="#cfe8ff" stroke="#d5dbe2" stroke-width="1.5"/><path d="M220 144 V110 h20 V90 h16 v54 M262 144 V74 h22 v70 M290 144 V98 h18 v46 M314 144 V82 h24 v62 M344 144 V104 h26 v40" style="fill:var(--teal,#0E86C9)" opacity=".25"/><path d="M295 24 V144 M220 84 H370" stroke="#d5dbe2" stroke-width="1.5"/><rect x="30" y="40" width="70" height="52" rx="3" fill="#fff" stroke="#d5dbe2" stroke-width="1.5"/><path d="M40 80 l12 -12 l10 6 l14 -18 l14 8" fill="none" style="stroke:var(--teal,#0E86C9)" stroke-width="3"/><rect y="200" width="400" height="60" fill="#e8dccb" stroke="#d5dbe2" stroke-width="1.5"/>`,
+    meeting: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect width="400" height="24" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="120" y="30" width="160" height="90" rx="6" fill="#1f2937" stroke="#d5dbe2" stroke-width="1.5"/><rect x="132" y="42" width="136" height="66" rx="3" fill="#0f172a"/><path d="M142 96 l20 -14 l16 8 l22 -22 l18 10 l22 -18" fill="none" style="stroke:var(--teal,#0E86C9)" stroke-width="3"/><rect x="20" y="40" width="70" height="110" fill="#e5e7eb" stroke="#d5dbe2" stroke-width="1.5"/><path d="M55 40 V150" stroke="#d5dbe2" stroke-width="1"/><g transform="translate(330 70)"><path d="M10 80 h30 l-5 30 h-20 z" fill="#b45309" stroke="#d5dbe2" stroke-width="1.2"/><path d="M25 80 C10 60 0 40 8 20 M25 80 C30 50 40 30 50 22 M25 80 C24 56 26 36 28 10" fill="none" stroke="#15803d" stroke-width="7" stroke-linecap="round"/></g>`,
+    board: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect x="30" y="18" width="340" height="150" rx="4" fill="#fff" stroke="#d5dbe2" stroke-width="1.5"/><rect x="30" y="162" width="340" height="8" fill="#9ca3af" stroke="#d5dbe2" stroke-width="1"/><g fill="none" stroke-width="2" stroke-linecap="round" opacity=".45"><rect x="56" y="44" width="56" height="34" rx="6" style="stroke:var(--teal,#0E86C9)"/><path d="M114 61 h40" style="stroke:var(--teal,#0E86C9)"/><ellipse cx="184" cy="52" rx="26" ry="8" style="stroke:var(--blue,#2856A3)"/><path d="M158 52 v24 a26 8 0 0 0 52 0 v-24" style="stroke:var(--blue,#2856A3)"/><path d="M212 64 h40" style="stroke:var(--amber,#A15C07)"/><path d="M262 44 l44 0 l-16 20 l0 18 l-12 6 l0 -24 z" style="stroke:var(--amber,#A15C07)"/><path d="M70 120 q40 -20 80 0 t80 0 t80 0" style="stroke:var(--teal,#0E86C9)" opacity=".5"/></g>`,
+    corridor: `<rect width="400" height="260" style="fill:var(--paper,#F6F7F5)"/><rect y="200" width="400" height="60" fill="#ebe8e4" stroke="#d5dbe2" stroke-width="1.5"/><g stroke="#d5dbe2" stroke-width="1.5"><rect x="20" y="20" width="110" height="180" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="150" y="20" width="110" height="180" style="fill:var(--teal-tint,#E6F3FA)"/><rect x="290" y="40" width="80" height="160" fill="#c9a77c"/></g><circle cx="356" cy="122" r="4" fill="#fde68a" stroke="#d5dbe2" stroke-width="1"/><path d="M40 40 l30 60 M170 40 l30 60" stroke="#fff" stroke-width="6" opacity=".7"/>`,
+    night: `<rect width="400" height="260" fill="#1e293b"/><rect x="240" y="20" width="140" height="110" rx="4" fill="#0f172a" stroke="#0b1220" stroke-width="1"/><circle cx="340" cy="52" r="14" fill="#fef3c7"/><g fill="#fde68a" opacity=".6"><rect x="252" y="96" width="6" height="8"/><rect x="270" y="86" width="6" height="8"/><rect x="300" y="100" width="6" height="8"/></g><path d="M40 0 L90 0 L120 200 L10 200 Z" fill="#fde68a" opacity=".08"/><rect y="200" width="400" height="60" fill="#334155" stroke="#0b1220" stroke-width="1"/>`,
+    burst: `<rect width="400" height="260" style="fill:var(--amber-tint,#FBF0DD)"/><g style="fill:var(--amber,#A15C07)" opacity=".08">${Array.from({ length: 18 }, (_, i) => { const a = i / 18 * Math.PI * 2, b = a + Math.PI / 18; return `<path d="M200 130 L${(200 + 400 * Math.cos(a)).toFixed(1)} ${(130 + 400 * Math.sin(a)).toFixed(1)} L${(200 + 400 * Math.cos(b)).toFixed(1)} ${(130 + 400 * Math.sin(b)).toFixed(1)} Z"/>`; }).join("")}</g>`,
     plain: `<rect width="400" height="260" fill="#fff"/>`,
-    desk: `<rect width="400" height="260" style="fill:var(--blue-tint,#E9F0FA)"/><rect x="40" y="40" width="120" height="80" rx="4" fill="#fff" stroke="#1b1b1b" stroke-width="3"/><path d="M52 104 v-30 M72 104 v-44 M92 104 v-22 M112 104 v-36 M132 104 v-50" style="stroke:var(--teal,#0E86C9)" stroke-width="9"/><rect x="250" y="34" width="110" height="74" rx="3" fill="#fde68a" stroke="#1b1b1b" stroke-width="3" transform="rotate(4 305 70)"/><rect y="200" width="400" height="60" fill="#8a5a3c" stroke="#1b1b1b" stroke-width="3"/>`
+    desk: `<rect width="400" height="260" style="fill:var(--blue-tint,#E9F0FA)"/><rect x="40" y="40" width="120" height="80" rx="4" fill="#fff" stroke="#d5dbe2" stroke-width="1.5"/><path d="M52 104 v-30 M72 104 v-44 M92 104 v-22 M112 104 v-36 M132 104 v-50" style="stroke:var(--teal,#0E86C9)" stroke-width="9"/><rect x="250" y="34" width="110" height="74" rx="3" fill="#fde68a" stroke="#d5dbe2" stroke-width="1.5" transform="rotate(4 305 70)"/><rect y="200" width="400" height="60" fill="#e8dccb" stroke="#d5dbe2" stroke-width="1.5"/>`
   };
-  const TABLE = `<svg class="kp-front" viewBox="0 0 400 42" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 42 L-10 14 Q200 -6 410 14 L410 42 Z" fill="#7c4a2d" stroke="#1b1b1b" stroke-width="3"/><path d="M-10 18 Q200 0 410 18" fill="none" stroke="#a46a44" stroke-width="5"/><rect x="60" y="12" width="26" height="14" rx="2" fill="#fff" stroke="#1b1b1b" stroke-width="2"/><rect x="300" y="10" width="34" height="18" rx="2" fill="#cbd5e1" stroke="#1b1b1b" stroke-width="2"/><circle cx="200" cy="18" r="7" fill="#fff" stroke="#1b1b1b" stroke-width="2"/></svg>`;
+  const TABLE = `<svg class="kp-front" viewBox="0 0 400 42" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 42 L-10 14 Q200 -6 410 14 L410 42 Z" fill="#d8c3a5" stroke="#d5dbe2" stroke-width="1.5"/><path d="M-10 18 Q200 0 410 18" fill="none" stroke="#e9dac4" stroke-width="5"/><rect x="60" y="12" width="26" height="14" rx="2" fill="#fff" stroke="#d5dbe2" stroke-width="1"/><rect x="300" y="10" width="34" height="18" rx="2" fill="#cbd5e1" stroke="#d5dbe2" stroke-width="1"/><circle cx="200" cy="18" r="7" fill="#fff" stroke="#d5dbe2" stroke-width="1"/></svg>`;
 
   /* ===================================================== architecture ===================================================== */
   const ST = { src: ["--s-src", "--t-src"], ing: ["--s-ing", "--t-ing"], stg: ["--s-stg", "--t-stg"], trf: ["--s-trf", "--t-trf"], mart: ["--s-mart", "--t-mart"] };
@@ -431,7 +435,7 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
       const who = s[0], x = xs[who], kind = s[2] || "";
       const al = who === "narr" ? "ac" : x == null ? "al" : x < 38 ? "al" : x > 62 ? "ar" : "ac";
       const nm = who === "narr" ? "" : (P[who] ? P[who].short : who);
-      const tx = who !== "narr" && x != null && al === "al" ? `--tx:${Math.max(16, Math.min(80, x * 2.4))}px;` : "";
+      const tx = who !== "narr" && x != null && al === "al" ? `--tx2:${Math.max(16, Math.min(80, x * 2.4))}px;` : "";
       return `<div class="kb ${al} ${who === "narr" ? "narr" : kind}" data-who="${esc(who)}" style="${tx}">${nm ? `<span class="who">${esc(nm)}</span>` : ""}${s[1]}</div>`;
     }).join("");
     const cast = (pn.cast || []).map((c, k) => { const p = P[c[0]]; if (!p) return ""; return `<div class="ch ${c[4] ? "flip" : ""}" data-who="${esc(c[0])}" style="left:${c[1]}%;--ed:${(k * 0.12).toFixed(2)}s">${figure(p.look, c[2], c[3])}<span class="tag">${esc(p.short)}</span></div>`; }).join("");
@@ -459,8 +463,8 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
     const qWho = (q) => q[3] === "ow" ? "ow" : q[3] === "us" ? "us" : "sp";
     // 1 — cold open
     out.push({ t: "The problem lands", panels: [
-      { w: 3, bg: "cabin", cap: esc(D.when.split("·")[0].trim()) + " · " + esc(D.sponsor.role), sfx: "PING!", cast: [["sp", 34, "worry", "facepalm"]], say: [["sp", D.incident, "shout"]] },
-      { w: 3, bg: "burst", cap: "Two minutes later", sfx: "RING!", cast: [["sp", 26, "angry", "phone"], ["lead", 76, "smile", "phone", true]], say: [["sp", `Mahendra, I need your team. ${esc(firstLine)}`], ["lead", `Understood. Before anyone builds anything, let's run a proper <b>kick-off</b>. Tomorrow, 10 AM?`]] },
+      { w: 3, bg: "cabin", cap: esc(D.when.split("·")[0].trim()) + " · " + esc(D.sponsor.role), sfx: "New email", cast: [["sp", 34, "worry", "facepalm"]], say: [["sp", D.incident, "shout"]] },
+      { w: 3, bg: "burst", cap: "Two minutes later", sfx: "Phone call", cast: [["sp", 26, "angry", "phone"], ["lead", 76, "smile", "phone", true]], say: [["sp", `Mahendra, I need your team. ${esc(firstLine)}`], ["lead", `Understood. Before anyone builds anything, let's run a proper <b>kick-off</b>. Tomorrow, 10 AM?`]] },
       { w: 6, bg: "desk", cap: "BI team office · that evening", cast: [["lead", 14, "smile", "present"], ["pm", 38, "smile", "note"], ["ba", 60, "smile", "idle"], ["you", 86, "wow", "idle", true]], say: [["lead", `New client: <b>${esc(D.company)}</b>. Riya, book the room. Arjun, prepare discovery questions.`], ["pm", "Agenda and invite are going out now. 📅"], ["you", "Wait… I'm joining a REAL client kick-off? 😮"]] }] });
     // 2 — what is a kick-off
     out.push({ t: "What is a kick-off?", panels: [
@@ -483,7 +487,7 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
     // 6 — conflict
     const C = D.conflict;
     out.push({ t: "Wait… whose number is right?", panels: [
-      { w: 6, bg: "burst", table: true, cap: "10:35 AM · the argument", sfx: "WAIT!", cast: [["us", 18, "angry", "point"], ["sp", 50, "angry", "cross"], ["ow", 82, "worry", "shrug", true]], say: [["us", `For <b>${esc(C.kpi)}</b>, we always ${esc(C.a)}.`, "shout"], ["sp", `No! ${esc(C.b)}.`, "shout"], ["ow", "…and the source system can give you both. 😬"]] },
+      { w: 6, bg: "burst", table: true, cap: "10:35 AM · the argument", sfx: "Disagreement", cast: [["us", 18, "angry", "point"], ["sp", 50, "angry", "cross"], ["ow", 82, "worry", "shrug", true]], say: [["us", `For <b>${esc(C.kpi)}</b>, we always ${esc(C.a)}.`, "shout"], ["sp", `No! ${esc(C.b)}.`, "shout"], ["ow", "…and the source system can give you both. "]] },
       { w: 3, bg: "meeting", table: true, cap: "The BI team steps in", cast: [["ba", 26, "smile", "present"], ["you", 76, "smile", "note", true]], say: [["ba", "Both are valid questions. They just need <b>different names</b>."], ["you", "Can we write both definitions down and agree which one is the <b>official</b> KPI?"]] },
       { w: 3, info: `${card("ok", "Decision · logged in the KPI document", C.kpi, C.fix)}<div class="kc"><span class="tg">Lesson</span><p>Most dashboard fights are really <b>definition</b> fights. Settle them at kick-off, in writing, approved by the sponsor.</p></div>`, cap: "Conflict resolved" }] });
     // 7 — data reality
@@ -510,12 +514,12 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
     // 11 — wrap
     out.push({ t: "Minutes of meeting", panels: [
       { w: 4, info: `<div class="kmom"><h5>📝 MoM · ${esc(D.project)} kick-off</h5><p style="margin:0 0 8px"><b>Goal:</b> ${esc(D.goal)}</p><table><thead><tr><th>Action item</th><th>Owner</th><th>Due</th></tr></thead><tbody>${D.actions.map(a => `<tr><td>${esc(a[0])}</td><td>${esc(a[1] === "YOU" ? P.you.short : a[1])}</td><td>${esc(a[2])}</td></tr>`).join("")}</tbody></table></div>`, cap: "12:05 PM · you send the minutes", bgc: "#fffdf5" },
-      { w: 2, bg: "meeting", table: true, sfx: "DEAL!", cast: [["sp", 30, "happy", "present"], ["lead", 72, "happy", "present", true]], say: [["sp", esc(D.quote)]] },
+      { w: 2, bg: "meeting", table: true, sfx: "Agreed", cast: [["sp", 30, "happy", "present"], ["lead", 72, "happy", "present", true]], say: [["sp", esc(D.quote)]] },
       { w: 6, bg: "desk", cap: "Back at the BI office", cast: [["pm", 12, "happy", "cheer"], ["you", 36, "happy", "cheer"], ["de", 60, "happy", "laptop"], ["lead", 86, "smile", "wave", true]], say: [["you", "That was way more useful than I expected! 🙌"], ["lead", "A good kick-off saves weeks of rework. Now the real work starts."]] }] });
     // 12 — teaser + quiz
     const Q = [["What is the main goal of a kick-off meeting?", ["Show the client a finished dashboard", "Agree goal, scope, KPIs, data, timeline and owners before building", "Load the data into the database"], 1, "A kick-off aligns everyone BEFORE building. Dashboards come later."], ["Two stakeholders define the same KPI differently. Best move?", ["Pick the one you like", "Show both without labels", "Write both definitions, name them clearly and get the sponsor to approve the official one"], 2, "Name both, document them, and let the sponsor approve the official KPI."]].concat(D.quiz || []);
     out.push({ t: "To be continued…", quiz: Q, panels: [
-      { w: 6, bg: "night", cap: "That night · 11:48 PM", sfx: "UH-OH…", cast: [["de", 28, "wow", "laptop"], ["you", 72, "worry", "facepalm", true]], say: [["de", D.ep2], ["you", "Next episode: <b>The Data Arrives</b>. Bring coffee. ☕"]] },
+      { w: 6, bg: "night", cap: "That night · 11:48 PM", sfx: "Late night", cast: [["de", 28, "wow", "laptop"], ["you", 72, "worry", "facepalm", true]], say: [["de", D.ep2], ["you", "Next episode: <b>The Data Arrives</b>. Bring coffee. ☕"]] },
       { w: 6, info: `<div>${Q.map((q, i) => `<div class="kq" data-q="${i}"><p>${i + 1}. ${esc(q[0])}</p>${q[1].map((o, j) => `<button type="button" data-o="${j}">${esc(o)}</button>`).join("")}<div class="fb"></div></div>`).join("")}<div class="kcta"><button type="button" data-go="problem">🎯 Open the business problem</button><button type="button" data-go="kpis">📊 See all KPIs</button><button type="button" data-go="schedule">📅 My presentation schedule</button><button type="button" data-replay>🔁 Read again</button></div></div>`, cap: "Your turn · quick check 🧠", bgc: "#fffdf5" }] });
     return out;
   }
@@ -528,50 +532,104 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
   const FEM_RE = /female|woman|zira|heera|neerja|swara|kalpana|aditi|raveena|veena|lekha|samantha|victoria|karen|moira|tessa|susan|hazel|catherine|sonia|libby|aria|jenny|michelle|emma|ava|allison|serena|fiona|kate|salli|joanna|kendra|kimberly|ivy|amy|google uk english female|google us english|ananya|isha|priya|anjali|kajal|nicky|shelley|sandy|flo|grandma/i;
   const MAL_RE = /\bmale\b|\bman\b|david|mark|ravi|prabhat|hemant|madhur|daniel|alex|fred|rishi|george|guy|ryan|thomas|oliver|arthur|aaron|tom\b|christopher|eric|james|brian|matthew|joey|justin|russell|google uk english male|kunal|aarav|rocko|reed|eddy|grandpa/i;
   let VOICES = null;
+  const QUAL = (v) => /natural|neural/i.test(v.name) ? 3 : /online|premium|enhanced|wavenet/i.test(v.name) ? 2 : /google/i.test(v.name) ? 1 : 0;
   function voices() {
     if (!SPEECH) return [];
-    const all = speechSynthesis.getVoices().filter(v => /^en|^hi/i.test(v.lang));
+    const all = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
     if (!all.length) return [];
-    const score = (v) => (/en-IN/i.test(v.lang) ? 30 : /en-GB/i.test(v.lang) ? 12 : /en-US/i.test(v.lang) ? 10 : /^hi/i.test(v.lang) ? -50 : 0) + (/natural|neural|online|google/i.test(v.name) ? 8 : 0);
+    const score = (v) => QUAL(v) * 30 + (/en-IN/i.test(v.lang) ? 20 : /en-GB/i.test(v.lang) ? 8 : /en-US/i.test(v.lang) ? 6 : 0) + (v.localService === false ? 3 : 0);
     const sorted = all.slice().sort((a, b) => score(b) - score(a));
+    // keep only the best quality tier available for each gender, so nobody gets a robotic voice when a human-like one exists
+    const best = (arr) => { if (!arr.length) return arr; const top = QUAL(arr[0]); return arr.filter(v => QUAL(v) >= Math.min(top, 2) || QUAL(v) === top); };
     const f = sorted.filter(v => FEM_RE.test(v.name) && !MAL_RE.test(v.name)), m = sorted.filter(v => MAL_RE.test(v.name));
     const other = sorted.filter(v => !f.includes(v) && !m.includes(v));
-    return (VOICES = { f: f.length ? f : other, m: m.length ? m : other, any: sorted });
+    return (VOICES = { f: best(f.length ? f : other), m: best(m.length ? m : other), any: sorted });
   }
   if (SPEECH) { voices(); try { speechSynthesis.addEventListener("voiceschanged", voices); } catch (e) { speechSynthesis.onvoiceschanged = voices; } }
-  // each character: gender, a voice (different people of the same gender get different voices when the device has them) and a pitch/speed of their own
+  // each character keeps ONE steady voice for the whole story. Pitch changes are kept tiny: big pitch shifts are what make browser voices sound robotic.
   function voiceFor(key, P) {
     const V = VOICES || voices(); const p = P[key] || {};
     const g = key === "narr" ? "f" : key === "you" ? prefs.you : p.g || (FEMALE.has(String(p.short || "").toLowerCase()) ? "f" : "m");
-    const order = { f: ["sp", "us", "ow", "pm", "de", "you", "narr"], m: ["lead", "sp", "us", "ow", "ba", "qa", "you"] }[g];
+    const order = { f: ["narr", "sp", "us", "pm", "ow", "de", "you"], m: ["lead", "sp", "us", "ow", "ba", "qa", "you"] }[g];
     const list = (V && V[g]) || [];
     const idx = Math.max(0, order.indexOf(key));
     const v = list.length ? list[idx % list.length] : null;
-    const tone = { sp: [0.95, 0.98], us: [1.05, 1.04], ow: [1.0, 0.96], lead: [0.92, 0.97], pm: [1.1, 1.02], ba: [1.02, 1.04], de: [1.12, 1.03], qa: [1.08, 1.05], you: [1.06, 1.02], narr: [1.0, 0.98] }[key] || [1, 1];
-    // only one voice of this gender on the device → shift the pitch so people still sound different
-    const shift = list.length > 1 ? 1 : g === "f" ? (v && FEM_RE.test(v.name) ? 1 : 1.35) : (v && MAL_RE.test(v.name) ? 1 : 0.7);
-    return { voice: v, pitch: Math.max(0.1, Math.min(2, tone[0] * shift)), rate: tone[1] * prefs.rate };
+    // when two people must share one voice, a gentle pitch offset (±4–6%) keeps them apart without sounding artificial
+    const share = list.length ? Math.floor(idx / list.length) : idx;
+    const off = [0, -0.05, 0.05, -0.08, 0.08][share % 5] || 0;
+    const wrongGender = v && (g === "f" ? !FEM_RE.test(v.name) || MAL_RE.test(v.name) : !MAL_RE.test(v.name));
+    const gfix = wrongGender ? (g === "f" ? 0.12 : -0.12) : 0;
+    return { voice: v, pitch: 1 + off + gfix, rate: 0.96 * prefs.rate };
   }
+  const NATURAL = (v) => !!v && QUAL(v) >= 2;
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+  function hushAll() { if (SPEECH) try { speechSynthesis.cancel(); } catch (e) {} }
+  // split into natural phrases: real sentence ends only (not "4.2" or "Dr."), and join short sentences so the voice flows instead of stopping and starting
+  function phrases(t) {
+    const raw = t.replace(/\b(Dr|Mr|Mrs|Ms|vs|etc|e\.g|i\.e)\./gi, "$1․").split(/(?<=[.!?])\s+(?=["'(A-Z0-9])/);
+    const out = [];
+    raw.forEach(x => { x = x.replace(/․/g, ".").trim(); if (!x) return; if (x.length > 220) x.split(/(?<=[,;:])\s+/).forEach(y => out.push(y)); else if (out.length && out[out.length - 1].length + x.length < 140 && !/[?!]$/.test(out[out.length - 1])) out[out.length - 1] += " " + x; else out.push(x); });
+    return out;
+  }
+  // speak(text, characterKey, people, kind, alive) → Promise<boolean>; alive() returning false stops it at once
+  async function speak(text, key, P, kind, alive) {
+    alive = alive || (() => true);
+    if (!SPEECH || !prefs.on || RM() || !speechSynthesis.getVoices().length) return true;
+    const t = speechText(text); if (!t) return true;
+    const vf = voiceFor(key, P), nat = NATURAL(vf.voice);
+    // calm, clear delivery: emotion is only a light touch on speed (never on pitch for human-like voices)
+    const mood = { shout: [1.03, 1.02], think: [0.94, 1], whisper: [0.95, 1], narr: [0.96, 1] }[kind] || [1, 1];
+    const pitch = nat ? 1 + (vf.pitch - 1) * 0.5 : Math.max(0.85, Math.min(1.2, vf.pitch * mood[1]));
+    const parts = phrases(t);
+    for (let i = 0; i < parts.length; i++) {
+      if (!alive()) return false;
+      const ok = await new Promise(res => {
+        const u = new SpeechSynthesisUtterance(parts[i]);
+        try { if (vf.voice) { u.voice = vf.voice; u.lang = vf.voice.lang; } else u.lang = "en-IN"; } catch (e) { u.lang = "en-IN"; }
+        try { u.pitch = pitch; u.rate = Math.max(0.7, Math.min(1.4, vf.rate * mood[0])); u.volume = 1; } catch (e) {}
+        let done = false, started = false; const fin = (v) => { if (done) return; done = true; clearInterval(iv); clearTimeout(lim); res(v); };
+        u.onstart = () => { started = true; }; u.onend = () => fin(true); u.onerror = () => fin(true);
+        const lim = setTimeout(() => fin(true), 3000 + parts[i].length * 100 / vf.rate);
+        setTimeout(() => { if (!started && !speechSynthesis.speaking) fin(true); }, 1600);   // no audio on this device: don't hold anything up
+        const iv = setInterval(() => { if (!alive()) { hushAll(); fin(false); } }, 120);
+        try { speechSynthesis.speak(u); } catch (e) { fin(true); }
+      });
+      if (!ok) return false;
+      if (i < parts.length - 1) await sleep(/[,;:]$/.test(parts[i]) ? 140 : /\?$/.test(parts[i]) ? 380 : 300);   // a natural breath between sentences
+    }
+    return alive();
+  }
+  const ACR = { KPI: "K P I", KPIs: "K P Is", BI: "B I", QA: "Q A", HR: "H R", CRM: "C R M", EMR: "E M R", ETL: "E T L", SQL: "S Q L", CSV: "C S V", SLA: "S L A", SLAs: "S L As", ERP: "E R P", API: "A P I", UAT: "U A T", ROI: "R O I", AOV: "A O V", CTR: "C T R", CAC: "C A C", LTV: "L T V", NPS: "N P S", YoY: "year on year", MoM: "minutes of meeting", QoQ: "quarter on quarter", FY: "financial year", PM: "P M", AM: "A M", OTIF: "O T I F", SKU: "S K U", SKUs: "S K Us", ICU: "I C U", OPD: "O P D", ALOS: "A L O S", BRD: "B R D", DAX: "dax", POS: "P O S", UPI: "U P I", EOD: "end of day", ASAP: "as soon as possible", FAQ: "F A Q", OEE: "O E E", MTTR: "M T T R", NAV: "N A V", P2P: "peer to peer", CEO: "C E O", CFO: "C F O", COO: "C O O", CXO: "C X O", VP: "V P" };
+  const ACR_RE = new RegExp("\\b(" + Object.keys(ACR).sort((a, b) => b.length - a.length).join("|") + ")\\b", "g");
   function speechText(t) {
-    return String(t).replace(/\p{Extended_Pictographic}|\uFE0F/gu, "").replace(/₹\s?/g, " rupees ").replace(/÷/g, " divided by ").replace(/×/g, " times ").replace(/→|->/g, " to ").replace(/\bvs\.?\b/gi, "versus").replace(/\bKPIs\b/g, "K P Is").replace(/\bKPI\b/g, "K P I").replace(/\bMoM\b/g, "minutes of meeting").replace(/\bBI\b/g, "B I").replace(/\bQA\b/g, "Q A").replace(/…/g, ", ").replace(/\s+/g, " ").trim();
+    return String(t).replace(/\p{Extended_Pictographic}|️|‍/gu, "")
+      .replace(/₹\s?([\d.,]+)\s?(Cr|cr|crore)\b/g, "$1 crore rupees").replace(/₹\s?([\d.,]+)\s?(L|lakh|Lakh)\b/g, "$1 lakh rupees").replace(/₹\s?([\d.,]+)\s?(K|k)\b/g, "$1 thousand rupees").replace(/₹\s?([\d.,]+)/g, "$1 rupees").replace(/₹/g, " rupees ")
+      .replace(/(\d)\s?%/g, "$1 percent").replace(/(\d)\s?(K|k)\b/g, "$1 thousand").replace(/(\d)\s?Cr\b/g, "$1 crore").replace(/(\d)\s?(hrs?)\b/g, (m, a, h) => a + (h === "hr" ? " hour" : " hours")).replace(/(\d)\s?mins?\b/g, "$1 minutes")
+      .replace(/(\d),(\d{3})/g, "$1$2").replace(/(\d)\s?[-–]\s?(\d)/g, "$1 to $2")
+      .replace(/÷/g, " divided by ").replace(/×/g, " times ").replace(/→|->|⇒/g, " to ").replace(/\s&\s/g, " and ").replace(/\s\+\s/g, " plus ").replace(/\s=\s/g, " equals ").replace(/\s\/\s/g, " or ").replace(/(\w)\/(\w)/g, "$1 or $2")
+      .replace(/\bvs\.?\b/gi, "versus").replace(/\be\.g\./gi, "for example").replace(/\bi\.e\./gi, "that is").replace(/\betc\./gi, "etcetera").replace(/\bw\/o\b/gi, "without")
+      .replace(ACR_RE, (m) => ACR[m])
+      .replace(/[“”"]/g, "").replace(/[·•|]/g, ", ").replace(/…|\.\.\./g, ", ").replace(/\s*—\s*|\s–\s/g, ", ").replace(/[()\[\]]/g, ", ")
+      .replace(/\s+,/g, ",").replace(/,\s*,+/g, ",").replace(/,\s*([.!?])/g, "$1").replace(/^\s*,\s*/, "").replace(/\s+/g, " ").trim();
   }
 
   /* ---- player: reveals panels one by one, characters talk while their line types out; Play = runs on its own like a GIF ---- */
   function renderDeck(host, D) {
     const S = pages(D), P = people(D); let si = 0, beat = 0, playing = false, gen = 0, busy = false, timer = 0;
-    host.innerHTML = `<div class="ko"><div class="ko-head"><div><span class="ko-ep">🎬 Animated comic · Episode 1 · ${S.length} pages · about 8 minutes</span><h2>The Kick-off: ${esc(D.project)}</h2><p>Watch a real BI kick-off meeting play out: the client, the BI team and you. Press <b>Play</b> to watch it like a video, or <b>Next</b> to go at your own pace.</p></div></div>
+    host.innerHTML = `<div class="ko"><div class="ko-head"><div><span class="ko-ep">🎬 Animated story · Episode 1 · ${S.length} pages · about 8 minutes</span><h2>The Kick-off: ${esc(D.project)}</h2><p>Watch a real Data Analyst kick-off meeting play out: the client, the BI team and you. Press <b>Play</b> to watch it like a video, or <b>Next</b> to go at your own pace.</p></div></div>
       <div class="ko-play"><button type="button" class="big">▶ Play the story</button>
         ${SPEECH ? `<button type="button" class="ko-vbtn" data-v="on" aria-pressed="${prefs.on}">${prefs.on ? "🔊 Voices on" : "🔇 Voices off"}</button>
         <label class="ko-vsel">Your voice <select data-v="you"><option value="m" ${prefs.you === "m" ? "selected" : ""}>👨 Male</option><option value="f" ${prefs.you === "f" ? "selected" : ""}>👩 Female</option></select></label>
         <label class="ko-vsel">Speed <select data-v="rate">${[[0.85, "Slow"], [1, "Normal"], [1.15, "Fast"]].map(r => `<option value="${r[0]}" ${+prefs.rate === r[0] ? "selected" : ""}>${r[1]}</option>`).join("")}</select></label>` : ""}
-        <span>${SPEECH ? "Every character speaks in their own voice (use headphones in class). " : ""}Lines type out and pages turn by themselves. Pause any time.</span></div>
+        <span class="ko-vinfo">${SPEECH ? "Every character speaks in their own voice. " : ""}Lines type out and pages turn by themselves. Pause any time.</span></div>
       <div class="ko-book" tabindex="0" aria-roledescription="comic book"><div class="ko-slot"></div>
       <div class="ko-nav"><button type="button" class="pv" aria-label="Previous page">←</button><button type="button" class="pl">▶ Play</button>${SPEECH ? `<button type="button" class="vo" aria-label="Voices on or off">${prefs.on ? "🔊" : "🔇"}</button>` : ""}<button type="button" class="go">Next →</button><span class="ko-scene"></span><div class="ko-prog" aria-hidden="true"><i></i></div></div></div></div>`;
     const slot = host.querySelector(".ko-slot"), book = host.querySelector(".ko-book"), go = host.querySelector(".go"), pv = host.querySelector(".pv"), pl = host.querySelector(".pl"), big = host.querySelector(".ko-play .big"), sc = host.querySelector(".ko-scene"), pr = host.querySelector(".ko-prog i");
     const wait = (ms, g) => new Promise(res => { clearTimeout(timer); timer = setTimeout(() => res(g === gen), ms); });
     const hush = () => { if (SPEECH) try { speechSynthesis.cancel(); } catch (e) {} };
     // speak one line; resolves when the voice finishes (or is stopped). Chrome sometimes never fires "end", so there is a time limit.
-    function say(text, key, g) {
+    function say(text, key, g, kind) { return speak(text, key, P, kind || (key === "narr" ? "narr" : ""), () => g === gen); }
+    function sayOld(text, key, g) {
       if (!SPEECH || !prefs.on || RM() || !speechSynthesis.getVoices().length) return Promise.resolve(true);
       const t = speechText(text); if (!t) return Promise.resolve(true);
       return new Promise(res => {
@@ -587,15 +645,18 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
         try { speechSynthesis.speak(u); } catch (e) { fin(); }
       });
     }
-    const estMs = (text) => Math.min(9000, Math.max(800, speechText(text).length * 62 / prefs.rate));
-    const vb = host.querySelector(".ko-vbtn"), vo = host.querySelector(".ko-nav .vo");
+    const estMs = (text) => Math.min(9500, Math.max(800, speechText(text).length * 64 / prefs.rate + (speechText(text).match(/[.!?]/g) || []).length * 200));
+    const vb = host.querySelector(".ko-vbtn"), vo = host.querySelector(".ko-nav .vo"), vinfo = host.querySelector(".ko-vinfo");
+    const showVoiceInfo = () => { if (!vinfo || !SPEECH) return; const V = voices(); const all = V && V.any ? V.any : []; const nat = all.filter(NATURAL);
+      vinfo.innerHTML = !all.length ? "Your browser has no voices, so the story plays as text." : nat.length ? `🎙️ Natural voices found (${esc(nat[0].name.replace(/ - .*$/, ""))}${nat.length > 1 ? " and " + (nat.length - 1) + " more" : ""}). Every character speaks in their own voice.` : `🎙️ Using your browser's basic voices. For the most natural, human-like voices open this page in <b>Microsoft Edge</b> (free "Natural" Indian voices).`; };
+    showVoiceInfo(); if (SPEECH) try { speechSynthesis.addEventListener("voiceschanged", showVoiceInfo); } catch (e) {}
     const setVoice = (on) => { prefs.on = on; savePrefs(); if (!on) hush(); if (vb) { vb.textContent = on ? "🔊 Voices on" : "🔇 Voices off"; vb.setAttribute("aria-pressed", on); } if (vo) vo.textContent = on ? "🔊" : "🔇"; };
     if (vb) vb.addEventListener("click", () => setVoice(!prefs.on)); if (vo) vo.addEventListener("click", () => setVoice(!prefs.on));
     host.querySelectorAll("select[data-v]").forEach(sel => sel.addEventListener("change", () => { prefs[sel.dataset.v] = sel.dataset.v === "rate" ? +sel.value : sel.value; savePrefs(); }));
     const plain = (el) => (el.textContent || "").replace(/\s+/g, " ").trim();
     function setPlay(on) {
       playing = on; pl.textContent = on ? "⏸ Pause" : "▶ Play"; big.textContent = on ? "⏸ Pause the story" : "▶ Play the story";
-      if (!on) hush();
+      if (!on) { hush(); if (busy) { gen++; busy = false; finishPanel(slot.querySelector(`.kp[data-p="${beat - 1}"]`)); label(); } }
       if (on && !busy) advance();
     }
     // type the bubble's text nodes out (keeps bold/links); resolves false if interrupted
@@ -635,7 +696,7 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
         if (who) who.classList.add("talk");
         const line = [...b.childNodes].filter(n => !(n.classList && (n.classList.contains("who") || n.classList.contains("why") || n.classList.contains("caret")))).map(n => n.textContent).join(" ");
         const voiceOn = SPEECH && prefs.on && !RM() && speechSynthesis.getVoices().length > 0;
-        const spoken = voiceOn ? say(line, b.dataset.who, g) : null;
+        const spoken = voiceOn ? say(line, b.dataset.who, g, b.classList.contains("shout") ? "shout" : b.classList.contains("think") ? "think" : "") : null;
         let ok = await typeOut(b, g, voiceOn ? estMs(line) * 0.85 : 0);
         if (spoken) ok = (await spoken) && ok;
         if (who) who.classList.remove("talk");
@@ -697,6 +758,7 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
     const sec = document.getElementById("view-kickoff");
     if (sec) new MutationObserver(() => { if (!sec.classList.contains("active")) setPlay(false); }).observe(sec, { attributes: true, attributeFilter: ["class"] });
     document.addEventListener("visibilitychange", () => { if (document.hidden) setPlay(false); });
+    host.addEventListener("ko:stop", () => setPlay(false));   // e.g. the student switched to the Playbook tab
     show(0);
   }
 
@@ -718,5 +780,5 @@ body.dark-mode .ko-book{background:#efe9dc;box-shadow:8px 8px 0 #000}
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
   // for checking which voice each character gets on this device: KICKOFF_KIT.voicePlan()
-  window.KICKOFF_KIT = { renderArch, renderDeck, figure, voicePlan: () => { const D = window.KICKOFF_DATA && window.KICKOFF_DATA[SITE]; if (!D) return {}; const P = people(D); voices(); return Object.fromEntries(["sp", "us", "ow", "lead", "pm", "ba", "de", "qa", "you", "narr"].map(k => { const v = voiceFor(k, P); return [k + (P[k] ? " · " + P[k].short : ""), (v.voice ? v.voice.name : "default") + " · pitch " + v.pitch.toFixed(2)]; })); } };
+  window.KICKOFF_KIT = { renderArch, renderDeck, figure, people, speak, hush: hushAll, prefs, speechReady: () => SPEECH && speechSynthesis.getVoices().length > 0, voicePlan: () => { const D = window.KICKOFF_DATA && window.KICKOFF_DATA[SITE]; if (!D) return {}; const P = people(D); voices(); return Object.fromEntries(["sp", "us", "ow", "lead", "pm", "ba", "de", "qa", "you", "narr"].map(k => { const v = voiceFor(k, P); return [k + (P[k] ? " · " + P[k].short : ""), (v.voice ? v.voice.name : "default") + " · pitch " + v.pitch.toFixed(2)]; })); } };
 })();

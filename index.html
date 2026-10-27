@@ -16,7 +16,6 @@
 .sidebar-footer>a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.18)}
 .sidebar-footer>a>svg,.sidebar-footer>a>img,.sidebar-footer .soc-ico{width:30px!important;height:30px!important;max-width:none!important;margin:0!important;vertical-align:middle;border-radius:7px;object-fit:contain}
 .sidebar-footer>a>span{display:none!important}</style>
-<link id="ko-fonts" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&display=swap">
 </head>
 <body>
 
@@ -44,7 +43,7 @@
     <nav class="sidebar-nav" id="nav">
       <div class="nav-group-label">Home</div>
       <button data-view="overview" class="active"><span class="ic">🏠</span><span class="lbl">Home &amp; Roadmap</span></button>
-      <button data-view="kickoff"><span class="ic">🎬</span><span class="lbl">Kick-off Story</span><span class="nav-live">NEW</span></button>
+      <button data-view="kickoff"><span class="ic">🎬</span><span class="lbl">Kick-off: Story &amp; Playbook</span><span class="nav-live">NEW</span></button>
       <button data-view="schedule"><span class="ic">📅</span><span class="lbl">Project Schedule &amp; Status</span></button>
       <button data-view="progress"><span class="ic">📈</span><span class="lbl">My Progress</span></button>
 
@@ -273,7 +272,7 @@
 </section>
 
 <!-- ===================== PROJECT SCHEDULE ===================== -->
-<section class="view" id="view-kickoff"><div id="ko-deck"></div></section>
+<section class="view" id="view-kickoff"><div class="wrap"><div id="ko-tabs"></div><div id="ko-deck"></div><div id="ko-learn" hidden></div></div></section>
 <section class="view" id="view-schedule">
   <div class="wrap">
     <div class="section-head">
@@ -1016,7 +1015,9 @@
 <script src="coach-kit.js?v=20261024-acc" defer></script>
 <script>window.VISIT_KEY = "axon_crm";</script>
 <script src="visit-kit.js?v=20261025-sb2"></script>
-<script src="story-data.js?v=20261026-ko"></script>
-<script src="story-kit.js?v=20261026-ko" data-site="crm"></script>
+<script src="story-data.js?v=20261027-pro"></script>
+<script src="story-learn.js?v=20261027-pro"></script>
+<script src="story-kit.js?v=20261027-pro" data-site="crm"></script>
+<script src="learn-kit.js?v=20261027-pro" data-site="crm"></script>
 </body>
 </html>
